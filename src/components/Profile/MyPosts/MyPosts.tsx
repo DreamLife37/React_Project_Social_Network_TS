@@ -7,9 +7,9 @@ export const MyPosts = () => {
             <img src='https://union-travel.ru/assets/images/country/thailand/resorts/beach1.jpg'></img>
         </div>
         <div>avatar+description</div>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
+        <Post message={'Hello world'} likeCount={10}/>
+        <Post message={'I like It-incubator'} likeCount={54}/>
+        <Post message={'I learn React'} likeCount={35}/>
+
     </div>
 }

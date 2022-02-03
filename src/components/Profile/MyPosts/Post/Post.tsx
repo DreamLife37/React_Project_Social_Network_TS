@@ -1,11 +1,17 @@
 import s from './Post.module.css'
 
-export const Post = () => {
+type PostType = {
+    message: string
+    likeCount: number
+}
+
+export const Post = (props: PostType) => {
     return <div>
         <div className={s.item}>
             <img src='https://davidzeevaarder.nl/wp-content/uploads/2017/06/cropped-fav.png'></img>
-            post 1
+            {props.message}
         </div>
-        <div>Like</div>
+        <div>Like {props.likeCount}</div>
     </div>
+
 }
