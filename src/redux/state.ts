@@ -1,5 +1,9 @@
+import {rerenderEntireTree} from "../render";
+
 export let state = {
+
     profilePage: {
+        newPostText: '',
         posts: [
             {id: 1, message: 'Hello world', likesCount: 10},
             {id: 2, message: 'I like It-incubator', likesCount: 56},
@@ -8,6 +12,7 @@ export let state = {
         ]
     },
     dialogsPage: {
+        newMessageText: '',
         messages: [
             {id: 1, message: 'Hi'},
             {id: 2, message: 'How is your it-incubator?'},
@@ -22,6 +27,63 @@ export let state = {
             {id: 6, name: 'Eva1'},
         ]
     }
-
 }
+
+type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+type ProfilePageType = {
+    newPostText: string
+    posts: Array<PostType>
+}
+
+type MessageType = {
+    id: number
+    message: string
+}
+
+type DialogType = {
+    id: number
+    name: string
+}
+
+type DialogsPageType = {
+    newMessageText: string
+    messages: Array<MessageType>
+    dialogs: Array<DialogType>
+}
+
+export type StatePropsType = {
+    profilePage: ProfilePageType
+    dialogsPage: DialogsPageType
+}
+
+export let addPost = () => {
+    const post = {id: 5, message: state.profilePage.newPostText, likesCount: 205}
+    state.profilePage.posts.push(post)
+    state.profilePage.newPostText = ('')
+    rerenderEntireTree(state)
+}
+
+export let updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
+    rerenderEntireTree(state)
+}
+
+
+export const addMessage = () => {
+    const message = {id: 4, message: state.dialogsPage.newMessageText}
+    state.dialogsPage.messages.push(message)
+    state.dialogsPage.newMessageText = ('')
+    rerenderEntireTree(state)
+}
+
+export const updateNewMessageText = (newMessage: string) => {
+    state.dialogsPage.newMessageText = newMessage
+    rerenderEntireTree(state)
+}
+
+
 

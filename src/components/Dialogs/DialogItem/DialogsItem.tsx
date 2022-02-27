@@ -9,7 +9,6 @@ type DialogItemPropsType = {
 }
 
 export const DialogItem = (props: DialogItemPropsType) => {
-    debugger
     return (<div className={s.dialog + ' ' + s.active}>
         <NavLink to={`/dialogs/${props.id}`}>{props.name}</NavLink>
     </div>)
