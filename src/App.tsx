@@ -5,37 +5,14 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-
-
-type DialogsType = {
-    id: number,
-    name: string
-}
-type MessagesType = {
-    id: number,
-    message: string
-}
-
-type PostsType = {
-    id: number,
-    message: string
-    likesCount: number
-}
+import {StoreType} from "./redux/state";
 
 export type AppPropsType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessagesType>
-    posts: Array<PostsType>
-    addPost: () => void
-    newPostText: string
-    updateNewPostText: (newText: string) => void
-    addMessage: () => void
-    updateNewMessageText: (newMessage: string) => void
-    newMessageText: string
+    store: StoreType
 }
 
-
-function App(props: AppPropsType) {
+const App: React.FC<AppPropsType> = (props) => {
+    const state = props.store.getState();
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -44,15 +21,16 @@ function App(props: AppPropsType) {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path="dialogs/*"
-                               element={<Dialogs dialogs={props.dialogs} messages={props.messages}
-                                                 updateNewMessageText={props.updateNewMessageText}
-                                                 addMessage={props.addMessage}
-                                                 newMessageText={props.newMessageText}
+                               element={<Dialogs dialogs={state.dialogsPage.dialogs}
+                                                 messages={state.dialogsPage.messages}
+                                                 updateNewMessageText={props.store.updateNewMessageText.bind(props.store)}
+                                                 addMessage={props.store.addMessage.bind(props.store)}
+                                                 newMessageText={state.dialogsPage.newMessageText}
                                />}/>
-                        <Route path="profile" element={<Profile posts={props.posts}
-                                                                addPost={props.addPost}
-                                                                newPostText={props.newPostText}
-                                                                updateNewPostText={props.updateNewPostText}
+                        <Route path="profile" element={<Profile posts={state.profilePage.posts}
+                                                                addPost={props.store.addPost.bind(props.store)}
+                                                                newPostText={state.profilePage.newPostText}
+                                                                updateNewPostText={props.store.updateNewPostText.bind(props.store)}
 
                         />}/>
                         <Route path="news" element={'News'}/>
