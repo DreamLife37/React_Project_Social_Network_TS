@@ -1,4 +1,7 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {
+    console.log('State changed')
+    console.log(state)
+}
 
 export let state = {
 
@@ -58,18 +61,19 @@ type DialogsPageType = {
 export type StatePropsType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+   // observer:SubscribeProps
 }
 
 export let addPost = () => {
     const post = {id: 5, message: state.profilePage.newPostText, likesCount: 205}
     state.profilePage.posts.push(post)
     state.profilePage.newPostText = ('')
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export let updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 
@@ -77,12 +81,19 @@ export const addMessage = () => {
     const message = {id: 4, message: state.dialogsPage.newMessageText}
     state.dialogsPage.messages.push(message)
     state.dialogsPage.newMessageText = ('')
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export const updateNewMessageText = (newMessage: string) => {
     state.dialogsPage.newMessageText = newMessage
-    rerenderEntireTree(state)
+    rerenderEntireTree()
+}
+
+type SubscribeProps = {
+    observer: () => void
+}
+export const subscribe = (observer: () => void) => { //observer-наблюдатель
+rerenderEntireTree=observer;
 }
 
 
