@@ -1,3 +1,7 @@
+//Создаем константы:
+const ADD_POST = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+
 type PostType = {
     id: number
     message: string
@@ -34,27 +38,16 @@ type SubscribeProps = {
     observer: () => void
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST',
-}
-type UpdateNewPostActionType = {
-    type: 'UPDATE-NEW-POST-TEXT',
-    newText: string
-}
+// type AddPostActionType = {
+//     type: 'ADD-POST',
+// }
 
-type AddMessageActionType = {
-    type: 'ADD-MESSAGE',
-}
-type UpdateNewMessageActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT',
-    newMessage: string
-}
-
+//Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsTypes =
-    AddPostActionType
-    | UpdateNewPostActionType
-    | AddMessageActionType
-    | UpdateNewMessageActionType
+    ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof updateNewPostActionCreator>
+    | ReturnType<typeof addMessageActionCreator>
+    | ReturnType<typeof updateNewMessageActionCreator>
 
 export type StoreType = {
     _state: StatePropsType
@@ -67,6 +60,29 @@ export type StoreType = {
     getState: () => StatePropsType
     dispatch: (action: ActionsTypes) => void
 }
+
+export const addPostActionCreator = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
+}
+export const updateNewPostActionCreator = (newText: string) => {
+    return {
+        type: 'UPDATE-NEW-POST-TEXT', newText: newText
+    } as const
+}
+
+export const addMessageActionCreator = () => {
+    return {
+        type: 'ADD-MESSAGE'
+    } as const
+}
+export const updateNewMessageActionCreator = (newMessage: string) => {
+    return {
+        type: 'UPDATE-NEW-MESSAGE-TEXT', newMessage: newMessage
+    } as const
+}
+
 
 export const store: StoreType = {
     _state: {

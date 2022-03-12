@@ -2,7 +2,8 @@ import React from 'react';
 import {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionsTypes} from "../../../redux/state";
+import {ActionsTypes, addPostActionCreator, updateNewPostActionCreator} from "../../../redux/state";
+
 
 type postDataType = {
     id: number,
@@ -24,13 +25,14 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
     const onClickAddPostHandler = () => {
         //let bodyMessage = newPostElement.current?.value
-        props.dispatch({type: 'ADD-POST'})
+        props.dispatch(addPostActionCreator())
     }
 
     let onChangePostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // let bodyMessage = newPostElement.current?.value
-        let text = e.currentTarget.value
-        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
+        let newText = e.currentTarget.value
+      //  props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
+        props.dispatch(updateNewPostActionCreator(newText))
         console.log('value' + props.newPostText)
         console.log(e.currentTarget.value)
         // console.log(newPostElement.current?.value)
