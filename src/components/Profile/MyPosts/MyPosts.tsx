@@ -2,7 +2,8 @@ import React from 'react';
 import {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionsTypes, addPostActionCreator, updateNewPostActionCreator} from "../../../redux/state";
+import {ActionsTypes} from "../../../redux/state";
+import { addPostActionCreator, updateNewPostActionCreator } from '../../../redux/profile-reducer';
 
 
 type postDataType = {
@@ -31,7 +32,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
     let onChangePostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // let bodyMessage = newPostElement.current?.value
         let newText = e.currentTarget.value
-      //  props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
+        //  props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
         props.dispatch(updateNewPostActionCreator(newText))
         console.log('value' + props.newPostText)
         console.log(e.currentTarget.value)

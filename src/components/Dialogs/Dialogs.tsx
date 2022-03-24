@@ -3,8 +3,8 @@ import {ChangeEvent} from 'react';
 import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
-import {ActionsTypes, addMessageActionCreator, updateNewMessageActionCreator} from "../../redux/state";
-
+import {ActionsTypes} from "../../redux/state";
+import {addMessageActionCreator, updateNewMessageActionCreator} from "../../redux/dialogs-reducer";
 
 type DialogsType = {
     id: number,
@@ -39,7 +39,6 @@ export const Dialogs = (props: DialogsPropsType) => {
         let message = e.currentTarget.value
         props.dispatch(updateNewMessageActionCreator(message))
     }
-
 
     return <div className={s.dialogs}>
         <div className={s.dialogsItems}>

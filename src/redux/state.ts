@@ -1,13 +1,13 @@
 //Создаем константы:
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+import {ActionsProfileTypes, profileReducer} from "./profile-reducer";
+import {ActionsDialogsTypes, dialogsReducer} from "./dialogs-reducer";
 
 type PostType = {
     id: number
     message: string
     likesCount: number
 }
-type ProfilePageType = {
+export type ProfilePageType = {
     newPostText: string
     posts: Array<PostType>
 }
@@ -22,7 +22,7 @@ type DialogType = {
     name: string
 }
 
-type DialogsPageType = {
+export type DialogsPageType = {
     newMessageText: string
     messages: Array<MessageType>
     dialogs: Array<DialogType>
@@ -38,51 +38,18 @@ type SubscribeProps = {
     observer: () => void
 }
 
-// type AddPostActionType = {
-//     type: 'ADD-POST',
-// }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsTypes =
-    ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewPostActionCreator>
-    | ReturnType<typeof addMessageActionCreator>
-    | ReturnType<typeof updateNewMessageActionCreator>
+    ActionsProfileTypes | ActionsDialogsTypes
 
 export type StoreType = {
     _state: StatePropsType
     _rerenderEntireTree: () => void
-    // updateNewMessageText: (newMessage: string) => void
-    // addMessage: () => void
-    // updateNewPostText: (newText: string) => void
-    // addPost: () => void
     subscribe: (observer: () => void) => void
     getState: () => StatePropsType
     dispatch: (action: ActionsTypes) => void
 }
-
-export const addPostActionCreator = () => {
-    return {
-        type: 'ADD-POST'
-    } as const
-}
-export const updateNewPostActionCreator = (newText: string) => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT', newText: newText
-    } as const
-}
-
-export const addMessageActionCreator = () => {
-    return {
-        type: 'ADD-MESSAGE'
-    } as const
-}
-export const updateNewMessageActionCreator = (newMessage: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE-TEXT', newMessage: newMessage
-    } as const
-}
-
 
 export const store: StoreType = {
     _state: {
@@ -112,49 +79,17 @@ export const store: StoreType = {
             ]
         }
     },
+
     _rerenderEntireTree() {
         console.log('State changed')
         console.log(this._state)
     },
-    // updateNewMessageText(newMessage: string) {
-    //     this._state.dialogsPage.newMessageText = newMessage
-    //     this._rerenderEntireTree()
-    // },
-    // addMessage() {
-    //     const message = {id: 4, message: this._state.dialogsPage.newMessageText}
-    //     this._state.dialogsPage.messages.push(message)
-    //     this._state.dialogsPage.newMessageText = ('')
-    //     this._rerenderEntireTree()
-    // },
-    // updateNewPostText(newText: string) {
-    //     this._state.profilePage.newPostText = newText
-    //     this._rerenderEntireTree()
-    // },
-    // addPost() {
-    //     const post = {id: 5, message: this._state.profilePage.newPostText, likesCount: 205}
-    //     this._state.profilePage.posts.push(post)
-    //     this._state.profilePage.newPostText = ('')
-    //     this._rerenderEntireTree()
-    // },
+
     dispatch(action) { //action то объект, который описывает какое действие мы должны совершить.
         //у этого объекта есть обязательное свойство ТИП
-        if (action.type === 'ADD-POST') {
-            const post = {id: 5, message: this._state.profilePage.newPostText, likesCount: 205}
-            this._state.profilePage.posts.push(post)
-            this._state.profilePage.newPostText = ('')
-            this._rerenderEntireTree()
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText
-            this._rerenderEntireTree()
-        } else if (action.type === 'ADD-MESSAGE') {
-            const message = {id: 4, message: this._state.dialogsPage.newMessageText}
-            this._state.dialogsPage.messages.push(message)
-            this._state.dialogsPage.newMessageText = ('')
-            this._rerenderEntireTree()
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
-            this._state.dialogsPage.newMessageText = action.newMessage
-            this._rerenderEntireTree()
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._rerenderEntireTree()
     },
 
     subscribe(observer) { //observer-наблюдатель
