@@ -5,10 +5,10 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {StoreType} from "./redux/state";
+import {ReduxStoreType} from "./redux/redux-store";
 
 export type AppPropsType = {
-    store: StoreType
+    store: ReduxStoreType
 }
 
 const App: React.FC<AppPropsType> = (props) => {
@@ -21,14 +21,14 @@ const App: React.FC<AppPropsType> = (props) => {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path="dialogs/*"
-                               element={<Dialogs dialogs={state.dialogsPage.dialogs}
-                                                 messages={state.dialogsPage.messages}
+                               element={<Dialogs dialogs={state.dialogsReducer.dialogs}
+                                                 messages={state.dialogsReducer.messages}
                                                  dispatch={props.store.dispatch.bind(props.store)}
-                                                 newMessageText={state.dialogsPage.newMessageText}
+                                                 newMessageText={state.dialogsReducer.newMessageText}
                                />}/>
-                        <Route path="profile" element={<Profile posts={state.profilePage.posts}
+                        <Route path="profile" element={<Profile posts={state.profileReducer.posts}
                                                                 dispatch={props.store.dispatch.bind(props.store)}
-                                                                newPostText={state.profilePage.newPostText}
+                                                                newPostText={state.profileReducer.newPostText}
 
                         />}/>
                         <Route path="news" element={'News'}/>

@@ -3,7 +3,7 @@ import {ChangeEvent} from 'react';
 import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
-import {ActionsTypes} from "../../redux/state";
+import {ActionsTypes} from "../../redux/store";
 import {addMessageActionCreator, updateNewMessageActionCreator} from "../../redux/dialogs-reducer";
 
 type DialogsType = {
@@ -23,10 +23,10 @@ type DialogsPropsType = {
 
 export const Dialogs = (props: DialogsPropsType) => {
     let dialogsElements = props.dialogs.map(d => {
-        return <DialogItem name={d.name} id={d.id}/>
+        return <DialogItem  key={d.id} name={d.name} id={d.id}/>
     })
     let messagesElements = props.messages.map(m => {
-        return <Message message={m.message}/>
+        return <Message key={m.id} message={m.message}/>
     })
 
     //  let newMessageElement = React.createRef<HTMLTextAreaElement>()

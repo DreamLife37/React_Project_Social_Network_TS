@@ -45,7 +45,7 @@ export type ActionsTypes =
 
 export type StoreType = {
     _state: StatePropsType
-    _rerenderEntireTree: () => void
+    _callSubscriber: () => void
     subscribe: (observer: () => void) => void
     getState: () => StatePropsType
     dispatch: (action: ActionsTypes) => void
@@ -80,20 +80,20 @@ export const store: StoreType = {
         }
     },
 
-    _rerenderEntireTree() {
+    _callSubscriber() {
         console.log('State changed')
-        console.log(this._state)
+        //console.log(this._state)
     },
 
     dispatch(action) { //action то объект, который описывает какое действие мы должны совершить.
         //у этого объекта есть обязательное свойство ТИП
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        this._rerenderEntireTree()
+        this._callSubscriber()
     },
 
     subscribe(observer) { //observer-наблюдатель
-        this._rerenderEntireTree = observer;
+        this._callSubscriber = observer;
     },
     getState() {
         return this._state

@@ -2,7 +2,7 @@ import React from 'react';
 import {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionsTypes} from "../../../redux/state";
+import {ActionsTypes} from "../../../redux/store";
 import { addPostActionCreator, updateNewPostActionCreator } from '../../../redux/profile-reducer';
 
 
@@ -19,7 +19,7 @@ type MyPostsPropsType = {
 
 export const MyPosts = (props: MyPostsPropsType) => {
     let postsElement = props.postData.map(p => {
-        return <Post message={p.message} likeCount={p.likesCount}/>
+        return <Post key={p.id} message={p.message} likeCount={p.likesCount}/>
     })
 
     //let newPostElement = React.createRef<HTMLTextAreaElement>() //переменная которая будет содержать ссылку
