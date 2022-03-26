@@ -3,9 +3,9 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
-import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {ReduxStoreType} from "./redux/redux-store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 export type AppPropsType = {
     store: ReduxStoreType
@@ -21,16 +21,9 @@ const App: React.FC<AppPropsType> = (props) => {
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path="dialogs/*"
-                               element={<Dialogs dialogs={state.dialogsReducer.dialogs}
-                                                 messages={state.dialogsReducer.messages}
-                                                 dispatch={props.store.dispatch.bind(props.store)}
-                                                 newMessageText={state.dialogsReducer.newMessageText}
+                               element={<DialogsContainer store={props.store}
                                />}/>
-                        <Route path="profile" element={<Profile posts={state.profileReducer.posts}
-                                                                dispatch={props.store.dispatch.bind(props.store)}
-                                                                newPostText={state.profileReducer.newPostText}
-
-                        />}/>
+                        <Route path="profile" element={<Profile store={props.store}/>}/>
                         <Route path="news" element={'News'}/>
                     </Routes>
                 </div>
