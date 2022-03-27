@@ -14,5 +14,6 @@ export let store = createStore(rootReducer)
 export type AppStateType = ReturnType<ReducersType>
 export type ReduxStoreType = typeof store
 
+
 console.log(store.getState())
 

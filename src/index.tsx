@@ -5,4 +5,4 @@ import {rerenderEntireTree} from './render';
 
 rerenderEntireTree()
 
-store.subscribe(rerenderEntireTree)
+//store.subscribe(rerenderEntireTree)
