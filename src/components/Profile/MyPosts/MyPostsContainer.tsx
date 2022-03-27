@@ -1,29 +1,35 @@
 import React from 'react';
-import {addPostActionCreator, updateNewPostActionCreator} from '../../../redux/profile-reducer';
+import {addPostActionCreator, ProfilePageType, updateNewPostActionCreator} from '../../../redux/profile-reducer';
 import {MyPosts} from "./MyPosts";
-import {ReduxStoreType} from "../../../redux/redux-store";
-import StoreContext from '../../../StoreContext';
+import {AppStateType} from "../../../redux/redux-store";
+import {connect} from 'react-redux';
+import {Dispatch} from "redux";
 
-type MyPostsPropsType = {
-    store: ReduxStoreType
+type MapStateToProps = {
+    profilePage: ProfilePageType
 }
 
-export const MyPostsContainer = () => {
-    return <StoreContext.Consumer>
-        {
-        (store) => {
-            let state = store.getState().profileReducer
-            const onClickAddPostHandler = () => {
-                store.dispatch(addPostActionCreator())
-            }
-            let onChangePostHandler = (newText: string) => {
-                store.dispatch(updateNewPostActionCreator(newText))
-            }
-            return <MyPosts addPost={onClickAddPostHandler}
-                            updateNewPostText={onChangePostHandler}
-                            postData={state.posts}
-                            newPostText={state.newPostText}/>
+type MapDispatchToProps = {
+    addPost: () => void,
+    updateNewPostText: (newText: string) => void
+}
+
+export type MyPostsPropsType = MapStateToProps & MapDispatchToProps
+let mapStateToProps = (state: AppStateType): MapStateToProps => {
+    return {
+        profilePage: state.profilePage
+    }
+}
+
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
+    return {
+        addPost: () => {
+            dispatch(addPostActionCreator())
+        },
+        updateNewPostText: (newText: string) => {
+            dispatch(updateNewPostActionCreator(newText))
         }
-
-    }</StoreContext.Consumer>
+    }
 }
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)

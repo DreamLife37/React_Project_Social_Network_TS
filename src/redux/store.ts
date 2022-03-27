@@ -7,7 +7,7 @@ type PostType = {
     message: string
     likesCount: number
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     newPostText: string
     posts: Array<PostType>
 }
@@ -21,8 +21,7 @@ type DialogType = {
     id: number
     name: string
 }
-
-export type DialogsPageType = {
+ type DialogsPageType = {
     newMessageText: string
     messages: Array<MessageType>
     dialogs: Array<DialogType>
@@ -85,7 +84,7 @@ export const store: StoreType = {
         //console.log(this._state)
     },
 
-    dispatch(action) { //action то объект, который описывает какое действие мы должны совершить.
+    dispatch(action:any) { //action то объект, который описывает какое действие мы должны совершить.
         //у этого объекта есть обязательное свойство ТИП
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)

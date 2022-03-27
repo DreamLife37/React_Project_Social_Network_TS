@@ -3,31 +3,14 @@ import {ChangeEvent, KeyboardEvent} from 'react';
 import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
-
-type DialogsType = {
-    id: number,
-    name: string
-}
-type MessagesType = {
-    id: number,
-    message: string
-}
-type DialogsPropsType = {
-    dialogPage: {
-        dialogs: Array<DialogsType>
-        messages: Array<MessagesType>
-        newMessageText: string
-    }
-    updateNewMessage: (message: string) => void
-    addMessage: () => void
-}
+import {DialogsPropsType} from "./DialogsContainer";
 
 export const Dialogs = (props: DialogsPropsType) => {
 
-    let dialogsElements = props.dialogPage.dialogs.map(d => {
+    let dialogsElements = props.dialogsPage.dialogs.map(d => {
         return <DialogItem key={d.id} name={d.name} id={d.id}/>
     })
-    let messagesElements = props.dialogPage.messages.map(m => {
+    let messagesElements = props.dialogsPage.messages.map(m => {
         return <Message key={m.id} message={m.message}/>
     })
 
@@ -54,7 +37,7 @@ export const Dialogs = (props: DialogsPropsType) => {
             {messagesElements}
         </div>
 
-        <div><textarea value={props.dialogPage.newMessageText}
+        <div><textarea value={props.dialogsPage.newMessageText}
                        onChange={updateNewMessage}
                        onKeyPress={onKeyPressHandler}
         ></textarea>

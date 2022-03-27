@@ -1,13 +1,22 @@
-import {ActionsTypes, ProfilePageType} from "./store";
-
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
+export type ProfilePageType = {
+    newPostText: string
+    posts: Array<PostType>
+}
+
+type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsProfileTypes = ReturnType<typeof addPostActionCreator>
-     | ReturnType<typeof updateNewPostActionCreator>
+    | ReturnType<typeof updateNewPostActionCreator>
 
-let initialState={
+let initialState = {
     newPostText: '',
     posts: [
         {id: 1, message: 'Hello world', likesCount: 10},
@@ -17,7 +26,7 @@ let initialState={
     ]
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsProfileTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
             const post = {id: 5, message: state.newPostText, likesCount: 205}

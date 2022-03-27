@@ -1,34 +1,39 @@
 import React from 'react';
-import {addMessageActionCreator, updateNewMessageActionCreator} from "../../redux/dialogs-reducer";
-import {ReduxStoreType} from "../../redux/redux-store";
-import StoreContext from '../../StoreContext';
+import {addMessageActionCreator, DialogsPageType, updateNewMessageActionCreator} from "../../redux/dialogs-reducer";
+import {AppStateType} from "../../redux/redux-store";
 import {Dialogs} from './Dialogs';
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
-
-type DialogsPropsType = {
-    store: ReduxStoreType
+type MapStateToProps = {
+    dialogsPage: DialogsPageType
 }
 
-export const DialogsContainer = () => {
-
-    return <div><StoreContext.Consumer>
-        {
-
-        (store) => {
-            let state = store.getState().dialogsReducer
-
-            const onClickSendMessageHandler = () => {
-                store.dispatch(addMessageActionCreator())
-            }
-
-            const onChangeMessageHandler = (message: string) => {
-                store.dispatch(updateNewMessageActionCreator(message))
-            }
-            return <Dialogs dialogPage={state}
-                            updateNewMessage={onChangeMessageHandler}
-                            addMessage={onClickSendMessageHandler}/>
-        }}
-    </StoreContext.Consumer>
-
-    </div>
+type MapDispatchToProps = {
+    updateNewMessage: (message: string) => void
+    addMessage: () => void
 }
+
+let mapStateToProps = (state: AppStateType): MapStateToProps => {
+    return {
+        dialogsPage: state.dialogsPage,
+    }
+}
+
+export type DialogsPropsType = MapStateToProps & MapDispatchToProps
+
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
+    return {
+        updateNewMessage: (message: string) => {
+            dispatch(updateNewMessageActionCreator(message))
+        },
+        addMessage: () => {
+            dispatch(addMessageActionCreator())
+        }
+    }
+}
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+//Функция connect создает контейнерную компоненту, внутри рендерит презентационную
+//и внутрь презентационно компоненты в качестве props передает то, что указано в первых скобках
+//в них указано 2 функции которые настраиваеют наш connect, возвращая объекты, одна с данными, другая с callback
