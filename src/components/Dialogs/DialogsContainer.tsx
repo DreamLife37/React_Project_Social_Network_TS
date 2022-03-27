@@ -1,6 +1,7 @@
 import React from 'react';
 import {addMessageActionCreator, updateNewMessageActionCreator} from "../../redux/dialogs-reducer";
 import {ReduxStoreType} from "../../redux/redux-store";
+import StoreContext from '../../StoreContext';
 import {Dialogs} from './Dialogs';
 
 
@@ -8,18 +9,26 @@ type DialogsPropsType = {
     store: ReduxStoreType
 }
 
-export const DialogsContainer = (props: DialogsPropsType) => {
-    let state = props.store.getState().dialogsReducer
+export const DialogsContainer = () => {
 
-    const onClickSendMessageHandler = () => {
-        props.store.dispatch(addMessageActionCreator())
-    }
+    return <div><StoreContext.Consumer>
+        {
 
-    const onChangeMessageHandler = (message: string) => {
-        props.store.dispatch(updateNewMessageActionCreator(message))
-    }
+        (store) => {
+            let state = store.getState().dialogsReducer
 
-    return <div>
-        <Dialogs dialogPage={state} updateNewMessage={onChangeMessageHandler} addMessage={onClickSendMessageHandler}/>
+            const onClickSendMessageHandler = () => {
+                store.dispatch(addMessageActionCreator())
+            }
+
+            const onChangeMessageHandler = (message: string) => {
+                store.dispatch(updateNewMessageActionCreator(message))
+            }
+            return <Dialogs dialogPage={state}
+                            updateNewMessage={onChangeMessageHandler}
+                            addMessage={onClickSendMessageHandler}/>
+        }}
+    </StoreContext.Consumer>
+
     </div>
 }
