@@ -14,13 +14,13 @@ type MapDispatchToProps = {
     addMessage: () => void
 }
 
+export type DialogsPropsType = MapStateToProps & MapDispatchToProps
+
 let mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
         dialogsPage: state.dialogsPage,
     }
 }
-
-export type DialogsPropsType = MapStateToProps & MapDispatchToProps
 
 let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     return {
