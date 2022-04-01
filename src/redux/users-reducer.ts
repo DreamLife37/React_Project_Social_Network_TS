@@ -3,6 +3,7 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 
 export type UserType = {
+    photos: {small: null | string,large: null | string};
     id: number,
     photoUrl: string,
     followed: boolean,
