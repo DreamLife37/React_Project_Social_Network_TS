@@ -1,9 +1,12 @@
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
+const SET_TOTAL_USER_COUNT = 'SET-TOTAL-USER-COUNT'
+
 
 export type UserType = {
-    photos: {small: null | string,large: null | string};
+    photos: { small: null | string, large: null | string };
     id: number,
     photoUrl: string,
     followed: boolean,
@@ -14,14 +17,22 @@ export type UserType = {
 
 type UserPageType = {
     users: Array<UserType>
+    pageSize: number
+    totalUserCount: number
+    currentPage: number
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsUsersTypes = ReturnType<typeof followAC>
     | ReturnType<typeof unfollowAC> | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
 
 let initialState: UserPageType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUserCount: 0,
+    currentPage: 5
 }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsUsersTypes): UserPageType => {
@@ -47,8 +58,11 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
                 })
             }
         case SET_USERS:
-            debugger
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        case SET_CURRENT_PAGE:
+            return {...state, currentPage: action.page}
+        case SET_TOTAL_USER_COUNT:
+            return {...state, totalUserCount: action.totalCount}
         default:
             return state
     }
@@ -75,3 +89,18 @@ export const setUsersAC = (users: Array<UserType>) => {
         users
     } as const
 }
+
+export const setCurrentPageAC = (page: number) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        page
+    } as const
+}
+
+export const setTotalUsersCountAC = (totalCount: number) => {
+    return {
+        type: SET_TOTAL_USER_COUNT,
+        totalCount
+    } as const
+}
+
