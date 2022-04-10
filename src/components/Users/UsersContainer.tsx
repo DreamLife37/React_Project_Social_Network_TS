@@ -1,5 +1,4 @@
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {AppStateType} from "../../redux/redux-store";
 import {
     followAC,
@@ -10,6 +9,9 @@ import {
     UserType
 } from "../../redux/users-reducer";
 import {Dispatch} from "redux";
+import React from "react";
+import axios from "axios";
+import {Users} from "./Users";
 
 type MapStateToProps = {
     users: Array<UserType>
@@ -27,6 +29,41 @@ type MapDispatchToProps = {
 }
 
 export type UsersPropsType = MapStateToProps & MapDispatchToProps
+
+export class UsersContainer extends React.Component<UsersPropsType> {
+
+    constructor(props: UsersPropsType) {
+        super(props);
+    }
+
+    componentDidMount() {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
+            this.props.setUsers(response.data.items)
+            this.props.setTotalUsersCount(response.data.totalCount)
+        })
+    }
+
+    onPageChanged = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {
+            this.props.setUsers(response.data.items)
+        })
+    }
+
+    render() {
+        return <Users totalUsersCount={this.props.totalUsersCount}
+                      pageSize={this.props.pageSize}
+                      currentPage={this.props.currentPage}
+                      users={this.props.users}
+                      setCurrentPage={this.props.setCurrentPage}
+                      setUsers={this.props.setUsers}
+                      unfollow={this.props.unfollow}
+                      follow={this.props.follow}
+                      setTotalUsersCount={this.props.setTotalUsersCount}
+                      onPageChanged={this.onPageChanged}
+        />
+    }
+}
 
 let mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
@@ -58,4 +95,4 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainerToStore = connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
