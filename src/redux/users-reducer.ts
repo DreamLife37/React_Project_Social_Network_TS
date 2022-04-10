@@ -3,6 +3,7 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USER_COUNT = 'SET-TOTAL-USER-COUNT'
+const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 
 
 export type UserType = {
@@ -20,6 +21,7 @@ type UserPageType = {
     pageSize: number
     totalUserCount: number
     currentPage: number
+    isFetching: boolean
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
@@ -27,12 +29,14 @@ export type ActionsUsersTypes = ReturnType<typeof followAC>
     | ReturnType<typeof unfollowAC> | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof toggleIsFetchingAC>
 
 let initialState: UserPageType = {
     users: [],
     pageSize: 5,
     totalUserCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: true
 }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsUsersTypes): UserPageType => {
@@ -63,6 +67,8 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
             return {...state, currentPage: action.page}
         case SET_TOTAL_USER_COUNT:
             return {...state, totalUserCount: action.totalCount}
+        case TOGGLE_IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
@@ -103,4 +109,12 @@ export const setTotalUsersCountAC = (totalCount: number) => {
         totalCount
     } as const
 }
+
+export const toggleIsFetchingAC = (isFetching: boolean) => {
+    return {
+        type: TOGGLE_IS_FETCHING,
+        isFetching
+    } as const
+}
+
 
