@@ -86,6 +86,7 @@ export const store: StoreType = {
 
     dispatch(action:any) { //action то объект, который описывает какое действие мы должны совершить.
         //у этого объекта есть обязательное свойство ТИП
+        // @ts-ignore
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._callSubscriber()

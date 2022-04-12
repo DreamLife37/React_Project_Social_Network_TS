@@ -8,11 +8,9 @@ import {
     unfollow,
     UserType
 } from "../../redux/users-reducer";
-import {Dispatch} from "redux";
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
-import imageLoad from './../../assets/images/animation.gif'
 import {Preloader} from "../common/Preloader/Preloader";
 
 type MapStateToProps = {
