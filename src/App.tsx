@@ -24,7 +24,8 @@ const App: React.FC<AppPropsType> = (props) => {
                     <Routes>
                         <Route path="dialogs/*"
                                element={<DialogsContainer/>}/>
-                        <Route path="profile" element={<ProfileContainerToStore/>}/>
+                        <Route path="profile/:userId" element={<ProfileContainerToStore/>}/>
+                        <Route path='/profile' element={<ProfileContainerToStore/>}/>
                         <Route path="news" element={'News'}/>
                         <Route path="users" element={<UsersContainerToStore/>}/>
                     </Routes>
