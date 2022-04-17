@@ -19,7 +19,6 @@ export class HeaderContainer extends React.Component<HeaderPropsType> {
                         })
                 }
             })
-        console.log(this.props.photo)
     }
 
     render() {
