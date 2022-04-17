@@ -4,7 +4,7 @@ const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USER_COUNT = 'SET-TOTAL-USER-COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
-
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE-IS-FOLLOWING-PROGRESS'
 
 export type UserType = {
     photos: { small: null | string, large: null | string };
@@ -22,6 +22,7 @@ type UserPageType = {
     totalUserCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: Array<number>
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
@@ -30,13 +31,15 @@ export type ActionsUsersTypes = ReturnType<typeof follow>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 
 let initialState: UserPageType = {
     users: [],
     pageSize: 5,
     totalUserCount: 0,
     currentPage: 1,
-    isFetching: true
+    isFetching: true,
+    followingInProgress: []
 }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsUsersTypes): UserPageType => {
@@ -69,6 +72,14 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
             return {...state, totalUserCount: action.totalCount}
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
+
+        case TOGGLE_IS_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter((id: number) => id != action.userId)
+            }
         default:
             return state
     }
@@ -114,6 +125,13 @@ export const toggleIsFetching = (isFetching: boolean) => {
     return {
         type: TOGGLE_IS_FETCHING,
         isFetching
+    } as const
+}
+
+export const toggleFollowingProgress = (isFetching: boolean, userId: number) => {
+    return {
+        type: TOGGLE_IS_FOLLOWING_PROGRESS,
+        isFetching, userId
     } as const
 }
 
