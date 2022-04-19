@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/React_Project_Social_Network_TS/static/css/main.7154a927.css",
+    "main.js": "/React_Project_Social_Network_TS/static/js/main.e027f438.js",
+    "static/media/animation.gif": "/React_Project_Social_Network_TS/static/media/animation.674a2150abf9901a9363.gif",
+    "static/media/user.jpg": "/React_Project_Social_Network_TS/static/media/user.5ed91693befde95ae749.jpg",
+    "index.html": "/React_Project_Social_Network_TS/index.html",
+    "main.7154a927.css.map": "/React_Project_Social_Network_TS/static/css/main.7154a927.css.map",
+    "main.e027f438.js.map": "/React_Project_Social_Network_TS/static/js/main.e027f438.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7154a927.css",
+    "static/js/main.e027f438.js"
+  ]
+}
