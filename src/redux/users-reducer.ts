@@ -1,3 +1,6 @@
+import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
@@ -135,4 +138,41 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
     } as const
 }
 
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch<ActionsUsersTypes>) => {
+        dispatch(toggleIsFetching(true))
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUsersCount(data.totalCount))
+        })
+    }
+
+}
+
+export const followThunkCreator = (id: number) => {
+    return (dispatch: Dispatch<ActionsUsersTypes>) => {
+        dispatch(toggleFollowingProgress(true, id))
+        usersAPI.follow(id)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(follow(id))
+                }
+                dispatch(toggleFollowingProgress(false, id))
+            })
+    }
+}
+
+export const unFollowThunkCreator = (id: number) => {
+    return (dispatch: Dispatch<ActionsUsersTypes>) => {
+        dispatch(toggleFollowingProgress(true, id))
+        usersAPI.unFollow(id)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(unfollow(id))
+                }
+                dispatch(toggleFollowingProgress(false, id))
+            })
+    }
+}
 
