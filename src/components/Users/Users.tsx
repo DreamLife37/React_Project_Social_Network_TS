@@ -1,9 +1,9 @@
 import React from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
-import {followThunkCreator, unFollowThunkCreator, UserType} from "../../redux/users-reducer";
+import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
+
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -11,15 +11,13 @@ type UsersPropsType = {
     currentPage: number
     users: Array<UserType>
     followingInProgress: Array<number>
-    setCurrentPage: (page: number) => void
-    setUsers: (users: Array<UserType>) => void
-    unfollow: (userId: number) => void
+    //setCurrentPage: (page: number) => void
+    unFollow: (userId: number) => void
     follow: (userId: number) => void
-    setTotalUsersCount: (totalCount: number) => void
     onPageChanged: (page: number) => void
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
-    unFollowThunkCreator: (id: number) => any
-    followThunkCreator: (id: number) => any
+    //toggleFollowingProgress: (isFetching: boolean, userId: number) => void
+    //unFollowThunkCreator: (id: number) => any
+    //followThunkCreator: (id: number) => any
 }
 
 export const Users = (props: UsersPropsType) => {
@@ -42,11 +40,11 @@ export const Users = (props: UsersPropsType) => {
                 src={u.photos.small === null ? userPhoto : u.photos.small}/></NavLink>
             <div>{u.followed
                 ? <button disabled={props.followingInProgress.some((id: number) => id === u.id)} onClick={() => {
-                    props.unFollowThunkCreator(u.id)
+                    props.unFollow(u.id)
                 }}>Unfollow</button>
 
                 : <button disabled={props.followingInProgress.some((id: number) => id === u.id)} onClick={() => {
-                    props.followThunkCreator(u.id)
+                    props.follow(u.id)
                 }
                 }>Follow</button>}</div>
         </div>)}

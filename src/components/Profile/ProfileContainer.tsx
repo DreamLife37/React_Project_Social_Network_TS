@@ -1,19 +1,18 @@
 import s from './Profile.module.css'
 import React, {JSXElementConstructor} from "react";
 import {Profile} from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {ProfileType, setUserProfile} from '../../redux/profile-reducer';
+import {getUserProfile, ProfileType} from '../../redux/profile-reducer';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {usersAPI} from "../../api/api";
+
 
 type MapStatePropsType = {
     profile: null | ProfileType
 }
 
 type MapDispatchPropsType = {
-    setUserProfile: (profile: ProfileType) => void
+    getUserProfile: (userId: number) => void
 }
 
 export type ProfilePropsType = MapStatePropsType & MapDispatchPropsType
@@ -22,10 +21,10 @@ export class ProfileContainer extends React.Component<ProfilePropsType> {
     componentDidMount() {
         // @ts-ignore
         let userId = this.props.router.params.userId;
-        usersAPI.getProfile(userId)
-            .then(data => {
-                this.props.setUserProfile(data)
-            })
+        if (!userId) {
+            userId = 2
+        }
+        this.props.getUserProfile(userId)
     }
 
     render() {
@@ -56,4 +55,6 @@ export const withRouter = (Component: JSXElementConstructor<any>): JSXElementCon
     return ComponentWithRouterProp;
 }
 
-export const ProfileContainerToStore = connect(mapStateToProps, {setUserProfile})(withRouter(ProfileContainer))
+export const ProfileContainerToStore = connect(mapStateToProps, {
+    getUserProfile
+})(withRouter(ProfileContainer))

@@ -29,8 +29,8 @@ type UserPageType = {
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
-export type ActionsUsersTypes = ReturnType<typeof follow>
-    | ReturnType<typeof unfollow> | ReturnType<typeof setUsers>
+export type ActionsUsersTypes = ReturnType<typeof followSuccess>
+    | ReturnType<typeof unfollowSuccess> | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
@@ -88,7 +88,7 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
     }
 }
 
-export const follow = (userId: number) => {
+export const followSuccess = (userId: number) => {
     return {
         type: FOLLOW,
         userId
@@ -96,7 +96,7 @@ export const follow = (userId: number) => {
 }
 
 
-export const unfollow = (userId: number) => {
+export const unfollowSuccess = (userId: number) => {
     return {
         type: UNFOLLOW,
         userId
@@ -138,7 +138,7 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number) => 
     } as const
 }
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+export const getUsers = (currentPage: number, pageSize: number) => { //ThunkCreator
     return (dispatch: Dispatch<ActionsUsersTypes>) => {
         dispatch(toggleIsFetching(true))
         usersAPI.getUsers(currentPage, pageSize).then(data => {
@@ -147,29 +147,28 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
             dispatch(setTotalUsersCount(data.totalCount))
         })
     }
-
 }
 
-export const followThunkCreator = (id: number) => {
+export const follow = (id: number) => { //ThunkCreator
     return (dispatch: Dispatch<ActionsUsersTypes>) => {
         dispatch(toggleFollowingProgress(true, id))
         usersAPI.follow(id)
             .then(data => {
                 if (data.resultCode === 0) {
-                    dispatch(follow(id))
+                    dispatch(followSuccess(id))
                 }
                 dispatch(toggleFollowingProgress(false, id))
             })
     }
 }
 
-export const unFollowThunkCreator = (id: number) => {
+export const unFollow = (id: number) => { //ThunkCreator
     return (dispatch: Dispatch<ActionsUsersTypes>) => {
         dispatch(toggleFollowingProgress(true, id))
         usersAPI.unFollow(id)
             .then(data => {
                 if (data.resultCode === 0) {
-                    dispatch(unfollow(id))
+                    dispatch(unfollowSuccess(id))
                 }
                 dispatch(toggleFollowingProgress(false, id))
             })

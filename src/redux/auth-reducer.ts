@@ -1,3 +1,6 @@
+import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
+
 const SET_USER_DATA = 'SET-USER-DATA'
 const SET_USER_PHOTO = 'SET-USER-PHOTO'
 
@@ -11,7 +14,7 @@ type AuthPageType = {
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
-export type ActionsUsersTypes = ReturnType<typeof setUserData> | ReturnType<typeof setUserPhoto>
+export type ActionsAuthTypes = ReturnType<typeof setUserData> | ReturnType<typeof setUserPhoto>
 
 let initialState: AuthPageType = {
     id: null,
@@ -22,7 +25,7 @@ let initialState: AuthPageType = {
     photo: ''
 }
 
-export const authReducer = (state: AuthPageType = initialState, action: ActionsUsersTypes): AuthPageType => {
+export const authReducer = (state: AuthPageType = initialState, action: ActionsAuthTypes): AuthPageType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
@@ -64,4 +67,19 @@ export const setUserPhoto = (photo: string) => {
     } as const
 }
 
+export const getAuthUserData = () => {
+    return (dispatch: Dispatch<ActionsAuthTypes>) => {
+        usersAPI.getAuthMe()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {id, login, email} = data.data
+                    dispatch(setUserData(id, email, login))
+                    usersAPI.getProfile(id)
+                        .then(data => {
+                            dispatch(setUserPhoto(data.photos.large))
+                        })
+                }
+            })
+    }
+}
 

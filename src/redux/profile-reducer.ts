@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
+
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
@@ -84,4 +87,13 @@ export const setUserProfile = (profile: ProfileType) => {
     return {
         type: SET_USER_PROFILE, profile
     } as const
+}
+
+export const getUserProfile = (userId: number) => {  //ThunkCreator
+    return (dispatch: Dispatch<ActionsProfileTypes>) => {
+        usersAPI.getProfile(userId)
+            .then(data => {
+                dispatch(setUserProfile(data))
+            })
+    }
 }
