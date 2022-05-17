@@ -4,20 +4,15 @@ import userPhoto from "../../assets/images/user.jpg";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
 
-
 type UsersPropsType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
     users: Array<UserType>
     followingInProgress: Array<number>
-    //setCurrentPage: (page: number) => void
     unFollow: (userId: number) => void
     follow: (userId: number) => void
     onPageChanged: (page: number) => void
-    //toggleFollowingProgress: (isFetching: boolean, userId: number) => void
-    //unFollowThunkCreator: (id: number) => any
-    //followThunkCreator: (id: number) => any
 }
 
 export const Users = (props: UsersPropsType) => {

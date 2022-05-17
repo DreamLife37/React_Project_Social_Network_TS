@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 const SET_USER_DATA = 'SET-USER-DATA'
 const SET_USER_PHOTO = 'SET-USER-PHOTO'
 
-type AuthPageType = {
+export type AuthPageType = {
     id: null | number
     email: null | string
     login: null | string
@@ -16,7 +16,7 @@ type AuthPageType = {
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsAuthTypes = ReturnType<typeof setUserData> | ReturnType<typeof setUserPhoto>
 
-let initialState: AuthPageType = {
+ let initialState: AuthPageType = {
     id: null,
     email: null,
     login: null,

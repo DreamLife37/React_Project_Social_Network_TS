@@ -4,6 +4,7 @@ import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
+import {Navigate} from 'react-router-dom';
 
 export const Dialogs = (props: DialogsPropsType) => {
 
@@ -29,7 +30,10 @@ export const Dialogs = (props: DialogsPropsType) => {
         }
     }
 
+    if (!props.isAuth) return <Navigate to="/login"/>
+
     return <div className={s.dialogs}>
+
         <div className={s.dialogsItems}>
             {dialogsElements}
         </div>
@@ -37,10 +41,12 @@ export const Dialogs = (props: DialogsPropsType) => {
             {messagesElements}
         </div>
 
-        <div><textarea value={props.dialogsPage.newMessageText}
-                       onChange={updateNewMessage}
-                       onKeyPress={onKeyPressHandler}
-        ></textarea>
+        <div>
+            <textarea value={props.dialogsPage.newMessageText}
+                      onChange={updateNewMessage}
+                      onKeyPress={onKeyPressHandler}
+            >
+            </textarea>
             <button onClick={SendMessage}>Send message</button>
         </div>
 

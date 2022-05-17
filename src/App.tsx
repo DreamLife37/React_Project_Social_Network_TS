@@ -8,6 +8,7 @@ import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainerToStore} from './components/Users/UsersContainer';
 import {ProfileContainer, ProfileContainerToStore} from "./components/Profile/ProfileContainer";
 import {HeaderContainer, HeaderContainerToStore} from "./components/Header/HeaderContainer";
+import { Login } from './components/Login/Login';
 
 export type AppPropsType = {
     store: ReduxStoreType
@@ -29,6 +30,7 @@ const App: React.FC<AppPropsType> = (props) => {
                         <Route path='/profile' element={<ProfileContainerToStore/>}/>
                         <Route path="news" element={'News'}/>
                         <Route path="users" element={<UsersContainerToStore/>}/>
+                        <Route path='login' element={<Login/>}/>
                     </Routes>
                 </div>
             </div>
