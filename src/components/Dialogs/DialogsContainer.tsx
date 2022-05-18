@@ -4,10 +4,10 @@ import {AppStateType} from "../../redux/redux-store";
 import {Dialogs} from './Dialogs';
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
+import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 
 type MapStateToProps = {
     dialogsPage: DialogsPageType
-    isAuth: boolean
 }
 
 type MapDispatchToProps = {
@@ -20,7 +20,6 @@ export type DialogsPropsType = MapStateToProps & MapDispatchToProps
 let mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
         dialogsPage: state.dialogsPage,
-        isAuth: state.auth.isAuth
     }
 }
 
@@ -35,7 +34,9 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+let WithAuthRedirectComponent = withAuthRedirect(Dialogs)
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(WithAuthRedirectComponent)
 //Функция connect создает контейнерную компоненту, внутри рендерит презентационную
 //и внутрь презентационно компоненты в качестве props передает то, что указано в первых скобках
 //в них указано 2 функции которые настраиваеют наш connect, возвращая объекты, одна с данными, другая с callback

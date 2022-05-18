@@ -4,7 +4,7 @@ import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
-import {Navigate} from 'react-router-dom';
+import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 
 export const Dialogs = (props: DialogsPropsType) => {
 
@@ -29,8 +29,6 @@ export const Dialogs = (props: DialogsPropsType) => {
             props.addMessage()
         }
     }
-
-    if (!props.isAuth) return <Navigate to="/login"/>
 
     return <div className={s.dialogs}>
 
