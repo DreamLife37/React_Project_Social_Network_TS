@@ -3,7 +3,7 @@ import {addMessageActionCreator, DialogsPageType, updateNewMessageActionCreator}
 import {AppStateType} from "../../redux/redux-store";
 import {Dialogs} from './Dialogs';
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 
 type MapStateToProps = {
@@ -34,9 +34,7 @@ let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     }
 }
 
-let WithAuthRedirectComponent = withAuthRedirect(Dialogs)
-
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(WithAuthRedirectComponent)
-//Функция connect создает контейнерную компоненту, внутри рендерит презентационную
-//и внутрь презентационно компоненты в качестве props передает то, что указано в первых скобках
-//в них указано 2 функции которые настраиваеют наш connect, возвращая объекты, одна с данными, другая с callback
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)

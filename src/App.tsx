@@ -1,35 +1,31 @@
 import React from 'react';
 import './App.css';
-import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {ReduxStoreType} from "./redux/redux-store";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {UsersContainerToStore} from './components/Users/UsersContainer';
-import {ProfileContainer, ProfileContainerToStore} from "./components/Profile/ProfileContainer";
-import {HeaderContainer, HeaderContainerToStore} from "./components/Header/HeaderContainer";
-import { Login } from './components/Login/Login';
+import UsersContainer from './components/Users/UsersContainer';
+import {Login} from './components/Login/Login';
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer"
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 export type AppPropsType = {
     store: ReduxStoreType
 }
 
 const App: React.FC<AppPropsType> = (props) => {
-    //const state = props.store.getState();
-
     return (
         <BrowserRouter>
             <div className="app-wrapper">
-                <HeaderContainerToStore/>
+                <HeaderContainer/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route path="dialogs/*"
-                               element={<DialogsContainer/>}/>
-                        <Route path="profile/:userId" element={<ProfileContainerToStore/>}/>
-                        <Route path='/profile' element={<ProfileContainerToStore/>}/>
+                        <Route path="dialogs/*" element={<DialogsContainer/>}/>
+                        <Route path="profile/:userId" element={<ProfileContainer/>}/>
+                        <Route path='/profile' element={<ProfileContainer/>}/>
                         <Route path="news" element={'News'}/>
-                        <Route path="users" element={<UsersContainerToStore/>}/>
+                        <Route path="users" element={<UsersContainer/>}/>
                         <Route path='login' element={<Login/>}/>
                     </Routes>
                 </div>

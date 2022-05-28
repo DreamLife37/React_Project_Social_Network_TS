@@ -2,7 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import {Header} from "./Header";
 import {AppStateType} from "../../redux/redux-store";
-import {getAuthUserData, setUserData, setUserPhoto} from "../../redux/auth-reducer";
+import {getAuthUserData} from "../../redux/auth-reducer";
+import {compose} from "redux";
 
 
 export class HeaderContainer extends React.Component<HeaderPropsType> {
@@ -37,4 +38,6 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-export const HeaderContainerToStore = connect(mapStateToProps, {getAuthUserData})(HeaderContainer)
+export default compose(
+    connect(mapStateToProps, {getAuthUserData})
+)(HeaderContainer)
