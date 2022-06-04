@@ -1,5 +1,6 @@
 import {Preloader} from "../../common/Preloader/Preloader";
 import {ProfileType} from "../../../redux/profile-reducer";
+import { ProfileStatus } from "./ProfileStatus";
 
 type ProfileInfo = {
     profile: null | ProfileType
@@ -20,6 +21,7 @@ export const ProfileInfo = (props: ProfileInfo) => {
             <br/>About me: {props.profile.aboutMe}
             <br/>Contacts: {props.profile.contacts.vk}
             <br/>Looking for a job? {props.profile.lookingForAJob ? 'Yes' : 'No'}
+        <ProfileStatus status={'status'}/>
         </div>
     </div>)
 }
