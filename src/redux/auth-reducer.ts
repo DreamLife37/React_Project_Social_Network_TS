@@ -71,6 +71,7 @@ export const getAuthUserData = () => {
     return (dispatch: Dispatch<ActionsAuthTypes>) => {
         usersAPI.getAuthMe()
             .then(data => {
+                console.log(data)
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
                     dispatch(setUserData(id, email, login))
