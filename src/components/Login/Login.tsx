@@ -1,36 +1,52 @@
-import {Field, InjectedFormProps, reduxForm} from "redux-form"
+import {Formik, Field, Form, FormikHelpers} from 'formik';
 import React from "react";
 
-type FormDataType = {
-    login: string
+interface Values {
+    email: string
     password: string
     rememberMe: boolean
 }
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div><Field placeholder={'Login'} name={'login'} component={'input'}/></div>
-            <div><Field placeholder={'Password'} name={'password'} component={'input'}/></div>
-            <div><Field type={'checkbox'} name={'rememberMe'} component={'input'}/></div>
-            <div>
-                <button>Login</button>
-            </div>
-        </form>
-    )
+type PropsType = {
+    onSubmit: (values: Values) => void
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({
-    form: 'login'
-})(LoginForm)
-
 export const Login = () => {
-    const onSubmit = (formData: FormDataType) => {
+    const onSubmit = (formData: Values) => {
         console.log(formData)
     }
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginForm onSubmit={onSubmit}/>
     </div>
 }
+
+const LoginForm: React.FC<PropsType> = (props) => {
+    return (
+        <div>
+            <Formik
+                initialValues={{
+                    email: '',
+                    password: '',
+                    rememberMe: false,
+                }}
+
+                onSubmit={(
+                    values: Values,
+                    {setSubmitting}: FormikHelpers<Values>
+                ) => {
+                    props.onSubmit(values)
+                }}
+            >
+                <Form>
+                    <Field name="email" type="email" placeholder={'email'}/>
+                    <Field name="password" type="password" placeholder={'password'}/>
+                    <Field type="checkbox" name="rememberMe"/>
+                    <button type="submit">Submit</button>
+                </Form>
+            </Formik>
+        </div>
+    );
+};
+
 
