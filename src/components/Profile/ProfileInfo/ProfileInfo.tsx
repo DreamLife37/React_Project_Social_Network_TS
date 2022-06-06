@@ -14,9 +14,9 @@ export const ProfileInfo = (props: ProfileInfo) => {
         return <Preloader/>
     }
     return (<div>
-        <div>
-            <img src='https://union-travel.ru/assets/images/country/thailand/resorts/beach1.jpg'></img>
-        </div>
+        {/*<div>*/}
+        {/*    <img src='https://union-travel.ru/assets/images/country/thailand/resorts/beach1.jpg'></img>*/}
+        {/*</div>*/}
         <div>
             <img src={props.profile.photos.large}/>
             <br/>Name: {props.profile.fullName}

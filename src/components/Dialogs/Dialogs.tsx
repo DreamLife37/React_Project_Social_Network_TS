@@ -1,10 +1,9 @@
 import React from 'react';
-import {ChangeEvent, KeyboardEvent} from 'react';
 import {DialogItem} from "./DialogItem/DialogsItem";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
-import {withAuthRedirect} from "../hoc/WithAuthRedirect";
+import {Field, Form, Formik, FormikHelpers} from "formik";
 
 export const Dialogs = (props: DialogsPropsType) => {
 
@@ -15,38 +14,55 @@ export const Dialogs = (props: DialogsPropsType) => {
         return <Message key={m.id} message={m.message}/>
     })
 
-    const SendMessage = () => {
-        props.addMessage()
-    }
-
-    const updateNewMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let message = e.currentTarget.value
-        props.updateNewMessage(message)
-    }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Enter") {
-            props.addMessage()
-        }
+    const SendMessage = (newMessage: string) => {
+        props.addMessage(newMessage)
     }
 
     return <div className={s.dialogs}>
-
         <div className={s.dialogsItems}>
             {dialogsElements}
         </div>
         <div className={s.messages}>
             {messagesElements}
         </div>
-
-        <div>
-            <textarea value={props.dialogsPage.newMessageText}
-                      onChange={updateNewMessage}
-                      onKeyPress={onKeyPressHandler}
-            >
-            </textarea>
-            <button onClick={SendMessage}>Send message</button>
+        <div className={s.messages}>
+            <NewMessageForm onSubmit={(values) => SendMessage(values)}/>
         </div>
 
     </div>
 }
+
+
+interface Values {
+    message: string
+}
+
+type PropsType = {
+    onSubmit: (values: string) => void
+}
+
+
+const NewMessageForm: React.FC<PropsType> = (props) => {
+    return (
+        <div>
+            <Formik
+                initialValues={{
+                    message: '',
+                }}
+
+                onSubmit={(
+                    values: Values,
+                    {setSubmitting}: FormikHelpers<Values>
+                ) => {
+
+                    props.onSubmit(values.message)
+                }}
+            >
+                <Form>
+                    <Field name="message" type="text" placeholder={'message'}/>
+                    <button type="submit">Submit</button>
+                </Form>
+            </Formik>
+        </div>
+    );
+};

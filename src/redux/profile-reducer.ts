@@ -1,13 +1,11 @@
 import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
-const SET_USER_PROFILE = 'SET-USER-PROFILE'
-const SET_STATUS_PROFILE = 'SET_STATUS_PROFILE'
+const ADD_POST = 'ADD-POST';
+const SET_USER_PROFILE = 'SET-USER-PROFILE';
+const SET_STATUS_PROFILE = 'SET_STATUS_PROFILE';
 
 export type ProfilePageType = {
-    newPostText: string
     posts: Array<PostType>
     profile: null | ProfileType
     status: string
@@ -46,12 +44,10 @@ type PostType = {
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsProfileTypes =
     ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof updateNewPostActionCreator>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusProfile>
 
 let initialState = {
-    newPostText: '',
     posts: [
         {id: 1, message: 'Hello world', likesCount: 10},
         {id: 2, message: 'I like It-incubator', likesCount: 56},
@@ -65,12 +61,9 @@ let initialState = {
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsProfileTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST: {
-            const post = {id: 5, message: state.newPostText, likesCount: 205}
-            return {...state, posts: [...state.posts, post], newPostText: ('')}
-        }
-        case UPDATE_NEW_POST_TEXT: {
             // @ts-ignore
-            return {...state, newPostText: action.newText}
+            const post = {id: 5, message: action.newText, likesCount: 205}
+            return {...state, posts: [...state.posts, post]}
         }
         case SET_USER_PROFILE: {
             // @ts-ignore
@@ -84,16 +77,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 }
 
-export const addPostActionCreator = () => {
+export const addPostActionCreator = (newText: string) => {
     return {
-        type: ADD_POST
+        type: ADD_POST, newText: newText
     } as const
 }
-export const updateNewPostActionCreator = (newText: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT, newText: newText
-    } as const
-}
+
 export const setUserProfile = (profile: ProfileType) => {
     return {
         type: SET_USER_PROFILE, profile

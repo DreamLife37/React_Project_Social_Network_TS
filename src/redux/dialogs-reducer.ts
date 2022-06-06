@@ -1,8 +1,6 @@
 const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
 export type DialogsPageType = {
-    newMessageText: string
     messages: Array<MessageType>
     dialogs: Array<DialogType>
 }
@@ -19,10 +17,8 @@ type DialogType = {
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsDialogsTypes = ReturnType<typeof addMessageActionCreator>
-    | ReturnType<typeof updateNewMessageActionCreator>
 
 let initialState: DialogsPageType = {
-    newMessageText: '',
     messages: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How is your it-incubator?'},
@@ -42,24 +38,17 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
     //внутренние объекты messages ({id: 1, message: 'Hi'}) не копируем, тк мы их не изменяем
     switch (action.type) {
         case ADD_MESSAGE: {
-            const message = {id: 4, message: state.newMessageText}
-            return {...state, messages: [...state.messages, message], newMessageText: ('')}
-        }
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            return {...state, newMessageText: action.newMessage}
+            debugger
+            const message = {id: 4, message: action.newMessage}
+            return {...state, messages: [...state.messages, message]}
         }
         default:
             return state
     }
 }
 
-export const addMessageActionCreator = () => {
+export const addMessageActionCreator = (newMessage: string) => {
     return {
-        type: 'ADD-MESSAGE'
-    } as const
-}
-export const updateNewMessageActionCreator = (newMessage: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE-TEXT', newMessage: newMessage
+        type: 'ADD-MESSAGE', newMessage
     } as const
 }
