@@ -1,3 +1,7 @@
 .posts {
     padding: 10px;
 }
+
+.error {
+    color: #bb2020;
+}

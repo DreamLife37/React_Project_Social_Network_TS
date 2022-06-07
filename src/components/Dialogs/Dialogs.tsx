@@ -4,6 +4,7 @@ import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
 import {Field, Form, Formik, FormikHelpers} from "formik";
+import * as Yup from "yup";
 
 export const Dialogs = (props: DialogsPropsType) => {
 
@@ -41,6 +42,12 @@ type PropsType = {
     onSubmit: (values: string) => void
 }
 
+const MessageSchema = Yup.object().shape({
+    message: Yup.string()
+        .required('Message is required')
+        .min(1, 'Message must be at least 6 characters')
+        .max(100, 'Message must not exceed 40 characters'),
+});
 
 const NewMessageForm: React.FC<PropsType> = (props) => {
     return (
@@ -49,7 +56,7 @@ const NewMessageForm: React.FC<PropsType> = (props) => {
                 initialValues={{
                     message: '',
                 }}
-
+                validationSchema={MessageSchema}
                 onSubmit={(
                     values: Values,
                     {setSubmitting}: FormikHelpers<Values>
@@ -58,10 +65,15 @@ const NewMessageForm: React.FC<PropsType> = (props) => {
                     props.onSubmit(values.message)
                 }}
             >
-                <Form>
-                    <Field name="message" type="text" placeholder={'message'}/>
-                    <button type="submit">Submit</button>
-                </Form>
+                {({errors, touched}) => (
+                    <Form>
+                        <Field as="textarea" name="message" placeholder={'Input message'}/>
+                        {touched.message && errors.message && <div className={s.error}>{errors.message}</div>}
+                        <div>
+                            <button type="submit">Send</button>
+                        </div>
+                    </Form>
+                )}
             </Formik>
         </div>
     );

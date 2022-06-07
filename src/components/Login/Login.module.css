@@ -1,0 +1,12 @@
+.login {
+    padding: 10px;
+}
+
+.formGroup {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.error {
+    color: #bb2020;
+}
