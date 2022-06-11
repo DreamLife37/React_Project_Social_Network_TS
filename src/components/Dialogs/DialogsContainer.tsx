@@ -25,13 +25,12 @@ let mapStateToProps = (state: AppStateType): MapStateToProps => {
 let mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
     return {
         addMessage: (newMessage) => {
-            debugger
             dispatch(addMessageActionCreator(newMessage))
         }
     }
 }
 
-export default compose<React.ComponentType>(
+export default compose<React.FC>(
     connect(mapStateToProps, mapDispatchToProps),
     withAuthRedirect
 )(Dialogs)

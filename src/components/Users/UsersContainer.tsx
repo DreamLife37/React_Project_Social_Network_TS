@@ -77,7 +77,7 @@ let mapStateToProps = (state: AppStateType): MapStateToProps => {
     }
 }
 
-export default compose<React.ComponentType>(
+export default compose<React.FC>(
     connect(mapStateToProps,
         {
             follow,

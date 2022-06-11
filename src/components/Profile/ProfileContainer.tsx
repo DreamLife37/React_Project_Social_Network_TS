@@ -9,7 +9,6 @@ import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
 
 
-
 type MapStatePropsType = {
     profile: null | ProfileType
     status: string
@@ -38,7 +37,8 @@ export class ProfileContainer extends React.Component<ProfilePropsType> {
 
     render() {
         return <div className={s.content}>
-            <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus}/>
+            <Profile {...this.props} profile={this.props.profile} status={this.props.status}
+                     updateStatus={this.props.updateStatus}/>
         </div>
     }
 }
@@ -49,7 +49,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 }) as MapStatePropsType
 
 //оболочка для классовой компонеты
-export const withRouter = (Component: JSXElementConstructor<any>): JSXElementConstructor<any> => {
+export const withRouter = (Component: React.FC<any>): JSXElementConstructor<any> => {
     function ComponentWithRouterProp(props: any) {
         let location = useLocation();
         let navigate = useNavigate();
@@ -65,8 +65,9 @@ export const withRouter = (Component: JSXElementConstructor<any>): JSXElementCon
     return ComponentWithRouterProp;
 }
 
-export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getStatusProfile, updateStatus}),
+export default compose<React.FC>(
+    connect(mapStateToProps,
+        {getUserProfile, getStatusProfile, updateStatus}),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)

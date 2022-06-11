@@ -1,5 +1,6 @@
-import {usersAPI} from "../api/api";
+import {authAPI, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {AppThunk} from "./redux-store";
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const SET_USER_PHOTO = 'SET-USER-PHOTO'
@@ -16,7 +17,7 @@ export type AuthPageType = {
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
 export type ActionsAuthTypes = ReturnType<typeof setUserData> | ReturnType<typeof setUserPhoto>
 
- let initialState: AuthPageType = {
+let initialState: AuthPageType = {
     id: null,
     email: null,
     login: null,
@@ -30,8 +31,7 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsA
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true,
+                ...action.payload,
             }
 
         case SET_USER_PHOTO:
@@ -53,10 +53,11 @@ type UserDataType = {
 
 export const setUserData = (id: null | number,
                             email: null | string,
-                            login: null | string) => {
+                            login: null | string,
+                            isAuth: boolean) => {
     return {
         type: SET_USER_DATA,
-        data: {id, email, login}
+        payload: {id, email, login, isAuth}
     } as const
 }
 
@@ -67,14 +68,13 @@ export const setUserPhoto = (photo: string) => {
     } as const
 }
 
-export const getAuthUserData = () => {
-    return (dispatch: Dispatch<ActionsAuthTypes>) => {
+export const getAuthUserData = (): AppThunk => {
+    return (dispatch) => {
         usersAPI.getAuthMe()
             .then(data => {
-                console.log(data)
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
-                    dispatch(setUserData(id, email, login))
+                    dispatch(setUserData(id, email, login, true))
                     usersAPI.getProfile(id)
                         .then(data => {
                             dispatch(setUserPhoto(data.photos.large))
@@ -83,4 +83,30 @@ export const getAuthUserData = () => {
             })
     }
 }
+
+export const login = (email: string, password: string, rememberMe: boolean): AppThunk => {
+    let data = {
+        email, password, rememberMe
+    }
+    return (dispatch) => {
+        authAPI.login(data)
+            .then(data => {
+                if (data.data.resultCode === 0) {
+                    dispatch(getAuthUserData())
+                }
+            })
+    }
+}
+
+export const logout = (): AppThunk => {
+    return (dispatch) => {
+        authAPI.logout()
+            .then(data => {
+                if (data.data.resultCode === 0) {
+                    dispatch(setUserData(null, null, null, false))
+                }
+            })
+    }
+}
+
 

@@ -12,7 +12,7 @@
 }
 
 .loginBlock {
-    max-width: 8em; /* блок занимает ширину родителя, max-width её ограничивает */
+    max-width: 12em; /* блок занимает ширину родителя, max-width её ограничивает */
     min-height: 2em;
     margin-left: auto;
     margin-right: 0;

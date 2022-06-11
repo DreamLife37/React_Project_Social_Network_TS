@@ -1,7 +1,11 @@
 import {Formik, Field, Form, FormikHelpers} from 'formik';
 import React from "react";
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
+import {login} from '../../redux/auth-reducer';
 import s from './Login.module.css'
+import {AppStateType} from "../../redux/redux-store";
+import {Navigate} from "react-router-dom";
 
 interface Values {
     email: string
@@ -13,14 +17,28 @@ type PropsType = {
     onSubmit: (values: Values) => void
 }
 
-export const Login = () => {
+type MapDispatchPropsType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+}
+
+type MapStatePropsType = {
+    isAuth: boolean
+}
+
+type LoginPropsType = MapStatePropsType & MapDispatchPropsType
+
+const Login = (props: LoginPropsType) => {
     const onSubmit = (formData: Values) => {
-        console.log(formData)
+        props.login(formData.email, formData.password, formData.rememberMe)
     }
-    return <div>
-        <h1 className={s.login}>Login</h1>
-        <LoginForm onSubmit={onSubmit}/>
-    </div>
+
+    if (props.isAuth) {
+        return <Navigate to={'/profile'}/>
+    }
+        return <div>
+            <h1 className={s.login}>Login</h1>
+            <LoginForm onSubmit={onSubmit}/>
+        </div>
 }
 
 const LoginSchema = Yup.object().shape({
@@ -83,3 +101,8 @@ const LoginForm: React.FC<PropsType> = (props) => {
 };
 
 
+let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+    isAuth: state.auth.isAuth
+}) as MapStatePropsType
+
+export default connect(mapStateToProps, {login})(Login)
