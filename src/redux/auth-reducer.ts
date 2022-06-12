@@ -84,7 +84,7 @@ export const getAuthUserData = (): AppThunk => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean): AppThunk => {
+export const login = (email: string, password: string, rememberMe: boolean, setStatus:any): AppThunk => {
     let data = {
         email, password, rememberMe
     }
@@ -93,6 +93,9 @@ export const login = (email: string, password: string, rememberMe: boolean): App
             .then(data => {
                 if (data.data.resultCode === 0) {
                     dispatch(getAuthUserData())
+                } else {
+                    console.log(data.data.messages[0])
+                   setStatus(data.data.messages[0])
                 }
             })
     }

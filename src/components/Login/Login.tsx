@@ -14,11 +14,11 @@ interface Values {
 }
 
 type PropsType = {
-    onSubmit: (values: Values) => void
+    onSubmit: (values: Values, setStatus: any) => void
 }
 
 type MapDispatchPropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean, setStatus: any) => void
 }
 
 type MapStatePropsType = {
@@ -28,17 +28,17 @@ type MapStatePropsType = {
 type LoginPropsType = MapStatePropsType & MapDispatchPropsType
 
 const Login = (props: LoginPropsType) => {
-    const onSubmit = (formData: Values) => {
-        props.login(formData.email, formData.password, formData.rememberMe)
+    const onSubmit = (formData: Values, setStatus: any) => {
+        props.login(formData.email, formData.password, formData.rememberMe, setStatus)
     }
 
     if (props.isAuth) {
         return <Navigate to={'/profile'}/>
     }
-        return <div>
-            <h1 className={s.login}>Login</h1>
-            <LoginForm onSubmit={onSubmit}/>
-        </div>
+    return <div>
+        <h1 className={s.login}>Login</h1>
+        <LoginForm onSubmit={onSubmit}/>
+    </div>
 }
 
 const LoginSchema = Yup.object().shape({
@@ -63,12 +63,12 @@ const LoginForm: React.FC<PropsType> = (props) => {
                 validationSchema={LoginSchema}
                 onSubmit={(
                     values: Values,
-                    {setSubmitting}: FormikHelpers<Values>
+                    {setSubmitting, setStatus, setErrors, setFieldError}: FormikHelpers<Values>
                 ) => {
-                    props.onSubmit(values)
+                    props.onSubmit(values, setStatus)
                 }}
             >
-                {({errors, touched}) => (
+                {({errors, touched, status}) => (
                     <Form className={s.login}>
                         <div className={s.formGroup}>
                             <label htmlFor="email"></label>
@@ -93,6 +93,9 @@ const LoginForm: React.FC<PropsType> = (props) => {
                             <label htmlFor="password"> Remember Me </label>
                             <Field type="checkbox" name="rememberMe"/></div>
                         <button type="submit">Submit</button>
+                        <div className={s.error}>
+                            {status}
+                        </div>
                     </Form>
                 )}
             </Formik>
@@ -105,4 +108,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     isAuth: state.auth.isAuth
 }) as MapStatePropsType
 
+// @ts-ignore
 export default connect(mapStateToProps, {login})(Login)
