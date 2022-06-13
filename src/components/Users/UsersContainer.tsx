@@ -85,6 +85,5 @@ export default compose<React.FC>(
             setCurrentPage,
             toggleFollowingProgress,
             getUsers,
-        }),
-    withAuthRedirect
+        })
 )(UsersContainer)

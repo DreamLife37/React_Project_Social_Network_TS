@@ -2,7 +2,7 @@ import s from './Profile.module.css'
 import React, {JSXElementConstructor} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {AppStateType, store} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../../redux/profile-reducer';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";

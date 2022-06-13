@@ -63,7 +63,7 @@ const LoginForm: React.FC<PropsType> = (props) => {
                 validationSchema={LoginSchema}
                 onSubmit={(
                     values: Values,
-                    {setSubmitting, setStatus, setErrors, setFieldError}: FormikHelpers<Values>
+                    {setSubmitting, setStatus}: FormikHelpers<Values>
                 ) => {
                     props.onSubmit(values, setStatus)
                 }}

@@ -70,7 +70,7 @@ export const setUserPhoto = (photo: string) => {
 
 export const getAuthUserData = (): AppThunk => {
     return (dispatch) => {
-        usersAPI.getAuthMe()
+         return usersAPI.getAuthMe()
             .then(data => {
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
