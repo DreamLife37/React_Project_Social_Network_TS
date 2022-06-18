@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 interface IComponentProps {
     status: string
@@ -15,6 +15,10 @@ export const ProfileStatusWithHooks = (props: any) => {
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
+    useEffect(() => {
+        setStatus(props.status)
+    }, [props.status])
+
     const activatedEditMode = () => {
         setEditMode(true)
     }
@@ -23,7 +27,6 @@ export const ProfileStatusWithHooks = (props: any) => {
         setEditMode(false)
         props.updateStatus(status as string)
     }
-
 
     return <div>Status:
         {!editMode
