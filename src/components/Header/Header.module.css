@@ -1,21 +1,33 @@
 .header {
-    grid-area: h;
-    background-color:#279CEB
+    display: flex;
+    background-color: rgb(31 41 55);
+    color: rgb(255 255 255);
+    font-weight: 500;
+    height: 70px;
+    align-items: center;
+
 }
 
 .logo {
-    float: left;
     font-family: Open Sans Condensed, sans-serif;
     font-size: 20px;
     line-height: 35px;
     margin-left: 20px;
+    flex: 1;
+}
+
+.logo div {
+    font-size: 14px;
+    margin-left: 55px;
+    color: #d1d5db;
+}
+
+.search {
+    flex: 3;
 }
 
 .loginBlock {
-    max-width: 12em; /* блок занимает ширину родителя, max-width её ограничивает */
-    min-height: 2em;
-    margin-left: auto;
-    margin-right: 0;
+    flex: 1;
 }
 
 .userAvatar {

@@ -36,16 +36,19 @@ class App extends Component<MapDispatchToPropsType & MapStateToPropsType> {
             <BrowserRouter>
                 <div className="app-wrapper">
                     <HeaderContainer/>
-                    <Navbar/>
-                    <div className='app-wrapper-content'>
-                        <Routes>
-                            <Route path="dialogs/*" element={<DialogsContainer/>}/>
-                            <Route path="profile/:userId" element={<ProfileContainer/>}/>
-                            <Route path='/profile' element={<ProfileContainer/>}/>
-                            <Route path="news" element={'News'}/>
-                            <Route path="users" element={<UsersContainer/>}/>
-                            <Route path='login' element={<Login/>}/>
-                        </Routes>
+                    <div className={'container'}>
+                        <div className={'leftSide'}><Navbar/></div>
+                        <div className='content'>
+                            <Routes>
+                                <Route path="dialogs/*" element={<DialogsContainer/>}/>
+                                <Route path="profile/:userId" element={<ProfileContainer/>}/>
+                                <Route path='/profile' element={<ProfileContainer/>}/>
+                                <Route path="news" element={'News'}/>
+                                <Route path="users" element={<UsersContainer/>}/>
+                                <Route path='login' element={<Login/>}/>
+                            </Routes>
+                        </div>
+                        <div className={'rightSide'}>My friends</div>
                     </div>
                 </div>
             </BrowserRouter>

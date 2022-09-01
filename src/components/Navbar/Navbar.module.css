@@ -1,15 +1,20 @@
 .nav {
-    grid-area: n;
     background-color: #24282C;
-    padding: 10px;
+    border-radius: 0.25rem;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 .item {
     color: white;
     text-decoration: none;
+    cursor: pointer;
+    padding: 10px 10px 20px;
 }
 
 .activeLink {
+    /*border: 1px solid red;*/
+    /*border-radius:0.375rem ;*/
+    /*background-color: #111827;*/
     color: gold;
     text-decoration: none;
 }
