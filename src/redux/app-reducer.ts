@@ -46,8 +46,6 @@ export const initializeApp = () => {
         promise.then(() => {
             dispatch(initializedSuccess())
         })
-        debugger
-
     }
 }
 

@@ -1,6 +1,14 @@
-import imageLoad from "../../../assets/images/animation.gif";
-import React from "react";
+import './Loading.css'
 
 export const Preloader = () => {
-    return <img src={imageLoad}/>
+    return (
+        <div className="loaderContainer">
+            <div className="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    )
 }

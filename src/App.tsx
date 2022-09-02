@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {Navbar} from "./components/Navbar/Navbar";
+import {Navbar} from "./components/LeftSide/Navbar/Navbar";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -11,6 +11,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
 import {AppStateType} from "./redux/redux-store";
+import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
 
 type MapDispatchToPropsType = {
@@ -37,7 +38,7 @@ class App extends Component<MapDispatchToPropsType & MapStateToPropsType> {
                 <div className="app-wrapper">
                     <HeaderContainer/>
                     <div className={'container'}>
-                        <div className={'leftSide'}><Navbar/></div>
+                        <div className={'leftSide'}><LeftSide /></div>
                         <div className='content'>
                             <Routes>
                                 <Route path="dialogs/*" element={<DialogsContainer/>}/>
