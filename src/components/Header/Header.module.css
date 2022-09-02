@@ -11,7 +11,6 @@
 .logo {
     font-family: Open Sans Condensed, sans-serif;
     font-size: 20px;
-    line-height: 35px;
     margin-left: 20px;
     flex: 1;
 }
@@ -27,6 +26,7 @@
 }
 
 .loginBlock {
+    padding-left: 60px;
     flex: 1;
 }
 

@@ -3,7 +3,7 @@
 }
 
 .search {
-    width: 650px;
+    width: calc(100% - 36px);
     background-color: #515365;
     border: none;
     height: 36px;
@@ -18,9 +18,11 @@
     color: #d1d5db;
     opacity: 1;
 }
+
 .search:-ms-input-placeholder {
     color: #d1d5db;
 }
+
 .search::-ms-input-placeholder {
     color: #d1d5db;
 }
