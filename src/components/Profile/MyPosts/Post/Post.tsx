@@ -1,5 +1,6 @@
 import s from './Post.module.css'
 import imgPost1 from '../../../../assets/images/post1.jpg'
+import {PostSvgSelector} from "../../PostSvgSelector";
 
 type PostType = {
     message: string
@@ -21,7 +22,10 @@ export const Post = (props: PostType) => {
             <div className={s.picture}>
                 <img src={imgPost1}/>
             </div>
-            <div>Like {props.likeCount}</div>
+            <div className={s.like}>
+                <PostSvgSelector id={'like'}/>
+                <span>{props.likeCount}</span>
+            </div>
         </div>
 
     </div>

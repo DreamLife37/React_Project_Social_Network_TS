@@ -1,7 +1,19 @@
 .posts {
-    padding: 10px;
+
 }
 
 .error {
     color: #bb2020;
 }
+
+.newPostContainer {
+
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    background-color: #fdfdfd;
+}
+
+/*.newPostContainer textarea {*/
+/*    resize: vertical;*/
+/*    width: 100%;*/
+/*}*/

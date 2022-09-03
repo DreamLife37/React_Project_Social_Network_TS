@@ -1,0 +1,46 @@
+.posts {
+    padding: 10px;
+}
+
+.error {
+    color: #da1241;
+    font-size: 14px;
+}
+
+.textareaError {
+
+}
+
+.wrapper {
+    border-radius: 10px;
+}
+
+.form {
+    width: 100%;
+    padding: 10px;
+}
+
+.textareaContainer {
+
+}
+
+.textarea {
+    border-radius: 0.25rem;
+    border-width: 2px;
+    width: calc(100% - 20px);
+    padding: 15px;
+outline: none;
+    resize: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-color: #f1f1f1;
+
+
+}
+
+.textarea:is(:focus, :valid) {
+    border-color: #bfbfbf;
+    border-width: 2px;
+
+}
