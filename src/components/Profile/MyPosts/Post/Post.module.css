@@ -6,7 +6,6 @@
     background-color: #fdfdfd;
     border-radius: 0.25rem;
     display: flex;
-
 }
 
 .avatar {
@@ -31,7 +30,7 @@
 }
 
 .picture {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .picture img {
@@ -39,6 +38,38 @@
     height: auto;
     border-radius: 0.25rem;
 }
+
+.like {
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.like:hover {
+    color: #1f2937;
+}
+
+.like svg {
+    width: 30px;
+    fill: #6c757d;
+}
+
+.like svg:hover {
+    fill: #1f2937;
+}
+
+.like span {
+    color: #6c757d;
+    padding-left: 10px;
+    font-weight: 300 !important;
+    font-family: 'DM Sans Regular', serif;
+}
+
+.like span:hover {
+    color: #1f2937;
+}
+
 
 .header {
     display: flex;
