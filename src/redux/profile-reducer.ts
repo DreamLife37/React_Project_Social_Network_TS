@@ -107,7 +107,6 @@ export const getUserProfile = (userId: number) => {  //ThunkCreator
 export const getStatusProfile = (userId: number) => (dispatch: Dispatch<ActionsProfileTypes>) => {
     profileAPI.getStatus(userId)
         .then((res) => {
-            console.log(res)
             dispatch(setStatusProfile(res.data))
         })
 }
@@ -115,8 +114,6 @@ export const getStatusProfile = (userId: number) => (dispatch: Dispatch<ActionsP
 export const updateStatus = (status: string) => (dispatch: Dispatch<ActionsProfileTypes>) => {
     profileAPI.updateStatus(status)
         .then((res) => {
-
-            console.log(res)
             dispatch(setStatusProfile(status))
         })
 }

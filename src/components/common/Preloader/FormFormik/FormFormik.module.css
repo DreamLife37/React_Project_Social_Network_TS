@@ -1,7 +1,3 @@
-.posts {
-    padding: 10px;
-}
-
 .error {
     color: #da1241;
     font-size: 14px;
@@ -15,32 +11,41 @@
     border-radius: 10px;
 }
 
-.form {
-    width: 100%;
-    padding: 10px;
+.title {
+    font-weight: 600!important;
+   padding: 20px;
 }
 
-.textareaContainer {
-
+.form {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .textarea {
     border-radius: 0.25rem;
     border-width: 2px;
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     padding: 15px;
-outline: none;
+    outline: none;
     resize: none;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-color: #f1f1f1;
-
-
 }
 
-.textarea:is(:focus, :valid) {
-    border-color: #bfbfbf;
-    border-width: 2px;
-
+.buttonWrapper {
+    padding-top: 10px;
 }
+
+.button {
+    background-color: #1f2937;
+    color: #f1f1f1;
+    border: none;
+    width: 80px;
+    height: 30px;
+    border-radius: 0.25rem;
+}
+

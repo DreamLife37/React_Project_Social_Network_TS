@@ -1,23 +1,25 @@
-import {ProfileType} from "../../../redux/profile-reducer";
+import {ProfileType, updateStatus} from "../../../redux/profile-reducer";
 import {ProfileStatus} from "./ProfileStatus";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import {Preloader} from "../../common/Preloader/Preloader";
+import {useDispatch} from "react-redux";
 
 type ProfileInfo = {
-    profile: null | ProfileType
-    status: string
-    updateStatus: (status: string) => void
+    //profile: null | ProfileType
+    profile: any
+    //status: string
+    status: any
+    updateStatus?: (status: string) => void
 }
 
 export const ProfileInfo = (props: ProfileInfo) => {
+
+
 
     if (!props.profile) {
         return <Preloader/>
     }
     return (<div>
-        {/*<div>*/}
-        {/*    <img src='https://union-travel.ru/assets/images/country/thailand/resorts/beach1.jpg'></img>*/}
-        {/*</div>*/}
         <div>
             <img src={props.profile.photos.large}/>
             <br/>Name: {props.profile.fullName}
