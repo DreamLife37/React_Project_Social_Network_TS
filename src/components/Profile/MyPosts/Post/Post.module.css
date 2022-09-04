@@ -2,10 +2,11 @@
     padding-top: 20px;
     padding-bottom: 20px;
     margin-top: 20px;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    /*box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);*/
     background-color: #fdfdfd;
     border-radius: 0.25rem;
     display: flex;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 
 .avatar {

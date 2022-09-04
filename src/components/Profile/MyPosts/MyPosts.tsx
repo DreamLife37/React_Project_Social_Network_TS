@@ -14,7 +14,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
     }
 
     return <div>
-        <h3>My posts</h3>
+
         <div className={s.newPostContainer}><FormFormik onSubmit={addPost}/></div>
         <div className={s.posts}>
             {postsElement}

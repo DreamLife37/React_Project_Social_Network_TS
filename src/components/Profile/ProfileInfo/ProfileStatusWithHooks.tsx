@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {updateStatus} from "../../../redux/profile-reducer";
 
 interface IComponentProps {
     status: string
@@ -15,6 +17,8 @@ export const ProfileStatusWithHooks = (props: any) => {
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         setStatus(props.status)
     }, [props.status])
@@ -25,7 +29,7 @@ export const ProfileStatusWithHooks = (props: any) => {
 
     const deactivatedEditMode = () => {
         setEditMode(false)
-        props.updateStatus(status as string)
+        dispatch(updateStatus(status))
     }
 
     return <div>Status:
