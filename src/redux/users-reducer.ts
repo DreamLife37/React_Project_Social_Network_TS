@@ -38,7 +38,7 @@ export type ActionsUsersTypes = ReturnType<typeof followSuccess>
 
 let initialState: UserPageType = {
     users: [],
-    pageSize: 5,
+    pageSize: 40,
     totalUserCount: 0,
     currentPage: 1,
     isFetching: true,

@@ -3,6 +3,8 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
+import {UserItem} from "./UserItem/UserItem";
+import {Paginator} from "../common/Paginator/Paginator";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -16,33 +18,21 @@ type UsersPropsType = {
 }
 
 export const Users = (props: UsersPropsType) => {
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
-
     return <div>
-        <div>
-            {pages.map(page => <span key={page} onClick={() => props.onPageChanged(page)}
-                                     className={props.currentPage === page ? s.selectedPage : ''}>{page}</span>)}
-        </div>
-        {props.users.map(u => <div key={u.id} className={s.userItems}>
-            <span className={s.name}>{u.name}</span>
-            <div><span>{'u.location.country'}</span>, <span>{'u.location.city'}</span></div>
-            <div>{u.status}</div>
-            <NavLink to={'/profile/' + u.id}><img
-                src={u.photos.small === null ? userPhoto : u.photos.small}/></NavLink>
-            <div>{u.followed
-                ? <button disabled={props.followingInProgress.some((id: number) => id === u.id)} onClick={() => {
-                    props.unFollow(u.id)
-                }}>Unfollow</button>
-
-                : <button disabled={props.followingInProgress.some((id: number) => id === u.id)} onClick={() => {
-                    props.follow(u.id)
-                }
-                }>Follow</button>}</div>
-        </div>)}
+        <Paginator followingInProgress={props.followingInProgress}
+                   unFollow={props.unFollow}
+                   follow={props.follow}
+                   onPageChanged={props.onPageChanged}
+                   pageSize={props.pageSize}
+                   currentPage={props.currentPage}
+                   totalUsersCount={props.totalUsersCount}
+                   portionSize={500}/>
+        <div className={s.usersItems}>
+            <UserItem users={props.users}
+                      follow={props.follow}
+                      unFollow={props.unFollow}
+                      followingInProgress={props.followingInProgress}
+            /></div>
     </div>
 }
 
