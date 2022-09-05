@@ -68,7 +68,6 @@ export class UsersContainer extends React.Component<UsersPropsType> {
                    unFollow={this.props.unFollow}
                    follow={this.props.follow}
                    onPageChanged={this.onPageChanged}
-
             />
         </>
     }
