@@ -26,7 +26,7 @@ export const Users = (props: UsersPropsType) => {
                    pageSize={props.pageSize}
                    currentPage={props.currentPage}
                    totalUsersCount={props.totalUsersCount}
-                   portionSize={500}/>
+                   portionSize={20}/>
         <div className={s.usersItems}>
             <UserItem users={props.users}
                       follow={props.follow}

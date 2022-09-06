@@ -1,12 +1,35 @@
 
-.usersItems {
+.paginator {
     padding: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-around;
+
 }
 
 .selectedPage {
     font-weight: bold;
+    background-color: #1f2937;
+    border-radius: 20px;
+    color: white;
+
+}
+
+.pageNumber {
+    padding: 3px;
+}
+
+.icons {
+    width: 26px;
+    cursor: pointer;
+}
+
+.icons svg {
+    fill: rgb(31 41 55);
+}
+
+.iconsDisabled {
+    pointer-events: none;
+    opacity: 0.4;
 }
 
