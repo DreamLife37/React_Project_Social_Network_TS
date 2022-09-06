@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import s from "./Paginator.module.css";
+import {PostSvgSelector} from "../../Profile/PostSvgSelector";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -24,23 +25,31 @@ export const Paginator = (props: UsersPropsType) => {
     let leftPortionPageNumber = (portionNumber - 1) * props.portionSize + 1
     let rightPortionPageNumber = portionNumber * props.portionSize
 
-    return <div>
-
-        {portionNumber > 1 &&
-            <button onClick={() => {
+    return <div className={s.paginator}>
+        {<>
+            <div className={`${s.icons} ${portionNumber === 1 ? s.iconsDisabled : ''}`} onClick={() => {
+                setPortionNumber(1)
+            }}><PostSvgSelector id={'start'}/></div>
+            <div className={`${s.icons} ${portionNumber === 1 ? s.iconsDisabled : ''}`} onClick={() => {
                 setPortionNumber(portionNumber - 1)
-            }}>PREV</button>}
+            }}><PostSvgSelector id={'prev'}/></div>
+        </>}
         <div>
-            {pages.filter(p => p >= leftPortionPageNumber && p >= rightPortionPageNumber)
+            {pages
+                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(page => <span key={page} onClick={() => props.onPageChanged(page)}
-                                   className={props.currentPage === page ? s.selectedPage : ''}>{page}</span>)}
+                                   className={`${props.currentPage === page ? s.selectedPage : ''} ${s.pageNumber}`}>{page}</span>)}
         </div>
-        {portionCount > portionNumber &&
-            <button onClick={() => {
-                setPortionNumber(portionNumber + 1)
-            }}>Next</button>}
+        {
+            <>
+                <div className={`${s.icons} ${portionCount === portionNumber ? s.iconsDisabled : ''}`} onClick={() => {
+                    setPortionNumber(portionNumber + 1)
+                }}><PostSvgSelector id={'next'}/></div>
 
-
+                <div className={`${s.icons} ${portionCount === portionNumber ? s.iconsDisabled : ''}`} onClick={() => {
+                    setPortionNumber(portionCount)
+                }}><PostSvgSelector id={'end'}/></div>
+            </>}
     </div>
 }
 
