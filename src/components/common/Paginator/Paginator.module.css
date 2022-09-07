@@ -10,9 +10,8 @@
 .selectedPage {
     font-weight: bold;
     background-color: #1f2937;
-    border-radius: 20px;
+    border-radius: 26px;
     color: white;
-
 }
 
 .pageNumber {
@@ -20,7 +19,7 @@
 }
 
 .icons {
-    width: 26px;
+    width: 30px;
     cursor: pointer;
 }
 

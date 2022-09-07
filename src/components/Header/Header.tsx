@@ -2,7 +2,7 @@ import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
 import {HeaderPropsType} from "./HeaderContainer";
-import userAvatarDefault from './../../assets/images/user.jpg'
+import userAvatarDefault from './../../assets/images/user.png'
 import {Search} from "./Search/Search";
 
 
