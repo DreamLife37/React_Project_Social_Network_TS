@@ -4,6 +4,8 @@ import {profileAPI, usersAPI} from "../api/api";
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS_PROFILE = 'SET_STATUS_PROFILE';
+const REMOVE_POST = 'REMOVE_POST';
+const EDIT_POST = 'EDIT_POST';
 
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -46,6 +48,8 @@ export type ActionsProfileTypes =
     ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatusProfile>
+    | ReturnType<typeof removePostActionCreator>
+    | ReturnType<typeof editPostActionCreator>
 
 let initialState = {
     posts: [
@@ -65,12 +69,24 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             const post = {id: 5, message: action.newText, likesCount: 205}
             return {...state, posts: [...state.posts, post]}
         }
+
         case SET_USER_PROFILE: {
             // @ts-ignore
             return {...state, profile: action.profile}
         }
         case SET_STATUS_PROFILE: {
             return {...state, status: action.status}
+        }
+
+        case REMOVE_POST: {
+            const postsAfterDeletion = state.posts.filter((p) => p.id !== action.id)
+            return {...state, posts: postsAfterDeletion}
+        }
+
+        case EDIT_POST: {
+            const postEdit = state.posts.map((p) => p.id === action.id ? {...p, message: action.newText} : p)
+            console.log(postEdit)
+            return {...state, posts: postEdit}
         }
         default:
             return state
@@ -83,6 +99,19 @@ export const addPostActionCreator = (newText: string) => {
     } as const
 }
 
+export const removePostActionCreator = (id: number) => {
+    return {
+        type: REMOVE_POST, id
+    } as const
+}
+
+export const editPostActionCreator = (id: number, newText: string) => {
+    return {
+        type: EDIT_POST, id, newText
+    } as const
+}
+
+
 export const setUserProfile = (profile: ProfileType) => {
     return {
         type: SET_USER_PROFILE, profile
@@ -92,7 +121,7 @@ export const setUserProfile = (profile: ProfileType) => {
 const setStatusProfile = (status: string) => {
     return {
         type: SET_STATUS_PROFILE, status
-    }
+    } as const
 }
 
 export const getUserProfile = (userId: number) => {  //ThunkCreator
