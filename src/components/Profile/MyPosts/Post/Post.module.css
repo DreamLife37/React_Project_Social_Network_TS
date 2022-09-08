@@ -26,8 +26,9 @@
     margin-top: 20px;
     margin-bottom: 20px;
     color: #6c757d;
-    font-size: 13px;
-    font-family: dm sans, sans-serif;
+    font-size: 16px;
+    /*font-family: dm sans, sans-serif;*/
+    font-family: Proxima Nova, serif;
 }
 
 .picture {
@@ -90,6 +91,7 @@
     right: 70px;
     font-size: .875em;
     color: #6c757d;
+    font-family: Proxima Nova, serif;
 }
 
 .action {
@@ -150,4 +152,15 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border-color: #f1f1f1;
+}
+
+.button {
+    background-color: #1f2937;
+    color: #f1f1f1;
+    border: none;
+    width: 80px;
+    height: 30px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin: 10px 0
 }

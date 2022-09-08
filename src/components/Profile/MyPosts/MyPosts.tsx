@@ -6,7 +6,7 @@ import {FormFormik} from '../../common/FormFormik/FormFormik';
 
 export const MyPosts = (props: MyPostsPropsType) => {
     let postsElement = props.profilePage.posts.map(p => {
-        return <Post key={p.id} id={p.id} message={p.message} likeCount={p.likesCount}/>
+        return <Post key={p.id} post={p}/>
     })
 
     const addPost = (newText: string) => {

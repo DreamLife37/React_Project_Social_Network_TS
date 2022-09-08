@@ -13,6 +13,7 @@ import {initializeApp} from "./redux/app-reducer";
 import {AppStateType} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
+import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
 
 type MapDispatchToPropsType = {
     initializeApp: () => void
@@ -47,6 +48,7 @@ class App extends Component<MapDispatchToPropsType & MapStateToPropsType> {
                                 <Route path="news" element={'News'}/>
                                 <Route path="users" element={<UsersContainer/>}/>
                                 <Route path='login' element={<Login/>}/>
+                                <Route path='profileSettings' element={<ProfileSettings/>}/>
                             </Routes>
                         </div>
                         <div className={'rightSide'}>My friends</div>
