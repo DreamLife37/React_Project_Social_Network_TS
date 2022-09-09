@@ -5,6 +5,9 @@ import imagePost2 from '../assets/images/office.jpg'
 import imagePost3 from '../assets/images/interrior.jpg'
 import imagePost4 from '../assets/images/car.jpg'
 import imageDefaultPost from '../assets/images/net_foto.jpg'
+import {getAuthUserData} from "./auth-reducer";
+import {AppThunk, Nullable} from "./redux-store";
+import {setIsLoading} from "./app-reducer";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
@@ -20,33 +23,34 @@ export type ProfilePageType = {
 }
 
 export type ProfileType = {
-    userId: null | number
-    aboutMe: null | string
-    lookingForAJob: null | boolean
-    lookingForAJobDescription: null | string
+    userId: null | number | undefined
+    aboutMe: string | undefined
+    lookingForAJob: boolean | undefined
+    lookingForAJobDescription: string | undefined
     fullName: string | undefined
     contacts: ContactsType
     photos: {
-        small: null | string
-        large: null | string
+        small: undefined | string
+        large: undefined | string
     }
 }
 
 type ContactsType = {
-    github: null | string
-    vk: null | string
-    facebook: null | string
-    instagram: null | string
-    twitter: null | string
-    website: null | string
-    youtube: null | string
-    mainLink: null | string
+    github: undefined | string | null
+    vk: undefined | string
+    facebook: undefined | string
+    instagram: undefined | string
+    twitter: undefined | string
+    website: undefined | string
+    youtube: undefined | string
+    mainLink: undefined | string
 }
 
 type PostType = {
     id: number
     message: string
     likesCount: number
+
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
@@ -80,7 +84,27 @@ let initialState = {
             image: imagePost4
         },
     ],
-    profile: {} as ProfileType,
+    profile: {
+        userId: null,
+        aboutMe: '',
+        lookingForAJob: false,
+        lookingForAJobDescription: '',
+        fullName: '',
+        contacts: {
+            github: '',
+            vk: '',
+            facebook: '',
+            instagram: '',
+            twitter: '',
+            website: '',
+            youtube: '',
+            mainLink: '',
+        },
+        photos: {
+            small: '',
+            large: '',
+        },},
+
     status: ''
 }
 
@@ -177,10 +201,15 @@ export const updateStatus = (status: string) => (dispatch: Dispatch<ActionsProfi
         })
 }
 
-export const updateProfile = (updateModelProfile: ProfileType) => (dispatch: Dispatch<ActionsProfileTypes>) => {
+export const updateProfile = (updateModelProfile: ProfileType) : AppThunk  => (dispatch) => {
     profileAPI.updateProfile(updateModelProfile)
         .then((res) => {
             dispatch(setUpdateProfile(updateModelProfile))
+            dispatch(getAuthUserData)
         })
+}
 
+
+export const fetchUserData = (id: number): AppThunk => async (dispatch) => {
+    dispatch(setIsLoading(true))
 }

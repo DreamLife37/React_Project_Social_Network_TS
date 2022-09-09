@@ -4,82 +4,81 @@ import s from "./FormProfileSettings.module.css";
 import {ProfileType, updateProfile} from "../../../redux/profile-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/redux-store";
+import {Preloader} from "../../common/Preloader/Preloader";
 
-type PropsType = {
-    // onSubmit: (values: string) => void
-}
+type PropsType = {}
 
 type FormikErrorType = {
-    message?: string
+    facebook?: string
+    aboutMe?: string
 }
 
+export const FormProfileSettings: React.FC<PropsType> = () => {
 
-
-export const FormProfileSettings: React.FC<PropsType> = (props) => {
-
-
-    const dispatch = useDispatch()
-    //const profile :ProfileType = useSelector<AppStateType>(state => state.profilePage.profile);
-    const fullName = useSelector((state: AppStateType) => state.profilePage.profile?.fullName)
+        const dispatch = useDispatch()
+        const profile = useSelector<AppStateType>(state => state.profilePage.profile)
+        const aboutMe = useSelector((state: AppStateType) => state.profilePage.profile?.aboutMe)
+        const fullName = useSelector((state: AppStateType) => state.profilePage.profile?.fullName)
+        const id = useSelector((state: AppStateType) => state.profilePage.profile?.userId)
+        const lookingForAJob = useSelector((state: AppStateType) => state.profilePage.profile?.lookingForAJob)
+        const lookingForAJobDescription = useSelector((state: AppStateType) => state.profilePage.profile?.lookingForAJobDescription)
+        const github = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.github)
+        const vk = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.vk)
+        const facebook = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.facebook)
+        const instagram = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.instagram)
+        const twitter = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.twitter)
+        const website = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.website)
+        const youtube = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.youtube)
+        const mainLink = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.mainLink)
+        const smallPhoto = useSelector((state: AppStateType) => state.profilePage.profile?.photos.small)
+        const largePhoto = useSelector((state: AppStateType) => state.profilePage.profile?.photos.large)
 
 
         const formik = useFormik({
+            enableReinitialize: true,
             initialValues: {
-                userId: 14702,
-                aboutMe: '',
-                lookingForAJob: false,
-                lookingForAJobDescription: '',
+                userId: id,
+                aboutMe: aboutMe || '',
+                lookingForAJob: lookingForAJob,
+                lookingForAJobDescription: lookingForAJobDescription,
                 fullName: fullName,
                 contacts: {
-                    github: '',
-                    vk: '',
-                    facebook: '',
-                    instagram: '',
-                    twitter: '',
-                    website: '',
-                    youtube: '',
-                    mainLink: '',
+                    github: github || '',
+                    vk: vk,
+                    facebook: facebook || '',
+                    instagram: instagram,
+                    twitter: twitter,
+                    website: website,
+                    youtube: youtube,
+                    mainLink: mainLink,
                 },
                 photos: {
-                    small: '',
-                    large: '',
+                    small: smallPhoto,
+                    large: largePhoto,
                 }
             },
-            // validate: async (values) => {
-            //     const errors: FormikErrorType = {};
-            //     if (!values.message) {
-            //         errors.message = 'Message is required';
-            //     }
-            //     return errors;
-            // },
+            validate: async (values) => {
+                const errors: FormikErrorType = {};
+                if (!values.contacts.facebook) {
+                    errors.facebook = 'Incorrect url';
+                }
+                if (!values.aboutMe) {
+                    errors.aboutMe = 'Field required';
+                }
+                return errors;
+            },
             onSubmit: async values => {
                 console.log(values)
                 //props.onSubmit(values)
-                const obj = {
-                    aboutMe: "12121212",
-                    contacts: {
-                        facebook: '',
-                        github: '',
-                        instagram: '',
-                        mainLink: '',
-                        twitter: '',
-                        vk: '',
-                        website: '',
-                        youtube: '',
-                    },
-                    fullName: 'null',
-                    lookingForAJob: true,
-                    lookingForAJobDescription: 'null',
-                    photos: {
-                        large: 'null',
-                        small: 'null'
-                    },
-                    userId: 14702
-                }
+
                 dispatch(updateProfile(values))
                 formik.resetForm()
             },
         })
+
+        if (!profile) {
+            return <Preloader/>
+        }
 
 
         return (
@@ -99,6 +98,8 @@ export const FormProfileSettings: React.FC<PropsType> = (props) => {
 
                     <input {...formik.getFieldProps('facebook')} name="contacts.facebook" placeholder={'Facebook URL'}
                            className={`${s.input}`}/>
+                    {/*{formik.touched.contacts.facebook && formik.errors.contacts.facebook &&*/}
+                    {/*    <div className={s.error}>{formik.errors.contacts.facebook}</div>}*/}
 
                     <input {...formik.getFieldProps('github')} name="contacts.github" placeholder={'Github URL'}
                            className={`${s.input}`}/>

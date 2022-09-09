@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './ProfileSettings.module.css'
 import {FormProfileSettings} from "./FormProfileSettings/FormProfileSettings";
+import {useDispatch, useSelector} from "react-redux";
+import {setUserProfile} from "../../redux/profile-reducer";
+import {getAuthUserData} from "../../redux/auth-reducer";
+import {initializeApp} from "../../redux/app-reducer";
+import {AppStateType} from "../../redux/redux-store";
+import {useParams} from "react-router-dom";
+import {Preloader} from "../common/Preloader/Preloader";
 
 export const ProfileSettings = () => {
 
-    return <div>
+    const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(getAuthUserData())
+        dispatch(initializeApp())
+    }, [dispatch])
+
+    const profile = useSelector<AppStateType>(state => state.profilePage.profile)
+
+    if (!profile) {
+        return <Preloader/>
+    }
+
+    return <div>
         <div className={s.newPostContainer}>
-            <FormProfileSettings/>
+            <FormProfileSettings />
         </div>
         <div className={s.posts}>
         </div>

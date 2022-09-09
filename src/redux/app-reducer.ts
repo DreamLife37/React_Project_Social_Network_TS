@@ -6,14 +6,16 @@ const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS'
 
 
 export type AuthPageType = {
-    initialized: boolean
+    initialized: boolean,
+    isLoading: boolean
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
-export type ActionsAuthTypes = ReturnType<typeof initializedSuccess>
+export type ActionsAuthTypes = ReturnType<typeof initializedSuccess> | ReturnType<typeof setIsLoading>
 
 let initialState: AuthPageType = {
-    initialized: false
+    initialized: false,
+    isLoading: false
 }
 
 export const appReducer = (state: AuthPageType = initialState, action: ActionsAuthTypes): AuthPageType => {
@@ -23,6 +25,9 @@ export const appReducer = (state: AuthPageType = initialState, action: ActionsAu
                 ...state,
                 initialized: true,
             }
+        case "APP/IS-LOADING-SET": {
+            return {...state, isLoading: action.payload}
+        }
         default:
             return state
     }
@@ -40,14 +45,17 @@ export const initializedSuccess = () => {
     } as const
 }
 
-export const initializeApp = () => {
-    return (dispatch: any) => {
-        let promise = dispatch(getAuthUserData())
-        promise.then(() => {
+export const setIsLoading = (status: boolean) => ({type: "APP/IS-LOADING-SET", payload: status}) as const
+
+export const initializeApp = (): AppThunk => (dispatch) => {
+    Promise.all([dispatch(getAuthUserData())])
+        .then(() => {
+            debugger
             dispatch(initializedSuccess())
         })
-    }
 }
+
+
 
 
 

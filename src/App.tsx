@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, FC, useEffect} from 'react';
 import './App.css';
 import {Navbar} from "./components/LeftSide/Navbar/Navbar";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
@@ -8,38 +8,45 @@ import ProfileContainer from "./components/Profile/ProfileContainer"
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {compose} from "redux";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
-import {AppStateType} from "./redux/redux-store";
+import {AppStateType, useAppSelector} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
+import {setUserProfile} from "./redux/profile-reducer";
+import {getAuthUserData} from "./redux/auth-reducer";
 
 type MapDispatchToPropsType = {
     initializeApp: () => void
 }
 
 type MapStateToPropsType = {
-    initialized: boolean
+    //initialized: boolean
 }
 
 
-class App extends Component<MapDispatchToPropsType & MapStateToPropsType> {
+export const App: FC = () => {
+    const dispatch = useDispatch()
+    const initialized = useAppSelector<boolean>((state) => state.app.initialized)
 
-    componentDidMount() {
-        this.props.initializeApp()
-    }
+    useEffect(() => {
+        dispatch(getAuthUserData())
+        dispatch(initializeApp())
+        //dispatch(setUserProfile(14702))
+    },[dispatch])
 
-    render() {
-        if (!this.props.initialized) {
+        if (!initialized) {
             return <Preloader/>
         }
+
+
         return (
             <BrowserRouter>
                 <div className="app-wrapper">
                     <HeaderContainer/>
                     <div className={'container'}>
-                        <div className={'leftSide'}><LeftSide /></div>
+                        <div className={'leftSide'}><LeftSide/></div>
                         <div className='content'>
                             <Routes>
                                 <Route path="dialogs/*" element={<DialogsContainer/>}/>
@@ -56,17 +63,6 @@ class App extends Component<MapDispatchToPropsType & MapStateToPropsType> {
                 </div>
             </BrowserRouter>
         );
-    }
-}
-
-
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    return {
-        initialized: state.app.initialized
-    }
 
 }
 
-export default compose<React.FC>(
-    connect(mapStateToProps, {initializeApp})
-)(App)
