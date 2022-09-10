@@ -1,19 +1,16 @@
 import {Navbar} from "./Navbar/Navbar"
-import {useSelector} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
 import {ProfileInfo} from "../Profile/ProfileInfo/ProfileInfo";
 import s from './LeftSide.module.css'
-import userAvatarDefault from "../../assets/images/user.png";
 import React from "react";
+import {useAppSelector} from "../../redux/redux-store";
 
 export const LeftSide = () => {
 
-    const profile = useSelector<AppStateType>(state => state.profilePage.profile)
-    const status = useSelector<AppStateType>(state => state.profilePage.status)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
 
-    return <div>
-        <img className={s.userAvatar} src={userAvatarDefault}/>
-        <div className={s.profileInfo}><ProfileInfo /></div>
+    return <div className={s.wrapper}>
+
+        {isAuth && <div className={s.profileInfo}><ProfileInfo/></div>}
         <Navbar/>
     </div>
 }

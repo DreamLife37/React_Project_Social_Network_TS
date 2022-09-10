@@ -1,10 +1,11 @@
 import s from './Post.module.css'
 
-import {PostSvgSelector} from "../../PostSvgSelector";
+
 import React, {ChangeEvent, useState} from "react";
 import {editPostActionCreator, removePostActionCreator} from "../../../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
 import defaultAvatar from '../../../../assets/images/user.png'
+import { SvgSelector } from '../../../common/Utils/svgSelector';
 
 type PostType = {
     post: any
@@ -37,13 +38,13 @@ export const Post = (props: PostType) => {
             <div className={s.header}>
                 <div className={s.name}>Andrey Schavelev</div>
                 <div className={s.data}>2 сентября 2022</div>
-                <div className={s.action} onClick={() => openActionMenu(!actionMenu)}><PostSvgSelector
+                <div className={s.action} onClick={() => openActionMenu(!actionMenu)}><SvgSelector
                     id={'actionPost'}/>
                     <div className={`${s.actionMenu} ${actionMenu ? '' : s.actionMenuNone}`}>
                         <div className={s.itemActionMenu} onClick={() => setEditMode(true)}>
-                            <PostSvgSelector id={'edit'}/><span>Edit</span>
+                            <SvgSelector id={'edit'}/><span>Edit</span>
                         </div>
-                        <div className={s.itemActionMenu} onClick={removePost}><PostSvgSelector
+                        <div className={s.itemActionMenu} onClick={removePost}><SvgSelector
                             id={'delete'}/><span>Delete</span></div>
                     </div>
                 </div>
@@ -57,7 +58,7 @@ export const Post = (props: PostType) => {
                 <img src={props.post.image}/>
             </div>
             <div className={s.like}>
-                <PostSvgSelector id={'like'}/>
+                <SvgSelector id={'like'}/>
                 <span>{props.post.likesCount}</span>
             </div>
         </div>

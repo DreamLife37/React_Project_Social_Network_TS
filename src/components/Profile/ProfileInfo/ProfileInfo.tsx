@@ -1,9 +1,12 @@
-import {updateStatus} from "../../../redux/profile-reducer";
-import {ProfileStatus} from "./ProfileStatus";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import {Preloader} from "../../common/Preloader/Preloader";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../redux/redux-store";
+import { useSelector} from "react-redux";
+import {AppStateType, useAppSelector} from "../../../redux/redux-store";
+import s from "../../LeftSide/LeftSide.module.css";
+import userAvatarDefault from "../../../assets/images/user.png";
+import React from "react";
+import { SvgSelector } from "../../common/Utils/svgSelector";
+
 
 type ProfileInfo = {
     //profile: null | ProfileType
@@ -22,12 +25,15 @@ export const ProfileInfo = (props: ProfileInfo) => {
     const aboutMe = useSelector((state: AppStateType) => state.profilePage.profile?.aboutMe)
     const lookingForAJob = useSelector((state: AppStateType) => state.profilePage.profile?.lookingForAJob)
     const vk = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.vk)
+    const jobSearch = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
 
 
     if (!profile) {
         return <Preloader/>
     }
     return (<div>
+        <img className={s.userAvatar} src={userAvatarDefault}/>
+        {jobSearch && <SvgSelector id={'searchJob'}/>}
         <div>
             <img src={largePhoto}/>
             <br/>Name: {fullName}

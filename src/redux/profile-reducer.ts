@@ -61,6 +61,7 @@ export type ActionsProfileTypes =
     | ReturnType<typeof removePostActionCreator>
     | ReturnType<typeof editPostActionCreator>
     | ReturnType<typeof setUpdateProfile>
+    | ReturnType<typeof setIsLoading>
 
 let initialState = {
     posts: [
@@ -103,7 +104,8 @@ let initialState = {
         photos: {
             small: '',
             large: '',
-        },},
+        },
+    },
 
     status: ''
 }
@@ -195,17 +197,21 @@ export const getStatusProfile = (userId: number) => (dispatch: Dispatch<ActionsP
 }
 
 export const updateStatus = (status: string) => (dispatch: Dispatch<ActionsProfileTypes>) => {
+    dispatch(setIsLoading(true))
     profileAPI.updateStatus(status)
         .then((res) => {
             dispatch(setStatusProfile(status))
+            dispatch(setIsLoading(false))
         })
 }
 
-export const updateProfile = (updateModelProfile: ProfileType) : AppThunk  => (dispatch) => {
+export const updateProfile = (updateModelProfile: ProfileType): AppThunk => (dispatch) => {
+    dispatch(setIsLoading(true))
     profileAPI.updateProfile(updateModelProfile)
         .then((res) => {
             dispatch(setUpdateProfile(updateModelProfile))
             dispatch(getAuthUserData)
+            dispatch(setIsLoading(false))
         })
 }
 

@@ -13,3 +13,9 @@
     margin-bottom: 10px;
     border-radius: 100px;
 }
+
+.wrapper svg {
+    fill: #1f2937;
+}
+
+

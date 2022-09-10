@@ -12,7 +12,6 @@ type UsersPropsType = {
 }
 
 export const UserItem = (props: UsersPropsType) => {
-
     return <div className={s.userContainer}>
         {props.users.map(u => <div key={u.id} className={s.userItems}>
 
@@ -21,6 +20,7 @@ export const UserItem = (props: UsersPropsType) => {
                      src={u.photos.small === null
                          ? userPhoto
                          : u.photos.small}/>
+
                 <div className={s.name}>{u.name && u.name.length > 14 ? u.name.substr(0, 13) : u.name}</div>
             </NavLink>
 
