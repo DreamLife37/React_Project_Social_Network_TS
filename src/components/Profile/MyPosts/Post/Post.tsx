@@ -1,28 +1,27 @@
 import s from './Post.module.css'
-import imgPost1 from '../../../../assets/images/post1.jpg'
+
 import {PostSvgSelector} from "../../PostSvgSelector";
 import React, {ChangeEvent, useState} from "react";
 import {editPostActionCreator, removePostActionCreator} from "../../../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
+import defaultAvatar from '../../../../assets/images/user.png'
 
 type PostType = {
-    id: number
-    message: string
-    likeCount: number
+    post: any
 }
 
 export const Post = (props: PostType) => {
     const [actionMenu, openActionMenu] = useState(false)
     const [editMode, setEditMode] = useState(false)
-    const [newMessage, setNewMessageText] = useState(props.message)
+    const [newMessage, setNewMessageText] = useState(props.post.message)
     const dispatch = useDispatch()
 
     const removePost = () => {
-        dispatch(removePostActionCreator(props.id))
+        dispatch(removePostActionCreator(props.post.id))
     }
 
     const editPost = () => {
-        dispatch(editPostActionCreator(props.id, newMessage))
+        dispatch(editPostActionCreator(props.post.id, newMessage))
         setEditMode(false)
     }
 
@@ -32,7 +31,7 @@ export const Post = (props: PostType) => {
 
     return <div className={s.postContainer}>
         <div className={s.avatar}>
-            <img src='https://davidzeevaarder.nl/wp-content/uploads/2017/06/cropped-fav.png'></img>
+            <img src={defaultAvatar}></img>
         </div>
         <div className={s.content}>
             <div className={s.header}>
@@ -50,16 +49,16 @@ export const Post = (props: PostType) => {
                 </div>
             </div>
             {editMode ? <div>
-                    <textarea className={s.textarea} value={props.message} onChange={handleChange}/>
-                    <button onClick={editPost}>Сохранить</button>
+                    <textarea className={s.textarea} value={newMessage} onChange={handleChange}/>
+                    <button onClick={editPost} className={s.button}>Сохранить</button>
                 </div> :
-                <div className={s.text}>{props.message}</div>}
+                <div className={s.text}>{props.post.message}</div>}
             <div className={s.picture}>
-                <img src={imgPost1}/>
+                <img src={props.post.image}/>
             </div>
             <div className={s.like}>
                 <PostSvgSelector id={'like'}/>
-                <span>{props.likeCount}</span>
+                <span>{props.post.likesCount}</span>
             </div>
         </div>
 

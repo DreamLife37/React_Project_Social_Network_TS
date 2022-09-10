@@ -13,7 +13,7 @@ export const LeftSide = () => {
 
     return <div>
         <img className={s.userAvatar} src={userAvatarDefault}/>
-        <div className={s.profileInfo}><ProfileInfo profile={profile} status={status}/></div>
+        <div className={s.profileInfo}><ProfileInfo /></div>
         <Navbar/>
     </div>
 }
