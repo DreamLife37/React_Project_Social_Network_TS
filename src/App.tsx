@@ -28,41 +28,44 @@ type MapStateToPropsType = {
 
 export const App: FC = () => {
     const dispatch = useDispatch()
-    const initialized = useAppSelector<boolean>((state) => state.app.initialized)
+    const initialized = useAppSelector((state) => state.app.initialized)
+    const isLoading = useAppSelector(state => state.app.isLoading)
 
     useEffect(() => {
         dispatch(getAuthUserData())
         dispatch(initializeApp())
-        //dispatch(setUserProfile(14702))
-    },[dispatch])
+    }, [dispatch])
 
-        if (!initialized) {
-            return <Preloader/>
-        }
+    if (!initialized) {
+        return <Preloader/>
+    }
+    if (isLoading) {
+        return <Preloader/>
+    }
 
 
-        return (
-            <BrowserRouter>
-                <div className="app-wrapper">
-                    <HeaderContainer/>
-                    <div className={'container'}>
-                        <div className={'leftSide'}><LeftSide/></div>
-                        <div className='content'>
-                            <Routes>
-                                <Route path="dialogs/*" element={<DialogsContainer/>}/>
-                                <Route path="profile/:userId" element={<ProfileContainer/>}/>
-                                <Route path='/profile' element={<ProfileContainer/>}/>
-                                <Route path="news" element={'News'}/>
-                                <Route path="users" element={<UsersContainer/>}/>
-                                <Route path='login' element={<Login/>}/>
-                                <Route path='profileSettings' element={<ProfileSettings/>}/>
-                            </Routes>
-                        </div>
-                        <div className={'rightSide'}>My friends</div>
+    return (
+        <BrowserRouter>
+            <div className="app-wrapper">
+                <HeaderContainer/>
+                <div className={'container'}>
+                    <div className={'leftSide'}><LeftSide/></div>
+                    <div className='content'>
+                        <Routes>
+                            <Route path="dialogs/*" element={<DialogsContainer/>}/>
+                            <Route path="profile/:userId" element={<ProfileContainer/>}/>
+                            <Route path='/profile' element={<ProfileContainer/>}/>
+                            <Route path="news" element={'News'}/>
+                            <Route path="users" element={<UsersContainer/>}/>
+                            <Route path='login' element={<Login/>}/>
+                            <Route path='profileSettings' element={<ProfileSettings/>}/>
+                        </Routes>
                     </div>
+                    <div className={'rightSide'}>My friends</div>
                 </div>
-            </BrowserRouter>
-        );
+            </div>
+        </BrowserRouter>
+    );
 
 }
 

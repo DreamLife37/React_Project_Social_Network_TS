@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import s from "./Paginator.module.css";
-import {PostSvgSelector} from "../../Profile/PostSvgSelector";
+import {SvgSelector} from "../Utils/svgSelector";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -29,10 +29,10 @@ export const Paginator = (props: UsersPropsType) => {
         {<>
             <div className={`${s.icons} ${portionNumber === 1 ? s.iconsDisabled : ''}`} onClick={() => {
                 setPortionNumber(1)
-            }}><PostSvgSelector id={'start'}/></div>
+            }}><SvgSelector id={'start'}/></div>
             <div className={`${s.icons} ${portionNumber === 1 ? s.iconsDisabled : ''}`} onClick={() => {
                 setPortionNumber(portionNumber - 1)
-            }}><PostSvgSelector id={'prev'}/></div>
+            }}><SvgSelector id={'prev'}/></div>
         </>}
         <div>
             {pages
@@ -44,11 +44,11 @@ export const Paginator = (props: UsersPropsType) => {
             <>
                 <div className={`${s.icons} ${portionCount === portionNumber ? s.iconsDisabled : ''}`} onClick={() => {
                     setPortionNumber(portionNumber + 1)
-                }}><PostSvgSelector id={'next'}/></div>
+                }}><SvgSelector id={'next'}/></div>
 
                 <div className={`${s.icons} ${portionCount === portionNumber ? s.iconsDisabled : ''}`} onClick={() => {
                     setPortionNumber(portionCount)
-                }}><PostSvgSelector id={'end'}/></div>
+                }}><SvgSelector id={'end'}/></div>
             </>}
     </div>
 }

@@ -5,7 +5,11 @@
     font-weight: 500;
     height: 70px;
     align-items: center;
+}
 
+.icons svg {
+    padding-right: 20px;
+    cursor: pointer;
 }
 
 .logo {
