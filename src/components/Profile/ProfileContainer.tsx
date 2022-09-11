@@ -33,6 +33,7 @@ export class ProfileContainer extends React.Component<ProfilePropsType> {
         if (!userId) {
             userId = this.props.authUserId
         }
+
         this.props.getUserProfile(userId)
         this.props.getStatusProfile(userId)
     }

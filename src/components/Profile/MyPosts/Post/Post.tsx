@@ -1,21 +1,22 @@
 import s from './Post.module.css'
-
-
 import React, {ChangeEvent, useState} from "react";
-import {editPostActionCreator, removePostActionCreator} from "../../../../redux/profile-reducer";
+import {editPostActionCreator, PostType, removePostActionCreator} from "../../../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
 import defaultAvatar from '../../../../assets/images/user.png'
-import { SvgSelector } from '../../../common/Utils/svgSelector';
+import {SvgSelector} from '../../../common/Utils/svgSelector';
+import {useAppSelector} from "../../../../redux/redux-store";
 
-type PostType = {
-    post: any
+type PostsType = {
+    post: PostType
 }
 
-export const Post = (props: PostType) => {
+export const Post = (props: PostsType) => {
     const [actionMenu, openActionMenu] = useState(false)
     const [editMode, setEditMode] = useState(false)
     const [newMessage, setNewMessageText] = useState(props.post.message)
     const dispatch = useDispatch()
+
+    const nameAuthor = useAppSelector(state => state.profilePage.profile?.fullName)
 
     const removePost = () => {
         dispatch(removePostActionCreator(props.post.id))
@@ -36,7 +37,7 @@ export const Post = (props: PostType) => {
         </div>
         <div className={s.content}>
             <div className={s.header}>
-                <div className={s.name}>Andrey Schavelev</div>
+                <div className={s.name}>{nameAuthor}</div>
                 <div className={s.data}>2 сентября 2022</div>
                 <div className={s.action} onClick={() => openActionMenu(!actionMenu)}><SvgSelector
                     id={'actionPost'}/>

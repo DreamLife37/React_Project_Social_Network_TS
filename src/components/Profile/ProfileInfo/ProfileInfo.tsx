@@ -1,11 +1,11 @@
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import {Preloader} from "../../common/Preloader/Preloader";
-import { useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStateType, useAppSelector} from "../../../redux/redux-store";
-import s from "../../LeftSide/LeftSide.module.css";
+import s from "./ProfileInfo.module.css";
 import userAvatarDefault from "../../../assets/images/user.png";
 import React from "react";
-import { SvgSelector } from "../../common/Utils/svgSelector";
+import {SvgSelector} from "../../common/Utils/svgSelector";
 
 
 type ProfileInfo = {
@@ -31,16 +31,18 @@ export const ProfileInfo = (props: ProfileInfo) => {
     if (!profile) {
         return <Preloader/>
     }
-    return (<div>
-        <img className={s.userAvatar} src={userAvatarDefault}/>
-        {jobSearch && <SvgSelector id={'searchJob'}/>}
-        <div>
-            <img src={largePhoto}/>
-            <br/>Name: {fullName}
-            <br/>About me: {aboutMe}
-            <br/>Contacts: {vk}
-            <br/>Looking for a job? {lookingForAJob ? 'Yes' : 'No'}
-            <ProfileStatusWithHooks status={status} updateStatus={props.updateStatus}/>
+    return (
+        <div className={s.profileInfo}>
+            <div className={s.wrapperAvatar}>{largePhoto
+                ? <img className={s.userAvatar} src={largePhoto}/>
+                : <img className={s.userAvatar} src={userAvatarDefault}/>}</div>
+            {jobSearch && <SvgSelector id={'searchJob'}/>}
+            <div className={s.name}>{fullName}</div>
+            <div className={s.content}>
+                <br/>About me: {aboutMe}
+                <br/>Contacts: {vk}
+                <br/>Looking for a job? {lookingForAJob ? 'Yes' : 'No'}
+                <br/> <ProfileStatusWithHooks status={status} updateStatus={props.updateStatus}/></div>
         </div>
-    </div>)
+    )
 }

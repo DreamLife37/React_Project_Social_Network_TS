@@ -50,7 +50,6 @@ export const setIsLoading = (status: boolean) => ({type: "APP/IS-LOADING-SET", p
 export const initializeApp = (): AppThunk => (dispatch) => {
     Promise.all([dispatch(getAuthUserData())])
         .then(() => {
-            debugger
             dispatch(initializedSuccess())
         })
 }

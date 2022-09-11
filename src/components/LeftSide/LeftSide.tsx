@@ -9,8 +9,7 @@ export const LeftSide = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
 
     return <div className={s.wrapper}>
-
-        {isAuth && <div className={s.profileInfo}><ProfileInfo/></div>}
+        {isAuth && <div className={s.wrapperProfileInfo}><ProfileInfo/></div>}
         <Navbar/>
     </div>
 }
