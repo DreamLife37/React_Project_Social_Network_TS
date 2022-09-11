@@ -10,20 +10,13 @@ import Login from "./components/Login/Login";
 import {compose} from "redux";
 import {connect, useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
-import {AppStateType, useAppSelector} from "./redux/redux-store";
+import {useAppSelector} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
 import {setUserProfile} from "./redux/profile-reducer";
 import {getAuthUserData} from "./redux/auth-reducer";
-
-type MapDispatchToPropsType = {
-    initializeApp: () => void
-}
-
-type MapStateToPropsType = {
-    //initialized: boolean
-}
+import {RightSide} from "./components/RightSide/RightSide";
 
 
 export const App: FC = () => {
@@ -61,7 +54,7 @@ export const App: FC = () => {
                             <Route path='profileSettings' element={<ProfileSettings/>}/>
                         </Routes>
                     </div>
-                    <div className={'rightSide'}>My friends</div>
+                    <div className={'rightSide'}><RightSide/></div>
                 </div>
             </div>
         </BrowserRouter>

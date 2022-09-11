@@ -10,9 +10,9 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-    getUsers(currentPage: number = 1, pageSize: number = 1) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => response.data) //уменьшаем входные данные в компоненту
+    getUsers(currentPage: number = 1, pageSize: number = 1, term: string = '', friend: boolean = false) {
+        return instance.get(`users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${friend}`)
+            .then(response => response.data)
     },
 
     getProfile(userId: number) {
@@ -22,7 +22,7 @@ export const usersAPI = {
 
     getAuthMe() {
         return instance.get(`auth/me`)
-            .then(response => response.data) //уменьшаем входные данные в компоненту
+            .then(response => response.data)
     },
 
     unFollow(id: number) {

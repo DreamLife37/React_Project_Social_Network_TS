@@ -1,7 +1,7 @@
 import {authAPI, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {AppThunk} from "./redux-store";
-import {getStatusProfile, getUserProfile} from "./profile-reducer";
+import {ActionsProfileTypes, getStatusProfile, getUserProfile} from "./profile-reducer";
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const SET_USER_PHOTO = 'SET-USER-PHOTO'
@@ -70,25 +70,33 @@ export const setUserPhoto = (photo: string) => {
 }
 
 export const getAuthUserData = (): AppThunk => {
-
     return (dispatch) => {
-         return usersAPI.getAuthMe()
+        return usersAPI.getAuthMe()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {id, login, email} = data.data
+                    dispatch(setUserData(id, email, login, true))
+                }
+            })
+    }
+}
+
+export const getMyProfile = (): AppThunk => {
+    return (dispatch) => {
+        return usersAPI.getAuthMe()
             .then(data => {
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
                     dispatch(setUserData(id, email, login, true))
                     dispatch(getUserProfile(id))
                     dispatch(getStatusProfile(id))
-                    usersAPI.getProfile(id)
-                        .then(data => {
-                            dispatch(setUserPhoto(data.photos.large))
-                        })
                 }
             })
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean, setStatus:any): AppThunk => {
+
+export const login = (email: string, password: string, rememberMe: boolean, setStatus: any): AppThunk => {
     let data = {
         email, password, rememberMe
     }
@@ -99,7 +107,7 @@ export const login = (email: string, password: string, rememberMe: boolean, setS
                     dispatch(getAuthUserData())
                 } else {
                     console.log(data.data.messages[0])
-                   setStatus(data.data.messages[0])
+                    setStatus(data.data.messages[0])
                 }
             })
     }

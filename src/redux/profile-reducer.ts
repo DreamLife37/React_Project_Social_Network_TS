@@ -46,10 +46,11 @@ type ContactsType = {
     mainLink: undefined | string
 }
 
-type PostType = {
+export type PostType = {
     id: number
     message: string
     likesCount: number
+    image: string
 
 }
 
@@ -188,6 +189,7 @@ export const getUserProfile = (userId: number) => {  //ThunkCreator
             })
     }
 }
+
 
 export const getStatusProfile = (userId: number) => (dispatch: Dispatch<ActionsProfileTypes>) => {
     profileAPI.getStatus(userId)
