@@ -3,21 +3,26 @@ import React, {useEffect, useState} from "react";
 import {useAppSelector} from "../../redux/redux-store";
 import {usersAPI} from "../../api/api";
 import {UserType} from "../../redux/users-reducer";
+import {fetchMyFriends} from "../../redux/profile-reducer";
+import {useDispatch} from "react-redux";
+import userAvatarDefault from "../../assets/images/user.png";
 
 export const RightSide = () => {
+    const dispatch = useDispatch()
+    const myFriends = useAppSelector(state => state.profilePage.myFriends)
+    console.log(myFriends)
 
-    const [tempUsers, setTempUser] = useState<Array<UserType>>([])
-    console.log(tempUsers)
     useEffect(() => {
-        usersAPI.getUsers(1, 100, '', true).then(r => {
-            setTempUser(r.items)
-        })
+        dispatch(fetchMyFriends())
     }, [])
 
-    const isAuth = useAppSelector(state => state.auth.isAuth)
-
-    return <div className={s.wrapper}>
-        {tempUsers && tempUsers.map((friend) => <div>{friend.name}</div>)
+    return <div className={s.wrapperMyFriends}>
+        {myFriends && myFriends.map((friend) => <div className={s.wrapperMyFriends}>
+            <div>{friend.name}</div>
+            <div className={s.wrapperAvatar}>{friend.photos.large
+                ? <img className={s.userAvatar} src={friend.photos.large}/>
+                : <img className={s.userAvatar} src={userAvatarDefault}/>}</div>
+        </div>)
         }
 
     </div>

@@ -8,6 +8,7 @@ import imageDefaultPost from '../assets/images/net_foto.jpg'
 import {getAuthUserData} from "./auth-reducer";
 import {AppThunk, Nullable} from "./redux-store";
 import {setIsLoading} from "./app-reducer";
+import {ActionsUsersTypes, setTotalUsersCount, setUsers, toggleIsFetching, UserType} from "./users-reducer";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
@@ -15,11 +16,13 @@ const SET_STATUS_PROFILE = 'SET_STATUS_PROFILE';
 const REMOVE_POST = 'REMOVE_POST';
 const EDIT_POST = 'EDIT_POST';
 const UPDATE_PROFILE = 'UPDATE_PROFILE';
+const MY_FRIENDS = 'MY_FRIENDS';
 
 export type ProfilePageType = {
     posts: Array<PostType>
     profile: null | ProfileType
     status: string
+    myFriends: Array<UserType>
 }
 
 export type ProfileType = {
@@ -63,6 +66,7 @@ export type ActionsProfileTypes =
     | ReturnType<typeof editPostActionCreator>
     | ReturnType<typeof setUpdateProfile>
     | ReturnType<typeof setIsLoading>
+    | ReturnType<typeof setMyFriends>
 
 let initialState = {
     posts: [
@@ -108,7 +112,8 @@ let initialState = {
         },
     },
 
-    status: ''
+    status: '',
+    myFriends: []
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsProfileTypes): ProfilePageType => {
@@ -139,6 +144,10 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
         case UPDATE_PROFILE: {
             return {...state, profile: action.updateModelProfile}
+        }
+
+        case MY_FRIENDS: {
+            return {...state, myFriends: action.myFriends}
         }
         default:
             return state
@@ -181,6 +190,12 @@ const setUpdateProfile = (updateModelProfile: ProfileType) => {
     } as const
 }
 
+const setMyFriends = (myFriends: Array<UserType>) => {
+    return {
+        type: MY_FRIENDS, myFriends
+    } as const
+}
+
 export const getUserProfile = (userId: number) => {  //ThunkCreator
     return (dispatch: Dispatch<ActionsProfileTypes>) => {
         usersAPI.getProfile(userId)
@@ -215,6 +230,17 @@ export const updateProfile = (updateModelProfile: ProfileType): AppThunk => (dis
             dispatch(getAuthUserData)
             dispatch(setIsLoading(false))
         })
+}
+
+export const fetchMyFriends = () => { //ThunkCreator
+    return (dispatch: Dispatch<ActionsProfileTypes>) => {
+        //dispatch(toggleIsFetching(true))
+        usersAPI.getUsers(1, 100, '', true).then(data => {
+            //dispatch(toggleIsFetching(false))
+            dispatch(setMyFriends(data.items))
+            //dispatch(setTotalUsersCount(data.totalCount))
+        })
+    }
 }
 
 

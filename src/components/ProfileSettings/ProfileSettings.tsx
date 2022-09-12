@@ -7,7 +7,6 @@ import {getAuthUserData, getMyProfile} from "../../redux/auth-reducer";
 import {initializeApp} from "../../redux/app-reducer";
 import {AppStateType, useAppSelector} from "../../redux/redux-store";
 import {Navigate} from "react-router-dom";
-import {Preloader} from "../common/Preloader/Preloader";
 
 export const ProfileSettings = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -19,9 +18,7 @@ export const ProfileSettings = () => {
 
     const profile = useSelector<AppStateType>(state => state.profilePage.profile)
 
-    if (!profile) {
-        return <Preloader/>
-    }
+
 
     if (!isAuth) return <Navigate to="/login"/>
 
