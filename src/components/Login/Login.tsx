@@ -43,8 +43,8 @@ const Login = (props: LoginPropsType) => {
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()
-        .required('Password is required')
-        .min(6, 'Password must be at least 6 characters')
+        .required('Поле пароль обязательно')
+        .min(4, 'Password must be at least 4 characters')
         .max(40, 'Password must not exceed 40 characters'),
     email: Yup.string()
         .required('Email is required')

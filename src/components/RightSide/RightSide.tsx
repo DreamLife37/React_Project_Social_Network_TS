@@ -6,6 +6,7 @@ import {UserType} from "../../redux/users-reducer";
 import {fetchMyFriends} from "../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
 import userAvatarDefault from "../../assets/images/user.png";
+import {NavLink} from "react-router-dom";
 
 export const RightSide = () => {
     const dispatch = useDispatch()
@@ -18,10 +19,12 @@ export const RightSide = () => {
 
     return <div className={s.wrapperMyFriends}>
         {myFriends && myFriends.map((friend) => <div className={s.wrapperMyFriends}>
-            <div>{friend.name}</div>
-            <div className={s.wrapperAvatar}>{friend.photos.large
-                ? <img className={s.userAvatar} src={friend.photos.large}/>
-                : <img className={s.userAvatar} src={userAvatarDefault}/>}</div>
+            <NavLink to={'/profile/' + friend.id} className={s.link}>
+                <div>{friend.name}</div>
+                <div className={s.wrapperAvatar}>{friend.photos.large
+                    ? <img className={s.userAvatar} src={friend.photos.large}/>
+                    : <img className={s.userAvatar} src={userAvatarDefault}/>}</div>
+            </NavLink>
         </div>)
         }
 
