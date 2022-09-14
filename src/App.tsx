@@ -7,8 +7,7 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer"
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import {compose} from "redux";
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {initializeApp} from "./redux/app-reducer";
 import {useAppSelector} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
@@ -17,6 +16,7 @@ import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
 import {setUserProfile} from "./redux/profile-reducer";
 import {getAuthUserData} from "./redux/auth-reducer";
 import {RightSide} from "./components/RightSide/RightSide";
+import {ProfileInfo} from "./components/Profile/ProfileInfo/ProfileInfo";
 
 
 export const App: FC = () => {
@@ -47,6 +47,7 @@ export const App: FC = () => {
                         <Routes>
                             <Route path="dialogs/*" element={<DialogsContainer/>}/>
                             <Route path="profile/:userId" element={<ProfileContainer/>}/>
+                            <Route path="profile/:userId" element={<ProfileInfo/>}/>
                             <Route path='/profile' element={<ProfileContainer/>}/>
                             <Route path="news" element={'News'}/>
                             <Route path="users" element={<UsersContainer/>}/>

@@ -4,16 +4,28 @@
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     margin-bottom: 10px;
     color: white;
-    padding: 10px;
+    padding: 6px;
     display: flex;
     flex-direction: column;
-    align-content:center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600 !important;
+    padding: 20px;
+    font-family: Proxima Nova, serif;
+}
+
+.name {
+    text-decoration: none;
+    color: white;
+    font-family: Proxima Nova, serif;
+    padding-left: 10px;
 }
 
 .wrapperAvatar {
     width: 20px;
     height: 20px;
-    margin: 0 auto;
     overflow: hidden;
     border-radius: 50%;
 }
@@ -27,8 +39,6 @@
 .link {
     text-decoration: none;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
