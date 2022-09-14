@@ -1,11 +1,12 @@
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 import {Preloader} from "../../common/Preloader/Preloader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType, useAppSelector} from "../../../redux/redux-store";
 import s from "./ProfileInfo.module.css";
 import userAvatarDefault from "../../../assets/images/user.png";
-import React from "react";
+import React, {useEffect} from "react";
 import {SvgSelector} from "../../common/Utils/svgSelector";
+import {fetchMyFriends, getUserProfile} from "../../../redux/profile-reducer";
 
 
 type ProfileInfo = {
@@ -17,6 +18,7 @@ type ProfileInfo = {
 }
 
 export const ProfileInfo = (props: ProfileInfo) => {
+    const dispatch = useDispatch()
     const profile = useSelector<AppStateType>(state => state.profilePage.profile)
     const status = useSelector<AppStateType>(state => state.profilePage.status)
     const largePhoto = useSelector((state: AppStateType) => state.profilePage.profile?.photos.large)
@@ -26,7 +28,6 @@ export const ProfileInfo = (props: ProfileInfo) => {
     const lookingForAJob = useSelector((state: AppStateType) => state.profilePage.profile?.lookingForAJob)
     const vk = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.vk)
     const jobSearch = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
-
 
     if (!profile) {
         return <Preloader/>
