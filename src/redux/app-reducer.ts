@@ -11,7 +11,8 @@ export type AuthPageType = {
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
-export type ActionsAuthTypes = ReturnType<typeof initializedSuccess> | ReturnType<typeof setIsLoading>
+export type ActionsAuthTypes = ReturnType<typeof initializedSuccess>
+    | ReturnType<typeof setIsLoading>
 
 let initialState: AuthPageType = {
     initialized: false,

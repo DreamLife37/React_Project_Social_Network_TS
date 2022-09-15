@@ -196,51 +196,51 @@ const setMyFriends = (myFriends: Array<UserType>) => {
     } as const
 }
 
-export const getUserProfile = (userId: number) => {  //ThunkCreator
-    return (dispatch: Dispatch<ActionsProfileTypes>) => {
-        usersAPI.getProfile(userId)
-            .then(data => {
-                dispatch(setUserProfile(data))
-            })
-    }
-}
-
-
-export const getStatusProfile = (userId: number) => (dispatch: Dispatch<ActionsProfileTypes>) => {
-    profileAPI.getStatus(userId)
-        .then((res) => {
-            dispatch(setStatusProfile(res.data))
+export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    usersAPI.getProfile(userId)
+        .then(data => {
+            dispatch(setUserProfile(data))
+            dispatch(toggleIsFetching(false))
         })
 }
 
-export const updateStatus = (status: string) => (dispatch: Dispatch<ActionsProfileTypes>) => {
-    dispatch(setIsLoading(true))
+
+export const getStatusProfile = (userId: number): AppThunk => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    profileAPI.getStatus(userId)
+        .then((res) => {
+            dispatch(setStatusProfile(res.data))
+            dispatch(toggleIsFetching(false))
+        })
+}
+
+export const updateStatus = (status: string): AppThunk => (dispatch) => {
+    dispatch(toggleIsFetching(true))
     profileAPI.updateStatus(status)
         .then((res) => {
             dispatch(setStatusProfile(status))
-            dispatch(setIsLoading(false))
+            dispatch(toggleIsFetching(false))
         })
 }
 
 export const updateProfile = (updateModelProfile: ProfileType): AppThunk => (dispatch) => {
-    dispatch(setIsLoading(true))
+    dispatch(toggleIsFetching(true))
     profileAPI.updateProfile(updateModelProfile)
         .then((res) => {
             dispatch(setUpdateProfile(updateModelProfile))
             dispatch(getAuthUserData)
-            dispatch(setIsLoading(false))
+            dispatch(toggleIsFetching(false))
         })
 }
 
-export const fetchMyFriends = () => { //ThunkCreator
-    return (dispatch: Dispatch<ActionsProfileTypes>) => {
-        //dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(1, 100, '', true).then(data => {
-            //dispatch(toggleIsFetching(false))
-            dispatch(setMyFriends(data.items))
-            //dispatch(setTotalUsersCount(data.totalCount))
-        })
-    }
+export const fetchMyFriends = (): AppThunk => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    usersAPI.getUsers(1, 100, '', true).then(data => {
+        dispatch(setMyFriends(data.items))
+        dispatch(toggleIsFetching(false))
+        //dispatch(setTotalUsersCount(data.totalCount))
+    })
 }
 
 
