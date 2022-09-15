@@ -10,14 +10,12 @@ import {fetchMyFriends, getUserProfile} from "../../../redux/profile-reducer";
 
 
 type ProfileInfo = {
-    //profile: null | ProfileType
-    //profile: ProfileType
-    //status: string
-    //status: string
-    updateStatus?: (status: string) => void
+      updateStatus?: (status: string) => void
 }
 
 export const ProfileInfo = (props: ProfileInfo) => {
+
+
     const dispatch = useDispatch()
     const profile = useSelector<AppStateType>(state => state.profilePage.profile)
     const status = useSelector<AppStateType>(state => state.profilePage.status)

@@ -1,8 +1,8 @@
 import s from './Profile.module.css'
 import React, {JSXElementConstructor} from "react";
 import {Profile} from "./Profile";
-import {connect, useDispatch} from "react-redux";
-import {AppStateType, useAppSelector} from "../../redux/redux-store";
+import {connect} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
 import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../../redux/profile-reducer';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
@@ -22,31 +22,29 @@ type MapDispatchPropsType = {
     updateStatus: (status: string) => void
 }
 
-export type ProfilePropsType = {
-    profile: null | ProfileType
-    status: string
-    // authUserId: null | number,
-    // isAuth: boolean
-    updateStatus: (status: string) => void
-}
+export type ProfilePropsType = MapStatePropsType & MapDispatchPropsType
 
 
-export const ProfileContainer = () => {
-    const dispatch = useDispatch()
-    const profile = useAppSelector(state => state.profilePage.profile)
-    const status = useAppSelector(state => state.profilePage.status)
-    const params = useParams<"id">()
-    const updateStatusCallback = (status: string) => {
-        dispatch(updateStatus(status))
+export class ProfileContainer1 extends React.Component<ProfilePropsType> {
+    componentDidMount() {
+
+        // @ts-ignore
+        let userId = this.props.router.params.userId;
+        if (!userId) {
+            userId = this.props.authUserId
+        }
+
+        this.props.getUserProfile(userId)
+        this.props.getStatusProfile(userId)
     }
-    console.log(params)
 
-    return <div className={s.content}>
-        <Profile profile={profile} status={status}
-                 updateStatus={updateStatusCallback}/>
-    </div>
+    render() {
+        return <div className={s.content}>
+            <Profile {...this.props} profile={this.props.profile} status={this.props.status}
+                     updateStatus={this.props.updateStatus}/>
+        </div>
+    }
 }
-
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
@@ -72,9 +70,9 @@ export const withRouter = (Component: React.FC<any>): JSXElementConstructor<any>
     return ComponentWithRouterProp;
 }
 
-// export default compose<React.FC>(
-//     connect(mapStateToProps,
-//         {getUserProfile, getStatusProfile, updateStatus}),
-//     withRouter,
-//     withAuthRedirect
-// )(ProfileContainer)
+export default compose<React.FC>(
+    connect(mapStateToProps,
+        {getUserProfile, getStatusProfile, updateStatus}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer1)

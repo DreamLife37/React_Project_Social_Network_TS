@@ -1,5 +1,6 @@
 import {usersAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {setIsLoading} from "./app-reducer";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -8,6 +9,7 @@ const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USER_COUNT = 'SET-TOTAL-USER-COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE-IS-FOLLOWING-PROGRESS'
+const SET_SEARCH_USERS = 'SET_SEARCH_USERS'
 
 export type UserType = {
     photos: { small: null | string, large: null | string };
@@ -26,6 +28,7 @@ type UserPageType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
+    searchUsers: Array<UserType>
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
@@ -35,15 +38,20 @@ export type ActionsUsersTypes = ReturnType<typeof followSuccess>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof toggleFollowingProgress>
+    | ReturnType<typeof setSearchUsers>
+    | ReturnType<typeof setIsLoading>
 
-let initialState: UserPageType = {
-    users: [],
-    pageSize: 40,
-    totalUserCount: 0,
-    currentPage: 1,
-    isFetching: true,
-    followingInProgress: []
-}
+
+let
+    initialState: UserPageType = {
+        users: [],
+        pageSize: 40,
+        totalUserCount: 0,
+        currentPage: 1,
+        isFetching: true,
+        followingInProgress: [],
+        searchUsers: []
+    }
 
 export const usersReducer = (state: UserPageType = initialState, action: ActionsUsersTypes): UserPageType => {
     switch (action.type) {
@@ -83,6 +91,8 @@ export const usersReducer = (state: UserPageType = initialState, action: Actions
                     ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter((id: number) => id != action.userId)
             }
+        case SET_SEARCH_USERS:
+            return {...state, searchUsers: action.searchUsers}
         default:
             return state
     }
@@ -107,6 +117,13 @@ export const setUsers = (users: Array<UserType>) => {
     return {
         type: SET_USERS,
         users
+    } as const
+}
+
+export const setSearchUsers = (searchUsers: Array<UserType>) => {
+    return {
+        type: SET_SEARCH_USERS,
+        searchUsers
     } as const
 }
 
@@ -145,6 +162,17 @@ export const getUsers = (currentPage: number, pageSize: number) => { //ThunkCrea
             dispatch(toggleIsFetching(false))
             dispatch(setUsers(data.items))
             dispatch(setTotalUsersCount(data.totalCount))
+        })
+    }
+}
+
+export const getSearchUsers = (currentPage: number, pageSize: number, term: string) => { //ThunkCreator
+    return (dispatch: Dispatch<ActionsUsersTypes>) => {
+        dispatch(toggleIsFetching(true))
+        debugger
+        usersAPI.getUsers(currentPage, pageSize, term).then(data => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setSearchUsers(data.items))
         })
     }
 }

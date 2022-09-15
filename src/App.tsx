@@ -4,7 +4,6 @@ import {Navbar} from "./components/LeftSide/Navbar/Navbar";
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer"
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {useDispatch} from "react-redux";
@@ -17,6 +16,7 @@ import {setUserProfile} from "./redux/profile-reducer";
 import {getAuthUserData} from "./redux/auth-reducer";
 import {RightSide} from "./components/RightSide/RightSide";
 import {ProfileInfo} from "./components/Profile/ProfileInfo/ProfileInfo";
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 
 export const App: FC = () => {

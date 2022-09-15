@@ -1,0 +1,41 @@
+.container {
+    list-style-type: none;
+    margin: 0;
+    z-index: 6;
+    opacity: 0;
+    padding: 4px 7px;
+    position: absolute;
+    background: white;
+    box-shadow: 1px 1px 6px rgb(195, 195, 195);
+    border-radius: 2px;
+    -webkit-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+    transform: scale(0);
+}
+
+.show {
+    opacity: 1;
+}
+
+.active {
+    transform: scale(1);
+}
+
+.link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #191919;
+    font-family: Proxima Nova, serif;
+}
+
+.container li:hover {
+    background: lightgray;
+}
+
+.userNotFound {
+    color: #191919;
+    font-family: Proxima Nova, serif;
+    font-weight: 500 !important;
+    padding-bottom: 10px;
+}
