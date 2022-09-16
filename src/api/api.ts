@@ -1,5 +1,6 @@
 import axios from "axios";
 import {ProfileType} from "../redux/profile-reducer";
+import {Nullable} from "../redux/redux-store";
 
 const instance = axios.create({
     withCredentials: true,
@@ -10,7 +11,7 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
-    getUsers(currentPage: number = 1, pageSize: number = 1, term: string = '', friend: boolean = false) {
+    getUsers(currentPage: number = 1, pageSize: number = 1, term: string = '', friend: Nullable<boolean> = null) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${friend}`)
             .then(response => response.data)
     },
@@ -25,14 +26,19 @@ export const usersAPI = {
             .then(response => response.data)
     },
 
-    unFollow(id: number) {
+    unFollow(id: number | null | undefined) {
         return instance.delete(`follow/${id}`)
             .then(response => response.data)
     },
-    follow(id: number) {
+    follow(id: number | null | undefined) {
         return instance.post(`follow/${id}`)
             .then(response => response.data)
-    }
+    },
+    isFollowed(id: number | null | undefined) {
+        return instance.get(`follow/${id}`)
+            .then(response => response.data)
+    },
+
 }
 
 export const profileAPI = {

@@ -3,7 +3,7 @@ import {Field, useFormik} from "formik";
 import s from "./FormProfileSettings.module.css";
 import {updateProfile} from "../../../redux/profile-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../redux/redux-store";
+import {AppStateType, Nullable} from "../../../redux/redux-store";
 import {Preloader} from "../../common/Preloader/Preloader";
 
 type PropsType = {}
@@ -43,6 +43,7 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                 lookingForAJob: lookingForAJob,
                 lookingForAJobDescription: lookingForAJobDescription,
                 fullName: fullName,
+                isFollowed: null,
                 contacts: {
                     github: github || '',
                     vk: vk,

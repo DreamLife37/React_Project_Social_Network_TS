@@ -17,12 +17,14 @@ const REMOVE_POST = 'REMOVE_POST';
 const EDIT_POST = 'EDIT_POST';
 const UPDATE_PROFILE = 'UPDATE_PROFILE';
 const MY_FRIENDS = 'MY_FRIENDS';
+const SET_IS_FOLLOWED = 'SET_IS_FOLLOWED';
 
 export type ProfilePageType = {
     posts: Array<PostType>
     profile: null | ProfileType
     status: string
     myFriends: Array<UserType>
+    isFollowed: Nullable<boolean>
 }
 
 export type ProfileType = {
@@ -67,6 +69,7 @@ export type ActionsProfileTypes =
     | ReturnType<typeof setUpdateProfile>
     | ReturnType<typeof setIsLoading>
     | ReturnType<typeof setMyFriends>
+    | ReturnType<typeof setIsFollowed>
 
 let initialState = {
     posts: [
@@ -113,7 +116,8 @@ let initialState = {
     },
 
     status: '',
-    myFriends: []
+    myFriends: [],
+    isFollowed: null
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionsProfileTypes): ProfilePageType => {
@@ -148,6 +152,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
         case MY_FRIENDS: {
             return {...state, myFriends: action.myFriends}
+        }
+        case SET_IS_FOLLOWED: {
+            return {...state, isFollowed: action.isFollowed}
         }
         default:
             return state
@@ -196,8 +203,23 @@ const setMyFriends = (myFriends: Array<UserType>) => {
     } as const
 }
 
+export const setIsFollowed = (isFollowed: Nullable<boolean>) => {
+    return {
+        type: SET_IS_FOLLOWED, isFollowed
+    } as const
+}
+
+export const isFollowed = (id: number | null | undefined): AppThunk => (dispatch) => {
+    usersAPI.isFollowed(id)
+        .then(data => {
+            dispatch(setIsFollowed(data))
+        })
+}
+
 export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
+    dispatch(isFollowed(userId))
+
     usersAPI.getProfile(userId)
         .then(data => {
             dispatch(setUserProfile(data))
