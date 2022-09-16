@@ -1,5 +1,5 @@
 import s from './Profile.module.css'
-import React, {JSXElementConstructor} from "react";
+import React, {JSXElementConstructor, useEffect} from "react";
 import {Profile} from "./Profile";
 import {connect, useDispatch} from "react-redux";
 import {AppStateType, useAppSelector} from "../../redux/redux-store";
@@ -7,6 +7,7 @@ import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../..
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {getMyProfile} from "../../redux/auth-reducer";
 
 
 type MapStatePropsType = {
@@ -35,11 +36,22 @@ export const ProfileContainer = () => {
     const dispatch = useDispatch()
     const profile = useAppSelector(state => state.profilePage.profile)
     const status = useAppSelector(state => state.profilePage.status)
-    const params = useParams<"id">()
+    const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
+
+    const params = useParams<"userId">()
+
     const updateStatusCallback = (status: string) => {
         dispatch(updateStatus(status))
     }
-    console.log(params)
+
+    useEffect(() => {
+        if (params.userId !== undefined) {
+            dispatch(getUserProfile(Number(params.userId)))
+            dispatch(getStatusProfile(Number(params.userId)))
+        } else {
+            dispatch(getMyProfile())
+        }
+    }, [dispatch, params.userId,isFollowed])
 
     return <div className={s.content}>
         <Profile profile={profile} status={status}
@@ -47,13 +59,6 @@ export const ProfileContainer = () => {
     </div>
 }
 
-
-let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    authUserId: state.auth.id,
-    isAuth: state.auth.isAuth
-}) as MapStatePropsType
 
 //оболочка для классовой компонеты
 export const withRouter = (Component: React.FC<any>): JSXElementConstructor<any> => {
