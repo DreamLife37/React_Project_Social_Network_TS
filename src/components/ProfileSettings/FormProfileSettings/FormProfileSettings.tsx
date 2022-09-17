@@ -38,16 +38,15 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
         const formik = useFormik({
             enableReinitialize: true,
             initialValues: {
-                userId: id,
-                aboutMe: aboutMe || '',
+                aboutMe: aboutMe ,
                 lookingForAJob: lookingForAJob,
                 lookingForAJobDescription: lookingForAJobDescription,
                 fullName: fullName,
                 isFollowed: null,
                 contacts: {
-                    github: github || '',
+                    github: github,
                     vk: vk,
-                    facebook: facebook || '',
+                    facebook: facebook,
                     instagram: instagram,
                     twitter: twitter,
                     website: website,
@@ -74,6 +73,7 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                 return errors;
             },
             onSubmit: async values => {
+                // @ts-ignore
                 dispatch(updateProfile(values))
                 formik.resetForm()
             },

@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import defaultAvatar from '../../../../assets/images/user.png'
 import {SvgSelector} from '../../../common/Utils/svgSelector';
 import {useAppSelector} from "../../../../redux/redux-store";
+import userAvatarDefault from "../../../../assets/images/user.png";
 
 type PostsType = {
     post: PostType
@@ -17,6 +18,7 @@ export const Post = (props: PostsType) => {
     const dispatch = useDispatch()
 
     const nameAuthor = useAppSelector(state => state.profilePage.profile?.fullName)
+    const largePhoto = useAppSelector(state => state.profilePage.profile?.photos.large)
 
     const removePost = () => {
         dispatch(removePostActionCreator(props.post.id))
@@ -32,8 +34,8 @@ export const Post = (props: PostsType) => {
     }
 
     return <div className={s.postContainer}>
-        <div className={s.avatar}>
-            <img src={defaultAvatar}></img>
+        <div className={s.wrapperAvatar}>
+            <img className={s.userAvatar} src={largePhoto ||userAvatarDefault}/>
         </div>
         <div className={s.content}>
             <div className={s.header}>

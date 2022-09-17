@@ -25,9 +25,9 @@
 }
 
 .rightSide {
-    box-shadow: 0 8px 30px rgba(0,0,0,.05)!important;
+
     flex: 1;
-    background-color: white;
+
     margin: 40px 10px 10px;
     border-radius: 0.25rem;
 }
