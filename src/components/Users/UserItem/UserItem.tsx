@@ -31,13 +31,13 @@ export const UserItem = (props: UsersPropsType) => {
                           disabled={props.followingInProgress.some((id: number) => id === u.id)}
                           onClick={() => {
                               props.unFollow(u.id)
-                          }}>Following</button>
+                          }}>Подписан</button>
 
                 : <button className={s.button} disabled={props.followingInProgress.some((id: number) => id === u.id)}
                           onClick={() => {
                               props.follow(u.id)
                           }
-                          }>+Follow</button>}</div>
+                          }>+Подписаться</button>}</div>
         </div>)}
     </div>
 }

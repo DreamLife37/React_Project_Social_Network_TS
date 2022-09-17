@@ -9,12 +9,14 @@
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 }
 
-.avatar {
-    padding-left: 10px;
-}
 
-.avatar img {
-    width: 50px;
+
+.userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+
 }
 
 .content {

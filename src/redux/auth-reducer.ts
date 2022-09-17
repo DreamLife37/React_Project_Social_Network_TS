@@ -2,6 +2,7 @@ import {authAPI, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {AppThunk} from "./redux-store";
 import {ActionsProfileTypes, getStatusProfile, getUserProfile} from "./profile-reducer";
+import {setIsLoading} from "./app-reducer";
 
 const SET_USER_DATA = 'SET-USER-DATA'
 const SET_USER_PHOTO = 'SET-USER-PHOTO'
@@ -78,6 +79,9 @@ export const getAuthUserData = (): AppThunk => {
                     dispatch(setUserData(id, email, login, true))
                 }
             })
+            .finally(() => {
+                dispatch(setIsLoading(false))
+            })
     }
 }
 
@@ -91,6 +95,9 @@ export const getMyProfile = (): AppThunk => {
                     dispatch(getUserProfile(id))
                     dispatch(getStatusProfile(id))
                 }
+            })
+            .finally(() => {
+                dispatch(setIsLoading(false))
             })
     }
 }
@@ -106,12 +113,12 @@ export const login = (email: string, password: string, rememberMe: boolean, setS
                 if (data.data.resultCode === 0) {
                     dispatch(getAuthUserData())
                 } else {
-                    console.log(data.data.messages[0])
                     setStatus(data.data.messages[0])
                 }
             })
     }
 }
+
 
 export const logout = (): AppThunk => {
     return (dispatch) => {
@@ -121,6 +128,11 @@ export const logout = (): AppThunk => {
                     dispatch(setUserData(null, null, null, false))
                 }
             })
+            .finally(() => {
+                dispatch(setIsLoading(false))
+            })
+
+
     }
 }
 

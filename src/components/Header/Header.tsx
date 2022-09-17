@@ -14,8 +14,8 @@ export const Header = (props: HeaderPropsType) => {
     }
 
     return <header className={s.header}>
-        <div className={s.logo}>Social network
-            <div>by DevAndreyIT</div>
+        <div className={s.logo}><NavLink to={'/profile'} className={s.link}>Social network
+            <div>by DevAndreyIT</div></NavLink>
         </div>
         <div className={s.search}><Search/></div>
         <div className={s.loginBlock}>
@@ -28,8 +28,7 @@ export const Header = (props: HeaderPropsType) => {
                     <span className={s.icons} onClick={props.logout}> <SvgSelector id={'logout'}/></span> </>
             }
             {props.isAuth
-                ? (props.login, props.photo ? <img src={props.photo}/> :
-                    <img className={s.userAvatar} src={userAvatarDefault}/>)
+                ? <img className={s.userAvatar} src={props.photo || userAvatarDefault}/>
                 : <NavLink to={'/login'}><span className={s.icons}> <SvgSelector
                     id={'login'}/></span></NavLink>}
 

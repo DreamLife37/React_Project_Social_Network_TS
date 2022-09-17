@@ -7,9 +7,11 @@ import {useAppSelector} from "../../redux/redux-store";
 export const LeftSide = () => {
 
     const isAuth = useAppSelector(state => state.auth.isAuth)
+    const profile = useAppSelector(state => state.profilePage.profile)
+
 
     return <div className={s.wrapper}>
-        {isAuth && <div className={s.wrapperProfileInfo}><ProfileInfo/></div>}
+        {isAuth && profile && <div className={s.wrapperProfileInfo}><ProfileInfo/></div>}
         <Navbar/>
     </div>
 }

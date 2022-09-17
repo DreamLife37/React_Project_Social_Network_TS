@@ -2,7 +2,7 @@ import {usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {setIsLoading} from "./app-reducer";
 import {isFollowed, setIsFollowed} from "./profile-reducer";
-import {AppThunk} from "./redux-store";
+import {AppThunk, Nullable} from "./redux-store";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -14,7 +14,11 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE-IS-FOLLOWING-PROGRESS'
 const SET_SEARCH_USERS = 'SET_SEARCH_USERS'
 
 export type UserType = {
-    photos: { small: null | string, large: null | string };
+    photos:
+        {
+            small: Nullable<string>
+            large: Nullable<string>
+        };
     id: number,
     photoUrl: string,
     followed: boolean,
@@ -43,7 +47,6 @@ export type ActionsUsersTypes = ReturnType<typeof followSuccess>
     | ReturnType<typeof setSearchUsers>
     | ReturnType<typeof setIsLoading>
     | ReturnType<typeof setIsFollowed>
-
 
 
 let
@@ -162,23 +165,32 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number | nu
 export const getUsers = (currentPage: number, pageSize: number) => { //ThunkCreator
     return (dispatch: Dispatch<ActionsUsersTypes>) => {
         dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(toggleIsFetching(false))
-            dispatch(setUsers(data.items))
-            dispatch(setTotalUsersCount(data.totalCount))
-        })
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+            .finally(() => {
+                dispatch(setIsLoading(false))
+                dispatch(toggleIsFetching(false))
+            })
     }
 }
-
 
 
 export const getSearchUsers = (currentPage: number, pageSize: number, term: string) => { //ThunkCreator
     return (dispatch: Dispatch<ActionsUsersTypes>) => {
         dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize, term).then(data => {
-            dispatch(toggleIsFetching(false))
-            dispatch(setSearchUsers(data.items))
-        })
+        usersAPI.getUsers(currentPage, pageSize, term)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setSearchUsers(data.items))
+            })
+            .finally(() => {
+                dispatch(setIsLoading(false))
+                dispatch(toggleIsFetching(false))
+            })
     }
 }
 
@@ -191,9 +203,9 @@ export const follow = (id: number | null | undefined): AppThunk => { //ThunkCrea
                     dispatch(followSuccess(id))
                     dispatch(isFollowed(id))
                 }
-
                 dispatch(toggleFollowingProgress(false, id))
             })
+
     }
 }
 
@@ -207,6 +219,9 @@ export const unFollow = (id: number | null | undefined): AppThunk => { //ThunkCr
                     dispatch(isFollowed(id))
                 }
                 dispatch(toggleFollowingProgress(false, id))
+            })
+            .finally(() => {
+                dispatch(setIsLoading(false))
             })
     }
 }

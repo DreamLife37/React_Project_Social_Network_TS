@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ProfileType} from "../redux/profile-reducer";
+import {EditParamsType, ProfileType} from "../redux/profile-reducer";
 import {Nullable} from "../redux/redux-store";
 
 const instance = axios.create({
@@ -52,8 +52,14 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put(`profile/status`, {status})
     },
-    updateProfile(updateModelProfile: ProfileType) {
+    updateProfile(updateModelProfile: EditParamsType) {
         return instance.put('profile', updateModelProfile)
+    },
+    savePhoto(photoFile: string | Blob) {
+        let formData = new FormData()
+        formData.append('image', photoFile)
+        return instance.put('profile/photo', formData, {headers: {"Content-Type": "multipart/form-data"}}
+        )
     }
 }
 
@@ -69,3 +75,11 @@ export const authAPI = {
         return instance.delete('/auth/login')
     }
 }
+
+export type CommonResponseType<T> = {
+    data: T
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    resultCode: 0 | 1
+}
+

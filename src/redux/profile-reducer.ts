@@ -5,8 +5,8 @@ import imagePost2 from '../assets/images/office.jpg'
 import imagePost3 from '../assets/images/interrior.jpg'
 import imagePost4 from '../assets/images/car.jpg'
 import imageDefaultPost from '../assets/images/net_foto.jpg'
-import {getAuthUserData} from "./auth-reducer";
-import {AppThunk, Nullable} from "./redux-store";
+import {getAuthUserData, setUserPhoto} from "./auth-reducer";
+import {AppThunk, Nullable, useAppSelector} from "./redux-store";
 import {setIsLoading} from "./app-reducer";
 import {ActionsUsersTypes, setTotalUsersCount, setUsers, toggleIsFetching, UserType} from "./users-reducer";
 
@@ -18,37 +18,40 @@ const EDIT_POST = 'EDIT_POST';
 const UPDATE_PROFILE = 'UPDATE_PROFILE';
 const MY_FRIENDS = 'MY_FRIENDS';
 const SET_IS_FOLLOWED = 'SET_IS_FOLLOWED';
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 export type ProfilePageType = {
     posts: Array<PostType>
     profile: null | ProfileType
-    status: string
+    status: Nullable<string>
     myFriends: Array<UserType>
     isFollowed: Nullable<boolean>
 }
 
+//export type ProfilePageType = typeof initialState
+
 export type ProfileType = {
-    userId: null | number | undefined
-    aboutMe: string | undefined
-    lookingForAJob: boolean | undefined
-    lookingForAJobDescription: string | undefined
-    fullName: string | undefined
+    'userId': number
+    'aboutMe': Nullable<string>
+    lookingForAJob: Nullable<boolean>
+    lookingForAJobDescription: Nullable<boolean>
+    fullName: string
     contacts: ContactsType
     photos: {
-        small: undefined | string
-        large: undefined | string
+        small: Nullable<string>
+        large: Nullable<string>
     }
 }
 
 type ContactsType = {
-    github: undefined | string | null
-    vk: undefined | string
-    facebook: undefined | string
-    instagram: undefined | string
-    twitter: undefined | string
-    website: undefined | string
-    youtube: undefined | string
-    mainLink: undefined | string
+    github: Nullable<string>
+    vk: Nullable<string>
+    facebook: Nullable<string>
+    instagram: Nullable<string>
+    twitter: Nullable<string>
+    website: Nullable<string>
+    youtube: Nullable<string>
+    mainLink: Nullable<string>
 }
 
 export type PostType = {
@@ -70,6 +73,7 @@ export type ActionsProfileTypes =
     | ReturnType<typeof setIsLoading>
     | ReturnType<typeof setMyFriends>
     | ReturnType<typeof setIsFollowed>
+    | ReturnType<typeof setPhotoSuccess>
 
 let initialState = {
     posts: [
@@ -93,37 +97,16 @@ let initialState = {
             image: imagePost4
         },
     ],
-    profile: {
-        userId: null,
-        aboutMe: '',
-        lookingForAJob: false,
-        lookingForAJobDescription: '',
-        fullName: '',
-        contacts: {
-            github: '',
-            vk: '',
-            facebook: '',
-            instagram: '',
-            twitter: '',
-            website: '',
-            youtube: '',
-            mainLink: '',
-        },
-        photos: {
-            small: '',
-            large: '',
-        },
-    },
-
-    status: '',
-    myFriends: [],
-    isFollowed: null
+    profile: null as Nullable<ProfileType>,
+    status: null as Nullable<string>,
+    myFriends: [] as Array<UserType>,
+    isFollowed: null as Nullable<boolean>
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsProfileTypes): ProfilePageType => {
+export const profileReducer = (state = initialState, action: ActionsProfileTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST: {
-            // @ts-ignore
+
             const post = {id: 5, message: action.newText, likesCount: 205, image: imageDefaultPost}
             return {...state, posts: [post, ...state.posts,]}
         }
@@ -147,14 +130,20 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         }
 
         case UPDATE_PROFILE: {
-            return {...state, profile: action.updateModelProfile}
+            return <ProfilePageType>{...state, profile: action.updateModelProfile}
         }
 
         case MY_FRIENDS: {
+
             return {...state, myFriends: action.myFriends}
         }
         case SET_IS_FOLLOWED: {
             return {...state, isFollowed: action.isFollowed}
+        }
+        case SAVE_PHOTO_SUCCESS: {
+            // @ts-ignore
+            return {...state, profile: {...state.profile, photos: action.photo}}
+
         }
         default:
             return state
@@ -191,7 +180,7 @@ const setStatusProfile = (status: string) => {
     } as const
 }
 
-const setUpdateProfile = (updateModelProfile: ProfileType) => {
+const setUpdateProfile = (updateModelProfile: EditParamsType) => {
     return {
         type: UPDATE_PROFILE, updateModelProfile
     } as const
@@ -209,6 +198,12 @@ export const setIsFollowed = (isFollowed: Nullable<boolean>) => {
     } as const
 }
 
+export const setPhotoSuccess = (photo: any) => {
+    return {
+        type: SAVE_PHOTO_SUCCESS, photo
+    } as const
+}
+
 export const isFollowed = (id: number | null | undefined): AppThunk => (dispatch) => {
     usersAPI.isFollowed(id)
         .then(data => {
@@ -219,7 +214,6 @@ export const isFollowed = (id: number | null | undefined): AppThunk => (dispatch
 export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     dispatch(isFollowed(userId))
-
     usersAPI.getProfile(userId)
         .then(data => {
             dispatch(setUserProfile(data))
@@ -246,7 +240,23 @@ export const updateStatus = (status: string): AppThunk => (dispatch) => {
         })
 }
 
-export const updateProfile = (updateModelProfile: ProfileType): AppThunk => (dispatch) => {
+export const savePhoto = (file: File): AppThunk => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    profileAPI.savePhoto(file)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(setPhotoSuccess(res.data.data.photos))
+                dispatch(toggleIsFetching(false))
+                dispatch(setUserPhoto(res.data.data.photos.small))
+            }
+        })
+        .finally(() => {
+            dispatch(setIsLoading(false))
+            dispatch(toggleIsFetching(false))
+        })
+}
+
+export const updateProfile = (updateModelProfile: EditParamsType): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     profileAPI.updateProfile(updateModelProfile)
         .then((res) => {
@@ -256,16 +266,16 @@ export const updateProfile = (updateModelProfile: ProfileType): AppThunk => (dis
         })
 }
 
+export type EditParamsType = Omit<ProfileType, "id" | "photos">
+
 export const fetchMyFriends = (): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     usersAPI.getUsers(1, 100, '', true).then(data => {
         dispatch(setMyFriends(data.items))
         dispatch(toggleIsFetching(false))
-        //dispatch(setTotalUsersCount(data.totalCount))
     })
-}
-
-
-export const fetchUserData = (id: number): AppThunk => async (dispatch) => {
-    dispatch(setIsLoading(true))
+        .finally(() => {
+            dispatch(setIsLoading(false))
+            dispatch(toggleIsFetching(false))
+        })
 }

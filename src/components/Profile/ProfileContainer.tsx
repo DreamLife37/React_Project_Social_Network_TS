@@ -2,7 +2,7 @@ import s from './Profile.module.css'
 import React, {JSXElementConstructor, useEffect} from "react";
 import {Profile} from "./Profile";
 import {connect, useDispatch} from "react-redux";
-import {AppStateType, useAppSelector} from "../../redux/redux-store";
+import {AppStateType, Nullable, useAppSelector} from "../../redux/redux-store";
 import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../../redux/profile-reducer';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
@@ -25,7 +25,7 @@ type MapDispatchPropsType = {
 
 export type ProfilePropsType = {
     profile: null | ProfileType
-    status: string
+    status: Nullable<string>
     // authUserId: null | number,
     // isAuth: boolean
     updateStatus: (status: string) => void
@@ -77,9 +77,3 @@ export const withRouter = (Component: React.FC<any>): JSXElementConstructor<any>
     return ComponentWithRouterProp;
 }
 
-// export default compose<React.FC>(
-//     connect(mapStateToProps,
-//         {getUserProfile, getStatusProfile, updateStatus}),
-//     withRouter,
-//     withAuthRedirect
-// )(ProfileContainer)
