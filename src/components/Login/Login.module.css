@@ -1,5 +1,37 @@
-.login {
+.containerLoginForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+}
+
+.title {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    color: rgb(31 41 55);
+}
+
+.warning {
+    margin-top: 10px;
+    background-color: #6c757d;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    color: white;
+}
+
+.warning div {
     padding: 10px;
+
+}
+
+.warning a {
+    color: white;
+
+}
+
+.login {
+    padding-top: 20px;
 }
 
 .formGroup {
@@ -7,6 +39,42 @@
     padding-bottom: 10px;
 }
 
+.login label {
+    font-family: Proxima Nova, serif;;
+    font-size: 16px;
+}
+
+.input {
+    font-size: 16px;
+    border-radius: 0.25rem;
+    width: calc(100% - 20px);
+    padding: 10px;
+    outline: none;
+    resize: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 2px #eee solid;
+    margin-top: 4px;
+    font-family: Proxima Nova, serif;
+
+}
+
 .error {
     color: #bb2020;
+}
+
+
+.buttonWrapper {
+    padding-top: 10px;
+}
+
+.button {
+    background-color: #1f2937;
+    color: #f1f1f1;
+    border: none;
+    width: 160px;
+    height: 30px;
+    border-radius: 0.25rem;
+    cursor: pointer;
 }

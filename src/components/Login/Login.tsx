@@ -35,20 +35,25 @@ const Login = (props: LoginPropsType) => {
     if (props.isAuth) {
         return <Navigate to={'/profile'}/>
     }
-    return <div>
-        <h1 className={s.login}>Login</h1>
+    return <div className={s.containerLoginForm}>
+        <h1 className={s.title}>Вход в Social Network</h1>
+        <h2 className={s.title}>by DevAndreyIT </h2>
+        <div className={s.warning}>
+            <div>Чтобы зайти, сначала зарегистрируйтесь <a href={'https://social-network.samuraijs.com/signUp'}>здесь.</a></div>
+            <div>Тестовый логин и пароль: free@samuraijs.com и free</div>
+        </div>
         <LoginForm onSubmit={onSubmit}/>
     </div>
 }
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()
-        .required('Поле пароль обязательно')
-        .min(4, 'Password must be at least 4 characters')
-        .max(40, 'Password must not exceed 40 characters'),
+        .required('Пароль обязателен')
+        .min(4, 'Пароль менее чем 4 символа')
+        .max(40, 'Пароль более 40 символов'),
     email: Yup.string()
-        .required('Email is required')
-        .email('Email is invalid'),
+        .required('Email обязателен')
+        .email('Email не валидный'),
 });
 
 const LoginForm: React.FC<PropsType> = (props) => {
@@ -74,7 +79,7 @@ const LoginForm: React.FC<PropsType> = (props) => {
                             <label htmlFor="email"></label>
                             <Field name="email"
                                    type="email"
-                                   className="form-control"
+                                   className={s.input}
                                    placeholder={'Email'}/>
                             {touched.email && errors.email && <div className={s.error}>{errors.email}</div>}
                         </div>
@@ -84,15 +89,17 @@ const LoginForm: React.FC<PropsType> = (props) => {
                             <Field
                                 name="password"
                                 type="password"
-                                className="form-control"
+                                className={s.input}
                                 placeholder={'Password'}
                             />
                             {touched.password && errors.password && <div className={s.error}>{errors.password}</div>}
                         </div>
                         <div className={s.formGroup}>
-                            <label htmlFor="password"> Remember Me </label>
+                            <label htmlFor="password"> Запомнить меня</label>
                             <Field type="checkbox" name="rememberMe"/></div>
-                        <button type="submit">Submit</button>
+                        <div>
+                            <button className={s.button} type="submit">Войти</button>
+                        </div>
                         <div className={s.error}>
                             {status}
                         </div>

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateStatus} from "../../../redux/profile-reducer";
-import {useAppSelector} from "../../../redux/redux-store";
+import {AppStateType, useAppSelector} from "../../../redux/redux-store";
+import s from "./ProfileStatus.module.css"
 
 interface IComponentProps {
     status: string
@@ -20,6 +21,7 @@ export const ProfileStatusWithHooks = (props: any) => {
     let [status, setStatus] = useState(props.status)
     const userId = useAppSelector(state => state.profilePage.profile?.userId)
     const myId = useAppSelector(state => state.auth.id)
+    const fullName = useSelector((state: AppStateType) => state.profilePage.profile?.fullName)
 
 
     const dispatch = useDispatch()
@@ -39,13 +41,19 @@ export const ProfileStatusWithHooks = (props: any) => {
         dispatch(updateStatus(status))
     }
 
-    return <div>Status:
-        {!editMode
-            ? <> <span onDoubleClick={activatedEditMode}>{props.status || '---'}</span></>
-            : <> <input onChange={(e) => setStatus(e.currentTarget.value)}
-                        autoFocus={true}
-                        value={status}
-                        onBlur={deactivatedEditMode}/></>}
+    return <div>
+
+        <>
+            <blockquote className={s.blockquote2} onDoubleClick={activatedEditMode}>
+                {<p>{!editMode ? props.status : <input onChange={(e) => setStatus(e.currentTarget.value)}
+                                                       autoFocus={true}
+                                                       value={status}
+                                                       className={s.inputStatus}
+                                                       onBlur={deactivatedEditMode}/>}</p>}
+                <cite>{fullName}</cite>
+            </blockquote>
+        </>
+
     </div>
 
 }

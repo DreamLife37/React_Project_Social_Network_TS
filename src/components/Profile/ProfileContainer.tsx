@@ -1,33 +1,16 @@
 import s from './Profile.module.css'
 import React, {JSXElementConstructor, useEffect} from "react";
 import {Profile} from "./Profile";
-import {connect, useDispatch} from "react-redux";
-import {AppStateType, Nullable, useAppSelector} from "../../redux/redux-store";
+import {useDispatch} from "react-redux";
+import {Nullable, useAppSelector} from "../../redux/redux-store";
 import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../../redux/profile-reducer';
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {withAuthRedirect} from "../hoc/WithAuthRedirect";
-import {compose} from "redux";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {getMyProfile} from "../../redux/auth-reducer";
 
-
-type MapStatePropsType = {
-    profile: null | ProfileType
-    status: string
-    authUserId: null | number,
-    isAuth: boolean
-}
-
-type MapDispatchPropsType = {
-    getUserProfile: (userId: number) => void
-    getStatusProfile: (userId: number) => void
-    updateStatus: (status: string) => void
-}
 
 export type ProfilePropsType = {
     profile: null | ProfileType
     status: Nullable<string>
-    // authUserId: null | number,
-    // isAuth: boolean
     updateStatus: (status: string) => void
 }
 
@@ -37,6 +20,7 @@ export const ProfileContainer = () => {
     const profile = useAppSelector(state => state.profilePage.profile)
     const status = useAppSelector(state => state.profilePage.status)
     const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
 
     const params = useParams<"userId">()
 
@@ -51,7 +35,9 @@ export const ProfileContainer = () => {
         } else {
             dispatch(getMyProfile())
         }
-    }, [dispatch, params.userId,isFollowed])
+    }, [dispatch, params.userId])
+
+    if (!isAuth) return <Navigate to="/login"/>
 
     return <div className={s.content}>
         <Profile profile={profile} status={status}

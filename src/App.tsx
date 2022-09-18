@@ -1,7 +1,7 @@
 import React, {Component, FC, useEffect} from 'react';
 import './App.css';
 import {Navbar} from "./components/LeftSide/Navbar/Navbar";
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -23,9 +23,9 @@ export const App: FC = () => {
     const dispatch = useDispatch()
     const initialized = useAppSelector((state) => state.app.initialized)
     const isLoading = useAppSelector(state => state.app.isLoading)
+    const isAuth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        dispatch(getAuthUserData())
         dispatch(initializeApp())
     }, [dispatch])
 
@@ -36,13 +36,12 @@ export const App: FC = () => {
         return <Preloader/>
     }
 
-
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <HeaderContainer/>
                 <div className={'container'}>
-                    <div className={'leftSide'}><LeftSide/></div>
+                    {isAuth && <div className={'leftSide'}><LeftSide/></div>}
                     <div className='content'>
                         <Routes>
                             <Route path="dialogs/*" element={<DialogsContainer/>}/>
@@ -55,7 +54,7 @@ export const App: FC = () => {
                             <Route path='profileSettings' element={<ProfileSettings/>}/>
                         </Routes>
                     </div>
-                    <div className={'rightSide'}><RightSide/></div>
+                    {isAuth && <div className={'rightSide'}><RightSide/></div>}
                 </div>
             </div>
         </BrowserRouter>

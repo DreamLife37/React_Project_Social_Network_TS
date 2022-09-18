@@ -1,0 +1,43 @@
+.blockquote2 {
+    margin: 16px 16px 16px 16px;
+    padding: 26px 24px;
+    font-size: 16px;
+    background: #6c757d;
+    border-left: 5px solid;
+    border-color: #337AB7;
+    border-radius: 0.25rem;
+}
+.blockquote2::after {
+    content: '';
+    margin-top: -30px;
+    padding-top: 0;
+    position: relative;
+    bottom: -50px;
+    left: 20px;
+    border-width: 30px 0 0 30px;
+    border-style: solid;
+    border-color: #6c757d transparent;
+    display: block;
+    width: 0;
+}
+.blockquote2 p::before {
+    content: "“";
+    font-family: Georgia;
+    font-size: 40px;
+    line-height: 0;
+    display: inline-block;
+}
+.blockquote2 cite {
+    float: right;
+    font-size: 13px;
+}
+.blockquote2 cite:before {
+    content: '- ';
+}
+
+.inputStatus {
+    border: none;
+    background: #6c757d;
+    color: white;
+    outline: none;
+}

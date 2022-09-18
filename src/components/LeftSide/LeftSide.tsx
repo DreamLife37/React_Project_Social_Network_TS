@@ -11,8 +11,8 @@ export const LeftSide = () => {
 
 
     return <div className={s.wrapper}>
-        {isAuth && profile && <div className={s.wrapperProfileInfo}><ProfileInfo/></div>}
-        <Navbar/>
+        {isAuth && profile && <div className={s.wrapperProfileInfo}><ProfileInfo/>
+            <Navbar/></div>}
     </div>
 }
 

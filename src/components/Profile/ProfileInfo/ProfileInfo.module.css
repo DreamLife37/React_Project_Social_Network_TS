@@ -22,6 +22,21 @@
     margin: 0 auto;
 }
 
+
+.setAvatarInput {
+    display: none;
+}
+
+.setAvatarInputLabel {
+    width: 32px;
+    height: 32px;
+    background: url('./editPhoto.svg');
+    position: absolute;
+    cursor: pointer;
+    top: 110px;
+    right: 155px;
+}
+
 .profileInfo svg {
     fill: white;
     height: 30px;
@@ -34,17 +49,18 @@
 }
 
 .name {
-    padding-top: 20px;
+    padding-top: 30px;
     font-size: 20px;
     font-family: Proxima Nova, serif;
     font-weight: 500 !important;
+    padding-bottom: 20px;
 }
 
 .content {
+    padding-top: 10px;
     font-family: Proxima Nova, serif;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 .buttonWrapper {
