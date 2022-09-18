@@ -83,7 +83,7 @@ export const getAuthUserData = (): AppThunk => {
                             dispatch(setMyPhoto(res.photos.small))
                         })
                 } else {
-                    handleServerNetworkError(dispatch, data.data.messages[0])
+                    handleServerNetworkError(dispatch, data.messages[0])
                 }
             })
             .finally(() => {
@@ -102,7 +102,7 @@ export const getMyProfile = (): AppThunk => {
                     dispatch(getUserProfile(id))
                     dispatch(getStatusProfile(id))
                 } else {
-                    handleServerNetworkError(dispatch, data.data.messages[0])
+                    handleServerNetworkError(dispatch, data.messages[0])
                 }
             })
             .finally(() => {

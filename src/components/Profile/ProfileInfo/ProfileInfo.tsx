@@ -22,19 +22,12 @@ export const ProfileInfo = (props: ProfileInfo) => {
 
     const profile = useAppSelector(state => state.profilePage.profile)
     const status = useSelector<AppStateType>(state => state.profilePage.status)
-    //const largePhoto = useSelector((state: AppStateType) => state.profilePage.profile?.photos.large)
-    //const smallPhoto = useSelector((state: AppStateType) => state.profilePage.profile?.photos.small)
     const fullName = useSelector((state: AppStateType) => state.profilePage.profile?.fullName)
     const aboutMe = useSelector((state: AppStateType) => state.profilePage.profile?.aboutMe)
     const lookingForAJob = useSelector((state: AppStateType) => state.profilePage.profile?.lookingForAJob)
-    //const vk = useSelector((state: AppStateType) => state.profilePage.profile?.contacts.vk)
-    const jobSearch = useAppSelector(state => state.profilePage.profile?.lookingForAJob)
-    const followingInProgress = useAppSelector(state => state.usersPage.followingInProgress)
     const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
     const userId = useAppSelector(state => state.profilePage.profile?.userId)
     const myId = useAppSelector(state => state.auth.id)
-
-    console.log(followingInProgress)
 
     const followCallback = () => {
         dispatch(follow(userId))

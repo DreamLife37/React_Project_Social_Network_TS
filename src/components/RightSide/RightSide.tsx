@@ -30,8 +30,6 @@ export const RightSide = () => {
             </NavLink>
         </div>)
         }
-
-
     </div>
 }
 
