@@ -1,14 +1,15 @@
-import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 import imagePost1 from '../assets/images/sunny_day.jpg'
 import imagePost2 from '../assets/images/office.jpg'
 import imagePost3 from '../assets/images/interrior.jpg'
 import imagePost4 from '../assets/images/car.jpg'
 import imageDefaultPost from '../assets/images/net_foto.jpg'
-import {getAuthUserData, setUserPhoto} from "./auth-reducer";
-import {AppThunk, Nullable, useAppSelector} from "./redux-store";
+import {getAuthUserData, setMyPhoto} from "./auth-reducer";
+import {AppThunk, Nullable} from "./redux-store";
 import {setIsLoading} from "./app-reducer";
-import {ActionsUsersTypes, setTotalUsersCount, setUsers, toggleIsFetching, UserType} from "./users-reducer";
+import {toggleIsFetching, UserType} from "./users-reducer";
+import {handleServerNetworkError} from "../components/common/Utils/errorHandler";
+import {AxiosError} from "axios";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
@@ -27,8 +28,6 @@ export type ProfilePageType = {
     myFriends: Array<UserType>
     isFollowed: Nullable<boolean>
 }
-
-//export type ProfilePageType = typeof initialState
 
 export type ProfileType = {
     'userId': number
@@ -217,8 +216,9 @@ export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
     usersAPI.getProfile(userId)
         .then(data => {
             dispatch(setUserProfile(data))
-            dispatch(toggleIsFetching(false))
-        })
+        }).finally(() => {
+        dispatch(toggleIsFetching(false))
+    })
 }
 
 
@@ -235,9 +235,17 @@ export const updateStatus = (status: string): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     profileAPI.updateStatus(status)
         .then((res) => {
-            dispatch(setStatusProfile(status))
-            dispatch(toggleIsFetching(false))
-        })
+            if (res.data.resultCode === 0) {
+                dispatch(setStatusProfile(status))
+            } else {
+                handleServerNetworkError(dispatch, res.data.messages[0])
+            }
+        }).catch((err: AxiosError) => {
+        handleServerNetworkError(dispatch, err.message)
+    }).finally(() => {
+        dispatch(toggleIsFetching(false))
+    })
+
 }
 
 export const savePhoto = (file: File): AppThunk => (dispatch) => {
@@ -246,10 +254,13 @@ export const savePhoto = (file: File): AppThunk => (dispatch) => {
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setPhotoSuccess(res.data.data.photos))
-                dispatch(toggleIsFetching(false))
-                dispatch(setUserPhoto(res.data.data.photos.small))
+                dispatch(setMyPhoto(res.data.data.photos.small))
+            } else {
+                handleServerNetworkError(dispatch, res.data.messages[0])
             }
-        })
+        }).catch((err: AxiosError) => {
+        handleServerNetworkError(dispatch, err.message)
+    })
         .finally(() => {
             dispatch(setIsLoading(false))
             dispatch(toggleIsFetching(false))
@@ -260,10 +271,18 @@ export const updateProfile = (updateModelProfile: EditParamsType): AppThunk => (
     dispatch(toggleIsFetching(true))
     profileAPI.updateProfile(updateModelProfile)
         .then((res) => {
-            dispatch(setUpdateProfile(updateModelProfile))
-            dispatch(getAuthUserData)
-            dispatch(toggleIsFetching(false))
-        })
+            if (res.data.resultCode === 0) {
+                dispatch(setUpdateProfile(updateModelProfile))
+                dispatch(getAuthUserData)
+                dispatch(toggleIsFetching(false))
+            } else {
+                handleServerNetworkError(dispatch, res.data.messages[0])
+            }
+        }).catch((err: AxiosError) => {
+        handleServerNetworkError(dispatch, err.message)
+    }).finally(() => {
+        dispatch(toggleIsFetching(false))
+    })
 }
 
 export type EditParamsType = Omit<ProfileType, "id" | "photos">
@@ -273,6 +292,8 @@ export const fetchMyFriends = (): AppThunk => (dispatch) => {
     usersAPI.getUsers(1, 100, '', true).then(data => {
         dispatch(setMyFriends(data.items))
         dispatch(toggleIsFetching(false))
+    }).catch((err: AxiosError) => {
+        handleServerNetworkError(dispatch, err.message)
     })
         .finally(() => {
             dispatch(setIsLoading(false))

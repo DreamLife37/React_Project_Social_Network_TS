@@ -1,11 +1,11 @@
-import {authAPI, usersAPI} from "../api/api";
-import {Dispatch} from "redux";
+import {authAPI, profileAPI, usersAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
-import {ActionsProfileTypes, getStatusProfile, getUserProfile} from "./profile-reducer";
+import {getStatusProfile, getUserProfile} from "./profile-reducer";
 import {setIsLoading} from "./app-reducer";
+import {handleServerNetworkError} from "../components/common/Utils/errorHandler";
 
 const SET_USER_DATA = 'SET-USER-DATA'
-const SET_USER_PHOTO = 'SET-USER-PHOTO'
+const SET_MY_PHOTO = 'SET-MY-PHOTO'
 
 export type AuthPageType = {
     id: null | number
@@ -17,7 +17,8 @@ export type AuthPageType = {
 }
 
 //Автоматическая типизация AC на основе возвращаемого значения функции AC
-export type ActionsAuthTypes = ReturnType<typeof setUserData> | ReturnType<typeof setUserPhoto>
+export type ActionsAuthTypes = ReturnType<typeof setUserData>
+    | ReturnType<typeof setMyPhoto>
 
 let initialState: AuthPageType = {
     id: null,
@@ -36,7 +37,7 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsA
                 ...action.payload,
             }
 
-        case SET_USER_PHOTO:
+        case SET_MY_PHOTO:
             return {
                 ...state,
                 photo: action.photo
@@ -63,9 +64,9 @@ export const setUserData = (id: null | number,
     } as const
 }
 
-export const setUserPhoto = (photo: string) => {
+export const setMyPhoto = (photo: string) => {
     return {
-        type: SET_USER_PHOTO,
+        type: SET_MY_PHOTO,
         photo: photo
     } as const
 }
@@ -77,6 +78,12 @@ export const getAuthUserData = (): AppThunk => {
                 if (data.resultCode === 0) {
                     let {id, login, email} = data.data
                     dispatch(setUserData(id, email, login, true))
+                    profileAPI.getProfile(id)
+                        .then(res => {
+                            dispatch(setMyPhoto(res.photos.small))
+                        })
+                } else {
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
             })
             .finally(() => {
@@ -94,6 +101,8 @@ export const getMyProfile = (): AppThunk => {
                     dispatch(setUserData(id, email, login, true))
                     dispatch(getUserProfile(id))
                     dispatch(getStatusProfile(id))
+                } else {
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
             })
             .finally(() => {
@@ -114,6 +123,7 @@ export const login = (email: string, password: string, rememberMe: boolean, setS
                     dispatch(getAuthUserData())
                 } else {
                     setStatus(data.data.messages[0])
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
             })
     }
@@ -126,6 +136,8 @@ export const logout = (): AppThunk => {
             .then(data => {
                 if (data.data.resultCode === 0) {
                     dispatch(setUserData(null, null, null, false))
+                } else {
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
             })
             .finally(() => {

@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {setIsLoading} from "./app-reducer";
 import {isFollowed, setIsFollowed} from "./profile-reducer";
 import {AppThunk, Nullable} from "./redux-store";
+import {handleServerNetworkError} from "../components/common/Utils/errorHandler";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -202,6 +203,8 @@ export const follow = (id: number | null | undefined): AppThunk => { //ThunkCrea
                 if (data.resultCode === 0) {
                     dispatch(followSuccess(id))
                     dispatch(isFollowed(id))
+                } else {
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
                 dispatch(toggleFollowingProgress(false, id))
             })
@@ -217,6 +220,9 @@ export const unFollow = (id: number | null | undefined): AppThunk => { //ThunkCr
                 if (data.resultCode === 0) {
                     dispatch(unfollowSuccess(id))
                     dispatch(isFollowed(id))
+                }
+                else {
+                    handleServerNetworkError(dispatch, data.data.messages[0])
                 }
                 dispatch(toggleFollowingProgress(false, id))
             })

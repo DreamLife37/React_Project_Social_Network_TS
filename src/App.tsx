@@ -25,7 +25,6 @@ export const App: FC = () => {
     const isLoading = useAppSelector(state => state.app.isLoading)
 
     useEffect(() => {
-        dispatch(getAuthUserData())
         dispatch(initializeApp())
     }, [dispatch])
 

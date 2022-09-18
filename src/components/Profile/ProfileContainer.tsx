@@ -7,7 +7,7 @@ import {getStatusProfile, getUserProfile, ProfileType, updateStatus} from '../..
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {compose} from "redux";
-import {getMyProfile} from "../../redux/auth-reducer";
+import {getMyProfile, setMyPhoto} from "../../redux/auth-reducer";
 
 
 type MapStatePropsType = {
@@ -37,6 +37,7 @@ export const ProfileContainer = () => {
     const profile = useAppSelector(state => state.profilePage.profile)
     const status = useAppSelector(state => state.profilePage.status)
     const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
+    const avatar = useAppSelector(state => state.profilePage.profile?.photos.large)
 
     const params = useParams<"userId">()
 
@@ -50,6 +51,7 @@ export const ProfileContainer = () => {
             dispatch(getStatusProfile(Number(params.userId)))
         } else {
             dispatch(getMyProfile())
+            //dispatch(setMyPhoto(avatar))
         }
     }, [dispatch, params.userId,isFollowed])
 
