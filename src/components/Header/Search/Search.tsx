@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useState} from "react";
+import React, {useState} from "react";
 import s from './Search.module.css'
 import searchIcon from '../../../assets/images/iconsSearch.svg'
 import {SearchItem} from "./SearchItem/SearchItem";
@@ -7,6 +7,7 @@ import {useAppSelector} from "../../../redux/redux-store";
 import {getSearchUsers} from "../../../redux/users-reducer";
 import {useDebouncedEffect} from "../../../customHooks/CustomHooks";
 import {Preloader} from "../../common/Preloader/Preloader";
+import useComponentVisible from "../../../customHooks/useOutside";
 
 export const Search = () => {
     const [valueSearch, setValueSearch] = useState('')
@@ -22,11 +23,14 @@ export const Search = () => {
         dispatch(getSearchUsers(1, 18, valueSearch))
     }, [valueSearch], 1000);
 
-    //console.log(searchUsers)
+    const {
+        ref,
+        isComponentVisible,
+        setIsComponentVisible
+    } = useComponentVisible(false);
 
-    const [isVisible, setIsVisible] = useState(true)
 
-    return <div className={s.container}>
+    return <div ref={ref} className={s.container} onClick={() => setIsComponentVisible(true)}>
         <div className={s.searchContainer}>
             <input onChange={(e) => setValueSearch(e.currentTarget.value)}
                    className={s.search}
@@ -38,8 +42,9 @@ export const Search = () => {
         {isFetching
             ? <Preloader/>
             : null}
-        <SearchItem isVisible={isVisible} setIsVisible={setIsVisible} searchUsers={searchUsers}
-                    valueSearch={valueSearch}/>
+        {isComponentVisible && <SearchItem isComponentVisible={isComponentVisible} setIsComponentVisible={setIsComponentVisible}
+                    searchUsers={searchUsers}
+                    valueSearch={valueSearch}/>}
 
     </div>
 }

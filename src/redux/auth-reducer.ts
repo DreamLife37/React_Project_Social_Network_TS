@@ -122,7 +122,6 @@ export const login = (email: string, password: string, rememberMe: boolean, setS
                 if (data.data.resultCode === 0) {
                     dispatch(getAuthUserData())
                 } else {
-                    setStatus(data.data.messages[0])
                     handleServerNetworkError(dispatch, data.data.messages[0])
                 }
             })

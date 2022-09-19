@@ -13,7 +13,7 @@
 }
 
 .warning {
-    margin-top: 10px;
+    margin-top: 20px;
     background-color: #6c757d;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     border-radius: 0.25rem;
@@ -31,7 +31,7 @@
 }
 
 .login {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .formGroup {
@@ -73,7 +73,7 @@
     background-color: #1f2937;
     color: #f1f1f1;
     border: none;
-    width: 160px;
+    width: calc(100% - 20px);
     height: 30px;
     border-radius: 0.25rem;
     cursor: pointer;

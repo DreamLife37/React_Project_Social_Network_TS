@@ -39,8 +39,8 @@ const Login = (props: LoginPropsType) => {
         <h1 className={s.title}>Вход в Social Network</h1>
         <h2 className={s.title}>by DevAndreyIT </h2>
         <div className={s.warning}>
-            <div>Чтобы зайти, сначала зарегистрируйтесь <a href={'https://social-network.samuraijs.com/signUp'}>здесь.</a></div>
-            <div>Тестовый логин и пароль: free@samuraijs.com и free</div>
+            <div>Чтобы зайти, сначала зарегистрируйтесь <a
+                href={'https://social-network.samuraijs.com/signUp'}>здесь.</a></div>
         </div>
         <LoginForm onSubmit={onSubmit}/>
     </div>

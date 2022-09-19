@@ -9,10 +9,6 @@ import {SvgSelector} from "../common/Utils/svgSelector";
 
 export const Header = (props: HeaderPropsType) => {
 
-    const logout = () => {
-        props.logout()
-    }
-
     return <header className={s.header}>
         <div className={s.logo}><NavLink to={'/profile'} className={s.link}>Social network
             <div>by DevAndreyIT</div></NavLink>
@@ -31,7 +27,6 @@ export const Header = (props: HeaderPropsType) => {
                 ? <img className={s.userAvatar} src={props.photo || userAvatarDefault}/>
                 : <NavLink to={'/login'}><span className={s.icons}> <SvgSelector
                     id={'login'}/></span></NavLink>}
-
         </div>
     </header>
 }

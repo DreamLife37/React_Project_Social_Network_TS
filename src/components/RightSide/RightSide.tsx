@@ -15,8 +15,7 @@ export const RightSide = () => {
         isAuth && dispatch(fetchMyFriends())
     }, [dispatch])
 
-    //if (!isAuth) return <Navigate to="/login"/>
-
+    
     return <div className={s.wrapperMyFriends}>
         <div className={s.title}>Мои друзья</div>
         {!isAuth
