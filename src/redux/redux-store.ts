@@ -8,7 +8,6 @@ import {reducer as formReducer} from 'redux-form';
 import {ActionsAppTypes, appReducer} from "./app-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 
-
 export const rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
@@ -21,8 +20,6 @@ export let store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export type ReduxStoreType = typeof store
-
-console.log(store.getState())
 
 export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector
 

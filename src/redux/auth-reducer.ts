@@ -1,6 +1,6 @@
 import {authAPI, profileAPI, usersAPI} from "../api/api";
 import {AppThunk} from "./redux-store";
-import {getStatusProfile, getUserProfile} from "./profile-reducer";
+import {getStatusProfile, getUserProfile, setUserProfile} from "./profile-reducer";
 import {setIsLoading} from "./app-reducer";
 import {handleServerNetworkError} from "../components/common/Utils/errorHandler";
 
@@ -81,10 +81,13 @@ export const getAuthUserData = (): AppThunk => {
                     profileAPI.getProfile(id)
                         .then(res => {
                             dispatch(setMyPhoto(res.photos.small))
+                            dispatch(setUserProfile(res))
                         })
                 } else {
                     handleServerNetworkError(dispatch, data.messages[0])
                 }
+            }).catch((err) => {
+                handleServerNetworkError(dispatch, "Some error occurred")
             })
             .finally(() => {
                 dispatch(setIsLoading(false))
