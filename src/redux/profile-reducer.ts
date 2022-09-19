@@ -33,7 +33,7 @@ export type ProfileType = {
     'userId': number
     'aboutMe': Nullable<string>
     lookingForAJob: Nullable<boolean>
-    lookingForAJobDescription: Nullable<boolean>
+    lookingForAJobDescription: Nullable<string>
     fullName: string
     contacts: ContactsType
     photos: {
