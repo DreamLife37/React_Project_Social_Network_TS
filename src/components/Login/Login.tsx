@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import * as Yup from 'yup';
 import {login} from '../../redux/auth-reducer';
 import s from './Login.module.css'
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType, useAppSelector} from "../../redux/redux-store";
 import {Navigate} from "react-router-dom";
 
 interface Values {
@@ -15,6 +15,7 @@ interface Values {
 
 type PropsType = {
     onSubmit: (values: Values, setStatus: any) => void
+    errorAuth: string
 }
 
 type MapDispatchPropsType = {
@@ -23,11 +24,13 @@ type MapDispatchPropsType = {
 
 type MapStatePropsType = {
     isAuth: boolean
+    errorAuth: string
 }
 
 type LoginPropsType = MapStatePropsType & MapDispatchPropsType
 
 const Login = (props: LoginPropsType) => {
+    //const errorAuth = useAppSelector(state => state.app.error)
     const onSubmit = (formData: Values, setStatus: any) => {
         props.login(formData.email, formData.password, formData.rememberMe, setStatus)
     }
@@ -42,7 +45,7 @@ const Login = (props: LoginPropsType) => {
             <div>Чтобы зайти, сначала зарегистрируйтесь <a
                 href={'https://social-network.samuraijs.com/signUp'}>здесь.</a></div>
         </div>
-        <LoginForm onSubmit={onSubmit}/>
+        <LoginForm onSubmit={onSubmit} errorAuth={props.errorAuth}/>
     </div>
 }
 
@@ -81,7 +84,7 @@ const LoginForm: React.FC<PropsType> = (props) => {
                                    type="email"
                                    className={s.input}
                                    placeholder={'Email'}/>
-                            {touched.email && errors.email && <div className={s.error}>{errors.email}</div>}
+                            <div className={s.error}> {touched.email && errors.email && <div>{errors.email}</div>}</div>
                         </div>
 
                         <div className={s.formGroup}>
@@ -92,17 +95,23 @@ const LoginForm: React.FC<PropsType> = (props) => {
                                 className={s.input}
                                 placeholder={'Password'}
                             />
-                            {touched.password && errors.password && <div className={s.error}>{errors.password}</div>}
+                            <div className={s.error}> {touched.password && errors.password &&
+                                <div>{errors.password}</div>}</div>
                         </div>
                         <div className={s.formGroup}>
                             <label htmlFor="password"> Запомнить меня</label>
                             <Field type="checkbox" name="rememberMe"/></div>
-                        <div>
-                            <button className={s.button} type="submit">Войти</button>
-                        </div>
+
                         <div className={s.error}>
-                            {status}
+                            {props.errorAuth !== 'You are not authorized' && props.errorAuth}
                         </div>
+
+                        <div className={s.buttonWrapper}>
+                            <button className={s.button} type="submit"
+                                    disabled={!!errors.password || !!errors.email}>Войти
+                            </button>
+                        </div>
+
                     </Form>
                 )}
             </Formik>
@@ -112,8 +121,9 @@ const LoginForm: React.FC<PropsType> = (props) => {
 
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    errorAuth: state.app.error
 }) as MapStatePropsType
 
-// @ts-ignore
+
 export default connect(mapStateToProps, {login})(Login)

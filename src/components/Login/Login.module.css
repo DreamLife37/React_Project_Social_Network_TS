@@ -57,19 +57,25 @@
     border: 2px #eee solid;
     margin-top: 4px;
     font-family: Proxima Nova, serif;
-
 }
+
 
 .error {
     color: #bb2020;
+    height: 8px;
+    font-size: 16px;
+    font-family: Proxima Nova, serif;
 }
+
+
 
 
 .buttonWrapper {
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 .button {
+    margin-top: 10px;
     background-color: #1f2937;
     color: #f1f1f1;
     border: none;
@@ -77,4 +83,11 @@
     height: 30px;
     border-radius: 0.25rem;
     cursor: pointer;
+}
+
+.button:disabled,
+button[disabled]{
+    background-color: #6b7278;
+    color: #ffffff;
+    cursor: inherit;
 }

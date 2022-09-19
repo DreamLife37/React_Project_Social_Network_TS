@@ -111,7 +111,6 @@ export const getMyProfile = (): AppThunk => {
     }
 }
 
-
 export const login = (email: string, password: string, rememberMe: boolean, setStatus: any): AppThunk => {
     let data = {
         email, password, rememberMe

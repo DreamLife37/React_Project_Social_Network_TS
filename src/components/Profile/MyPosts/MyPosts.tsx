@@ -2,7 +2,7 @@ import React from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
-import {FormFormik} from '../../common/FormFormik/FormFormik';
+import {FormFormik} from './FormFormik/FormFormik';
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
