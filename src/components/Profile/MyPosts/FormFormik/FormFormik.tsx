@@ -19,7 +19,7 @@ export const FormFormik: React.FC<PropsType> = (props) => {
         validate: async (values) => {
             const errors: FormikErrorType = {};
             if (!values.message) {
-                errors.message = 'Message is required';
+                errors.message = 'Поле обязательно';
             }
             return errors;
         },
@@ -34,7 +34,7 @@ export const FormFormik: React.FC<PropsType> = (props) => {
         <div className={s.wrapper}>
             <div className={s.title}>Создать пост</div>
             <form className={s.form} onSubmit={formik.handleSubmit}>
-                    <textarea {...formik.getFieldProps('message')} name="message" placeholder={'Input message for post'}
+                    <textarea {...formik.getFieldProps('message')} name="message" placeholder={'Введите текст для поста'}
                               className={`${s.textarea} ${formik.errors.message && s.textareaError}`}/>
                 {formik.touched.message && formik.errors.message &&
                     <div className={s.error}>{formik.errors.message}</div>}

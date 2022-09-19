@@ -2,7 +2,6 @@ import s from './Post.module.css'
 import React, {ChangeEvent, useState} from "react";
 import {editPostActionCreator, PostType, removePostActionCreator} from "../../../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
-import defaultAvatar from '../../../../assets/images/user.png'
 import {SvgSelector} from '../../../common/Utils/svgSelector';
 import {useAppSelector} from "../../../../redux/redux-store";
 import userAvatarDefault from "../../../../assets/images/user.png";
@@ -45,10 +44,10 @@ export const Post = (props: PostsType) => {
                     id={'actionPost'}/>
                     <div className={`${s.actionMenu} ${actionMenu ? '' : s.actionMenuNone}`}>
                         <div className={s.itemActionMenu} onClick={() => setEditMode(true)}>
-                            <SvgSelector id={'edit'}/><span>Edit</span>
+                            <SvgSelector id={'edit'}/><span>Редактировать</span>
                         </div>
                         <div className={s.itemActionMenu} onClick={removePost}><SvgSelector
-                            id={'delete'}/><span>Delete</span></div>
+                            id={'delete'}/><span>Удалить</span></div>
                     </div>
                 </div>
             </div>

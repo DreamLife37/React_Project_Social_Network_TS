@@ -13,7 +13,7 @@
 }
 
 .warning {
-    margin-top: 10px;
+    margin-top: 20px;
     background-color: #6c757d;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     border-radius: 0.25rem;
@@ -31,7 +31,7 @@
 }
 
 .login {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .formGroup {
@@ -57,24 +57,37 @@
     border: 2px #eee solid;
     margin-top: 4px;
     font-family: Proxima Nova, serif;
-
 }
+
 
 .error {
     color: #bb2020;
+    height: 8px;
+    font-size: 16px;
+    font-family: Proxima Nova, serif;
 }
+
+
 
 
 .buttonWrapper {
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 .button {
+    margin-top: 10px;
     background-color: #1f2937;
     color: #f1f1f1;
     border: none;
-    width: 160px;
+    width: calc(100% - 20px);
     height: 30px;
     border-radius: 0.25rem;
     cursor: pointer;
+}
+
+.button:disabled,
+button[disabled]{
+    background-color: #6b7278;
+    color: #ffffff;
+    cursor: inherit;
 }

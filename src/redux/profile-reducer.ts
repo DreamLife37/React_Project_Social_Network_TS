@@ -33,7 +33,7 @@ export type ProfileType = {
     'userId': number
     'aboutMe': Nullable<string>
     lookingForAJob: Nullable<boolean>
-    lookingForAJobDescription: Nullable<boolean>
+    lookingForAJobDescription: Nullable<string>
     fullName: string
     contacts: ContactsType
     photos: {
@@ -216,9 +216,12 @@ export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
     usersAPI.getProfile(userId)
         .then(data => {
             dispatch(setUserProfile(data))
-        }).finally(() => {
-        dispatch(toggleIsFetching(false))
+        }).catch((err) => {
+        handleServerNetworkError(dispatch, "Some error occurred")
     })
+        .finally(() => {
+            dispatch(toggleIsFetching(false))
+        })
 }
 
 
@@ -228,6 +231,9 @@ export const getStatusProfile = (userId: number): AppThunk => (dispatch) => {
         .then((res) => {
             dispatch(setStatusProfile(res.data))
             dispatch(toggleIsFetching(false))
+        })
+        .catch((err) => {
+            handleServerNetworkError(dispatch, "Some error occurred")
         })
 }
 
