@@ -132,16 +132,18 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                     <div className={s.error}></div>
 
                     <label htmlFor="lookingForAJobDescription">Информация для работодателя</label>
-                    <input {...formik.getFieldProps('lookingForAJobDescription')} name="lookingForAJobDescription"
+                    <input name="lookingForAJobDescription"
                            placeholder={'Информация для работодателя'}
                            className={`${s.input}`}
-                           value={formik.initialValues.lookingForAJobDescription ||''}/>
+                           onChange={formik.handleChange}
+                           />
                     <div
                         className={s.error}> {formik.touched.lookingForAJobDescription && formik.errors.lookingForAJobDescription &&
                         <div className={s.error}>{formik.errors.lookingForAJobDescription}</div>}</div>
 
-                    <input type="checkbox" {...formik.getFieldProps('lookingForAJob')} name="lookingForAJob"
-                           placeholder={'Ищу работу'} checked={formik.initialValues.lookingForAJob || false}
+                    <input id="lookingForAJob" type="checkbox" name="lookingForAJob"
+                           placeholder={'Ищу работу'}
+                           onChange={formik.handleChange}
                     /> <span className={s.searchJob}>Ищу работу</span>
 
 

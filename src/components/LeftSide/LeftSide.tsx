@@ -9,8 +9,10 @@ export const LeftSide = () => {
     const profile = useAppSelector(state => state.profilePage.profile)
 
     return <div className={s.wrapper}>
-        {isAuth && profile && <div className={s.wrapperProfileInfo}><ProfileInfo/>
-            <Navbar/></div>}
+        {isAuth && profile && <>
+            <div className={s.wrapperProfileInfo}><ProfileInfo/></div>
+                <Navbar/>
+        </>}
     </div>
 }
 
