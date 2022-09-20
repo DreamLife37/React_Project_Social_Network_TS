@@ -48,6 +48,8 @@ export const App: FC = () => {
                             <Route path="profile/:userId" element={<ProfileContainer/>}/>
                             <Route path="profile/:userId" element={<ProfileInfo/>}/>
                             <Route path='/profile' element={<ProfileContainer/>}/>
+                            <Route path='/' element={<ProfileContainer/>}/>
+                            <Route path='/React_Project_Social_Network_TS' element={<ProfileContainer/>}/>
                             <Route path="news" element={'News'}/>
                             <Route path="users" element={<UsersContainer/>}/>
                             <Route path='login' element={<Login/>}/>
