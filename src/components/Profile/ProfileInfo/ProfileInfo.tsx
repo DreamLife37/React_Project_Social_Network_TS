@@ -43,7 +43,7 @@ export const ProfileInfo = (props: ProfileInfo) => {
 
     let readyToWorkValue
 
-    if (aboutMe || status) {
+    if (aboutMe || status || profile?.photos.large) {
         readyToWorkValue = '25%'
     }
 
@@ -58,6 +58,9 @@ export const ProfileInfo = (props: ProfileInfo) => {
     if (aboutMe && lookingForAJob && profile?.photos.large && status) {
         readyToWorkValue = '100%'
     }
+    if (!aboutMe && !status && !profile?.photos.large) {
+        readyToWorkValue = 'Не готов'
+    }
 
     if (!profile) {
         return <Preloader/>
@@ -67,6 +70,7 @@ export const ProfileInfo = (props: ProfileInfo) => {
         || (readyToWorkValue === '50%' && s.progressBar50)
         || (readyToWorkValue === '75%' && s.progressBar75)
         || (readyToWorkValue === '100%' && s.progressBar100)
+        || (readyToWorkValue === 'Не готов' && s.progressBar0)
 
     return (
         <div className={s.profileInfo}>

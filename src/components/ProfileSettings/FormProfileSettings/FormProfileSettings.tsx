@@ -38,7 +38,7 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
         const formik = useFormik({
             enableReinitialize: true,
             initialValues: {
-                aboutMe: aboutMe ,
+                aboutMe: aboutMe,
                 lookingForAJob: lookingForAJob as Nullable<boolean>,
                 lookingForAJobDescription: lookingForAJobDescription,
                 fullName: fullName,
@@ -85,26 +85,28 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                 <form className={s.form} onSubmit={formik.handleSubmit}>
                     <label htmlFor="fullName">Фамилия Имя</label>
                     <input {...formik.getFieldProps('fullName')} name="fullName" placeholder={'Фамилия Имя'}
-                           className={`${s.input} ${formik.errors.fullName && s.textareaError}`} value={formik.initialValues.fullName ||''}/>
+                           className={`${s.input} ${formik.errors.fullName && s.textareaError}`}
+                           value={formik.values.fullName || ''}/>
                     <div className={s.error}>{formik.touched.fullName && formik.errors.fullName &&
                         <div className={s.error}>{formik.errors.fullName}</div>}</div>
 
                     <label htmlFor="AboutMe">Обо мне</label>
                     <input {...formik.getFieldProps('aboutMe')} name="aboutMe" placeholder={'Обо мне'}
-                           className={`${s.input} ${formik.errors.aboutMe && s.textareaError}`} value={formik.initialValues.aboutMe ||''}/>
+                           className={`${s.input} ${formik.errors.aboutMe && s.textareaError}`}
+                           value={formik.values.aboutMe || ''}/>
                     <div className={s.error}>  {formik.touched.aboutMe && formik.errors.aboutMe &&
                         <div className={s.error}>{formik.errors.aboutMe}</div>}</div>
 
                     <label htmlFor="facebook">Ссылка на профиль в Facebook</label>
                     <input {...formik.getFieldProps('contacts[facebook]')} name="contacts.facebook"
                            placeholder={'Facebook URL'}
-                           className={`${s.input}`} value={formik.initialValues.contacts.facebook ||''}/>
+                           className={`${s.input}`} value={formik.values.contacts.facebook || ''}/>
                     <div className={s.error}> {formik.touched.contacts?.facebook && formik.errors.contacts?.facebook &&
                         <div className={s.error}>{formik.errors.contacts.facebook}</div>}</div>
 
                     <label htmlFor="github">Ссылка на профиль в Github</label>
                     <input {...formik.getFieldProps('contacts.github')} name="contacts.github" placeholder={'Github URL'}
-                           className={`${s.input}`} value={formik.initialValues.contacts.github ||''}/>
+                           className={`${s.input}`} value={formik.values.contacts.github || ''}/>
                     <div className={s.error}>  {formik.touched.contacts?.github && formik.errors.contacts?.github &&
                         <div className={s.error}>{formik.errors.contacts?.github}</div>}</div>
 
@@ -112,23 +114,23 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                     <input {...formik.getFieldProps('contacts.instagram')} name="contacts.instagram"
                            placeholder={'Instagram URL'}
                            className={`${s.input}`}
-                           value={formik.initialValues.contacts.instagram ||''}/>
+                           value={formik.values.contacts.instagram || ''}/>
                     <div className={s.error}></div>
 
                     <label htmlFor="vk">Ссылка на профиль в Вконтакте</label>
                     <input {...formik.getFieldProps('contacts.vk')} name="contacts.vk" placeholder={'Vk URL'}
                            className={`${s.input}`}
-                           value={formik.initialValues.contacts.vk ||''}/>
+                           value={formik.values.contacts.vk || ''}/>
                     <div className={s.error}></div>
 
                     <label htmlFor="website">Ссылка на ваш сайт</label>
                     <input {...formik.getFieldProps('contacts.website')} name="contacts.website" placeholder={'Website URL'}
-                           className={`${s.input}`} value={formik.initialValues.contacts.website ||''}/>
+                           className={`${s.input}`} value={formik.values.contacts.website || ''}/>
                     <div className={s.error}></div>
 
                     <label htmlFor="youtube">Ссылка на профиль в Youtube</label>
                     <input {...formik.getFieldProps('contacts.youtube')} name="contacts.youtube" placeholder={'Youtube URL'}
-                           className={`${s.input}`} value={formik.initialValues.contacts.youtube ||''}/>
+                           className={`${s.input}`} value={formik.values.contacts.youtube || ''}/>
                     <div className={s.error}></div>
 
                     <label htmlFor="lookingForAJobDescription">Информация для работодателя</label>
@@ -136,7 +138,8 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                            placeholder={'Информация для работодателя'}
                            className={`${s.input}`}
                            onChange={formik.handleChange}
-                           />
+                           value={formik.values.lookingForAJobDescription || ''}
+                    />
                     <div
                         className={s.error}> {formik.touched.lookingForAJobDescription && formik.errors.lookingForAJobDescription &&
                         <div className={s.error}>{formik.errors.lookingForAJobDescription}</div>}</div>
@@ -144,6 +147,8 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                     <input id="lookingForAJob" type="checkbox" name="lookingForAJob"
                            placeholder={'Ищу работу'}
                            onChange={formik.handleChange}
+                           checked={formik.values.lookingForAJob || false}
+
                     /> <span className={s.searchJob}>Ищу работу</span>
 
 
