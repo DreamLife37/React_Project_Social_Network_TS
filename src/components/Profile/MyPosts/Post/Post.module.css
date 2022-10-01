@@ -34,11 +34,11 @@
 }
 
 .picture {
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
 .picture img {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     border-radius: 0.25rem;
 }
