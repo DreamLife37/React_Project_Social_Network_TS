@@ -39,12 +39,11 @@ export const Search = () => {
                 <img src={searchIcon} alt={'Icon search'}/>
             </div>
         </div>
-        {isFetching
-            ? <Preloader/>
-            : null}
+        {/*{isFetching*/}
+        {/*    ? <Preloader/>*/}
+        {/*    : null}*/}
         {isComponentVisible && <SearchItem isComponentVisible={isComponentVisible} setIsComponentVisible={setIsComponentVisible}
                     searchUsers={searchUsers}
                     valueSearch={valueSearch}/>}
-
     </div>
 }

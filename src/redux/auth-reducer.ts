@@ -71,58 +71,85 @@ export const setMyPhoto = (photo: string) => {
     } as const
 }
 
-export const getAuthUserData = (): AppThunk => {
-    return (dispatch) => {
-        return usersAPI.getAuthMe()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    let {id, login, email} = data.data
-                    dispatch(setUserData(id, email, login, true))
-                    profileAPI.getProfile(id)
-                        .then(res => {
-                            dispatch(setMyPhoto(res.photos.small))
-                            dispatch(setUserProfile(res))
-                        })
-                } else {
-                    handleServerNetworkError(dispatch, data.messages[0])
-                }
-            }).catch((err) => {
-                handleServerNetworkError(dispatch, "Some error occurred")
-            })
-            .finally(() => {
-                dispatch(setIsLoading(false))
-            })
-    }
-}
+// export const getAuthUserData = (): AppThunk => {
+//     return (dispatch) => {
+
+// return usersAPI.getAuthMe()
+//     .then(data => {
+//         if (data.resultCode === 0) {
+//             let {id, login, email} = data.data
+//             dispatch(setUserData(id, email, login, true))
+//             console.log(id)
+//             profileAPI.getProfile(id)
+//                 .then(res => {
+//                     console.log(res)
+//                     dispatch(setMyPhoto(res.photos.small))
+//                     dispatch(setUserProfile(res))
+// })
+// } else {
+//handleServerNetworkError(dispatch, data.messages[0])
+//}
+//         }).catch((err) => {
+//             handleServerNetworkError(dispatch, "Some error occurred")
+//         })
+//         .finally(() => {
+//             dispatch(setIsLoading(false))
+//         })
+//     }
+// }
 
 export const getMyProfile = (): AppThunk => {
-    return (dispatch) => {
-        return usersAPI.getAuthMe()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    let {id, login, email} = data.data
-                    dispatch(setUserData(id, email, login, true))
-                    dispatch(getUserProfile(id))
-                    dispatch(getStatusProfile(id))
-                } else {
-                    handleServerNetworkError(dispatch, data.messages[0])
-                }
-            })
-            .finally(() => {
-                dispatch(setIsLoading(false))
-            })
+    return (dispatch, getState) => {
+        // return usersAPI.getAuthMe()
+        //     .then(data => {
+        //         if (data.resultCode === 0) {
+        //             let {id, login, email} = data.data
+        const id = getState().auth.id
+        if (id !== null) {
+            const email = 'test@test.ru'
+            const login = 'login'
+            dispatch(setUserData(id, email, login, true))
+            dispatch(getUserProfile(id))
+            dispatch(getStatusProfile(id))
+        }
+
+        dispatch(setIsLoading(false))
+
+        //     } else {
+        //         handleServerNetworkError(dispatch, data.messages[0])
+        //     }
+        // })
+        // .finally(() => {
+        //     dispatch(setIsLoading(false))
+        // })
     }
 }
 
 export const login = (email: string, password: string, rememberMe: boolean, setStatus: any): AppThunk => {
+
     let data = {
         email, password, rememberMe
     }
     return (dispatch) => {
         authAPI.login(data)
             .then(data => {
+                debugger
                 if (data.data.resultCode === 0) {
-                    dispatch(getAuthUserData())
+                    console.log(data.data.data.userId)
+                    const id = data.data.data.userId
+                    // dispatch(getAuthUserData())
+                    const email = 'test@test.ru'
+                    const login = 'login'
+
+                    dispatch(setUserData(id, email, login, true))
+                    //console.log(id)
+                    profileAPI.getProfile(id)
+                        .then(res => {
+                            console.log(res)
+                            dispatch(setMyPhoto(res.photos.small))
+                            dispatch(setUserProfile(res))
+                        })
+                    dispatch(setIsLoading(false))
                 } else {
                     handleServerNetworkError(dispatch, data.data.messages[0])
                 }

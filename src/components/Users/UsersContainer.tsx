@@ -10,9 +10,7 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {compose} from "redux";
-import {withAuthRedirect} from "../hoc/WithAuthRedirect";
 import {
-
     getPageSize,
     getCurrentPage,
     getTotalUsersCount,

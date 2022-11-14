@@ -22,12 +22,10 @@
 
 .warning div {
     padding: 10px;
-
 }
 
 .warning a {
     color: white;
-
 }
 
 .login {
@@ -59,16 +57,12 @@
     font-family: Proxima Nova, serif;
 }
 
-
 .error {
     color: #bb2020;
     height: 8px;
     font-size: 16px;
     font-family: Proxima Nova, serif;
 }
-
-
-
 
 .buttonWrapper {
     margin-top: 10px;
@@ -86,7 +80,7 @@
 }
 
 .button:disabled,
-button[disabled]{
+button[disabled] {
     background-color: #6b7278;
     color: #ffffff;
     cursor: inherit;

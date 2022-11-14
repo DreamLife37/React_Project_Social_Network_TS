@@ -1,6 +1,5 @@
 import {Dispatch} from "redux";
 import {AppThunk, Nullable} from "./redux-store";
-import {getAuthUserData} from "./auth-reducer";
 
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS'
 
@@ -55,11 +54,13 @@ export const initializedSuccess = () => {
 export const setIsLoading = (status: boolean) => ({type: "APP/IS-LOADING-SET", payload: status}) as const
 export const setError = (error: Nullable<string>) => ({type: "APP/ERROR-SET", payload: error}) as const
 
+
+
 export const initializeApp = (): AppThunk => (dispatch) => {
-    Promise.all([dispatch(getAuthUserData())])
-        .then(() => {
+    // Promise.all([dispatch(getAuthUserData())])
+    //     .then(() => {
             dispatch(initializedSuccess())
-        })
+        // })
 }
 
 

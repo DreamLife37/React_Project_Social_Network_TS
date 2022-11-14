@@ -25,7 +25,8 @@ export const ProfileInfo = (props: ProfileInfo) => {
     const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
     const userId = useAppSelector(state => state.profilePage.profile?.userId)
     const myId = useAppSelector(state => state.auth.id)
-
+    console.log(myId)
+    console.log(userId)
 
     const followCallback = () => {
         dispatch(follow(userId))
@@ -84,7 +85,8 @@ export const ProfileInfo = (props: ProfileInfo) => {
                     <label className={s.setAvatarInputLabel} htmlFor='fileInput'/></>}
 
                 <div className={s.name}>{fullName}</div>
-                {myId !== userId && <div className={s.buttonWrapper}>
+                {userId
+                    ? myId !== userId && <div className={s.buttonWrapper}>
                     {isFollowed
                         ? <button className={s.buttonFollowing}
 
@@ -92,7 +94,8 @@ export const ProfileInfo = (props: ProfileInfo) => {
 
                         : <button className={s.button}
                                   onClick={followCallback}>+Подписаться</button>}
-                </div>}
+                </div>
+                    : ''}
 
 
                 <div className={s.containerBar}>

@@ -4,7 +4,7 @@ import imagePost2 from '../assets/images/office.jpg'
 import imagePost3 from '../assets/images/interrior.jpg'
 import imagePost4 from '../assets/images/car.jpg'
 import imageDefaultPost from '../assets/images/net_foto.jpg'
-import {getAuthUserData, setMyPhoto} from "./auth-reducer";
+import { setMyPhoto} from "./auth-reducer";
 import {AppThunk, Nullable} from "./redux-store";
 import {setIsLoading} from "./app-reducer";
 import {toggleIsFetching, UserType} from "./users-reducer";
@@ -279,7 +279,7 @@ export const updateProfile = (updateModelProfile: EditParamsType): AppThunk => (
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setUpdateProfile(updateModelProfile))
-                dispatch(getAuthUserData)
+                // dispatch(getAuthUserData)
                 dispatch(toggleIsFetching(false))
             } else {
                 handleServerNetworkError(dispatch, res.data.messages[0])

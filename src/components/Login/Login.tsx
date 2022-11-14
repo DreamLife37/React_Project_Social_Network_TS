@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import {login} from '../../redux/auth-reducer';
 import s from './Login.module.css'
 import {AppStateType, useAppSelector} from "../../redux/redux-store";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 interface Values {
     email: string
@@ -36,7 +36,7 @@ const Login = (props: LoginPropsType) => {
     }
 
     if (props.isAuth) {
-        return <Navigate to={'/profile'}/>
+         return <Navigate to={'/profile'}/>
     }
     return <div className={s.containerLoginForm}>
         <h1 className={s.title}>Вход в Social Network</h1>
