@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/React_Project_Social_Network_TS/static/css/main.32261c18.css",
-    "main.js": "/React_Project_Social_Network_TS/static/js/main.e24672d9.js",
+    "main.js": "/React_Project_Social_Network_TS/static/js/main.d17ef521.js",
     "static/media/sunny_day.jpg": "/React_Project_Social_Network_TS/static/media/sunny_day.d675fca04a3186859af5.jpg",
     "static/media/office.jpg": "/React_Project_Social_Network_TS/static/media/office.35c9c1077940bc56c6c8.jpg",
     "static/media/car.jpg": "/React_Project_Social_Network_TS/static/media/car.6317d34e464c0f8be306.jpg",
@@ -12,10 +12,10 @@
     "index.html": "/React_Project_Social_Network_TS/index.html",
     "static/media/iconsSearch.svg": "/React_Project_Social_Network_TS/static/media/iconsSearch.e0b696f327468be32ac4c5e19adcf6ce.svg",
     "main.32261c18.css.map": "/React_Project_Social_Network_TS/static/css/main.32261c18.css.map",
-    "main.e24672d9.js.map": "/React_Project_Social_Network_TS/static/js/main.e24672d9.js.map"
+    "main.d17ef521.js.map": "/React_Project_Social_Network_TS/static/js/main.d17ef521.js.map"
   },
   "entrypoints": [
     "static/css/main.32261c18.css",
-    "static/js/main.e24672d9.js"
+    "static/js/main.d17ef521.js"
   ]
 }
