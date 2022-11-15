@@ -7,17 +7,16 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {useDispatch} from "react-redux";
-
+import {initializeApp} from "./redux/app-reducer";
 import {useAppSelector} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
 import {setUserProfile} from "./redux/profile-reducer";
-
+import {getAuthUserData} from "./redux/auth-reducer";
 import {RightSide} from "./components/RightSide/RightSide";
 import {ProfileInfo} from "./components/Profile/ProfileInfo/ProfileInfo";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
-import {initializeApp} from "./redux/app-reducer";
 
 
 export const App: FC = () => {
@@ -30,18 +29,13 @@ export const App: FC = () => {
         dispatch(initializeApp())
     }, [dispatch])
 
-    // if (!initialized) {
-    //     return <Preloader/>
-    // }
-
-
+    if (!initialized) {
+        return <Preloader/>
+    }
     if (isLoading) {
         return <Preloader/>
     }
 
-    // {isFetching
-    //    ? <Preloader/>
-    //     : null}
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -56,6 +50,7 @@ export const App: FC = () => {
                             <Route path='/profile' element={<ProfileContainer/>}/>
                             <Route path='/' element={<ProfileContainer/>}/>
                             <Route path='/React_Project_Social_Network_TS' element={<ProfileContainer/>}/>
+                            <Route path="news" element={'News'}/>
                             <Route path="users" element={<UsersContainer/>}/>
                             <Route path='login' element={<Login/>}/>
                             <Route path='profileSettings' element={<ProfileSettings/>}/>

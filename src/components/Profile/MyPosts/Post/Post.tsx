@@ -1,6 +1,11 @@
 import s from './Post.module.css'
 import React, {ChangeEvent, useState} from "react";
-import {editPostActionCreator, PostType, removePostActionCreator} from "../../../../redux/profile-reducer";
+import {
+    editLikeActionCreator,
+    editPostActionCreator,
+    PostType,
+    removePostActionCreator
+} from "../../../../redux/profile-reducer";
 import {useDispatch} from "react-redux";
 import {SvgSelector} from '../../../common/Utils/svgSelector';
 import {useAppSelector} from "../../../../redux/redux-store";
@@ -34,7 +39,7 @@ export const Post = (props: PostsType) => {
 
     return <div className={s.postContainer}>
         <div className={s.wrapperAvatar}>
-            <img className={s.userAvatar} src={largePhoto ||userAvatarDefault}/>
+            <img className={s.userAvatar} src={largePhoto || userAvatarDefault}/>
         </div>
         <div className={s.content}>
             <div className={s.header}>
@@ -59,8 +64,8 @@ export const Post = (props: PostsType) => {
             <div className={s.picture}>
                 <img src={props.post.image}/>
             </div>
-            <div className={s.like}>
-                <SvgSelector id={'like'}/>
+            <div className={s.like} onClick={() => (dispatch(editLikeActionCreator(props.post.id)))}>
+                <SvgSelector id={'like'} />
                 <span>{props.post.likesCount}</span>
             </div>
         </div>

@@ -3,7 +3,7 @@ import {Field, useFormik} from "formik";
 import s from "./FormProfileSettings.module.css";
 import {updateProfile} from "../../../redux/profile-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType, Nullable, useAppSelector} from "../../../redux/redux-store";
+import {AppStateType, Nullable} from "../../../redux/redux-store";
 import {Preloader} from "../../common/Preloader/Preloader";
 
 type PropsType = {}
@@ -16,8 +16,7 @@ type FormikErrorType = {
 }
 
 export const FormProfileSettings: React.FC<PropsType> = () => {
-        const isLoading = useAppSelector(state => state.app.isLoading)
-    console.log(isLoading)
+
         const dispatch = useDispatch()
         const profile = useSelector<AppStateType>(state => state.profilePage.profile)
         const aboutMe = useSelector((state: AppStateType) => state.profilePage.profile?.aboutMe)
@@ -79,10 +78,6 @@ export const FormProfileSettings: React.FC<PropsType> = () => {
                 formik.resetForm()
             },
         })
-
-        if (isLoading) {
-            return <Preloader/>
-        }
 
         return (
             <div className={s.wrapper}>

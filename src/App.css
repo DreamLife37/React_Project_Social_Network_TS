@@ -2,7 +2,7 @@
 .app-wrapper {
     display: flex;
     flex-direction: column;
-}
+    }
 
 .container {
     display: flex;
@@ -25,7 +25,9 @@
 }
 
 .rightSide {
+
     flex: 1;
+
     margin: 40px 10px 10px;
     border-radius: 0.25rem;
 }

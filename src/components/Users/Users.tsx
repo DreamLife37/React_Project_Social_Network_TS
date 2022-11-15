@@ -3,8 +3,6 @@ import s from "./Users.module.css";
 import {UserType} from "../../redux/users-reducer";
 import {UserItem} from "./UserItem/UserItem";
 import {Paginator} from "../common/Paginator/Paginator";
-import {Navigate} from "react-router-dom";
-import {useAppSelector} from "../../redux/redux-store";
 
 type UsersPropsType = {
     totalUsersCount: number
@@ -18,8 +16,6 @@ type UsersPropsType = {
 }
 
 export const Users = (props: UsersPropsType) => {
-    const isAuth = useAppSelector(state => state.auth.isAuth)
-    if (!isAuth) return <Navigate to="/login"/>
     return <div>
         <Paginator followingInProgress={props.followingInProgress}
                    unFollow={props.unFollow}

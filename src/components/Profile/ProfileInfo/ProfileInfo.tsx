@@ -25,8 +25,7 @@ export const ProfileInfo = (props: ProfileInfo) => {
     const isFollowed = useAppSelector(state => state.profilePage.isFollowed)
     const userId = useAppSelector(state => state.profilePage.profile?.userId)
     const myId = useAppSelector(state => state.auth.id)
-    console.log(myId)
-    console.log(userId)
+
 
     const followCallback = () => {
         dispatch(follow(userId))

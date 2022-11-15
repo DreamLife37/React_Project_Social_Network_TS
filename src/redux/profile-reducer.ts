@@ -4,7 +4,7 @@ import imagePost2 from '../assets/images/office.jpg'
 import imagePost3 from '../assets/images/interrior.jpg'
 import imagePost4 from '../assets/images/car.jpg'
 import imageDefaultPost from '../assets/images/net_foto.jpg'
-import { setMyPhoto} from "./auth-reducer";
+import {getAuthUserData, setMyPhoto} from "./auth-reducer";
 import {AppThunk, Nullable} from "./redux-store";
 import {setIsLoading} from "./app-reducer";
 import {toggleIsFetching, UserType} from "./users-reducer";
@@ -16,6 +16,7 @@ const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS_PROFILE = 'SET_STATUS_PROFILE';
 const REMOVE_POST = 'REMOVE_POST';
 const EDIT_POST = 'EDIT_POST';
+const EDIT_LIKE_POST = 'EDIT_LIKE_POST';
 const UPDATE_PROFILE = 'UPDATE_PROFILE';
 const MY_FRIENDS = 'MY_FRIENDS';
 const SET_IS_FOLLOWED = 'SET_IS_FOLLOWED';
@@ -73,6 +74,7 @@ export type ActionsProfileTypes =
     | ReturnType<typeof setMyFriends>
     | ReturnType<typeof setIsFollowed>
     | ReturnType<typeof setPhotoSuccess>
+    | ReturnType<typeof editLikeActionCreator>
 
 let initialState = {
     posts: [
@@ -82,7 +84,12 @@ let initialState = {
             likesCount: 10,
             image: imagePost1
         },
-        {id: 2, message: 'Когда работа любимая, каждый день в радость ❤', likesCount: 56, image: imagePost2},
+        {
+            id: 2,
+            message: 'Когда работа любимая, каждый день в радость ❤',
+            likesCount: 56,
+            image: imagePost2
+        },
         {
             id: 3,
             message: 'Наконец то завершился ремонт в нашем уютном домике, как Вам?😉',
@@ -105,13 +112,11 @@ let initialState = {
 export const profileReducer = (state = initialState, action: ActionsProfileTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST: {
-
             const post = {id: 5, message: action.newText, likesCount: 205, image: imageDefaultPost}
             return {...state, posts: [post, ...state.posts,]}
         }
 
         case SET_USER_PROFILE: {
-            // @ts-ignore
             return {...state, profile: action.profile}
         }
         case SET_STATUS_PROFILE: {
@@ -142,8 +147,12 @@ export const profileReducer = (state = initialState, action: ActionsProfileTypes
         case SAVE_PHOTO_SUCCESS: {
             // @ts-ignore
             return {...state, profile: {...state.profile, photos: action.photo}}
-
         }
+        case EDIT_LIKE_POST: {
+            const postEdit = state.posts.map((p) => p.id === action.id ? {...p, likesCount: p.likesCount + 1} : p)
+            return {...state, posts: postEdit}
+        }
+
         default:
             return state
     }
@@ -164,6 +173,12 @@ export const removePostActionCreator = (id: number) => {
 export const editPostActionCreator = (id: number, newText: string) => {
     return {
         type: EDIT_POST, id, newText
+    } as const
+}
+
+export const editLikeActionCreator = (id: number) => {
+    return {
+        type: EDIT_LIKE_POST, id,
     } as const
 }
 
@@ -224,7 +239,6 @@ export const getUserProfile = (userId: number): AppThunk => (dispatch) => {
         })
 }
 
-
 export const getStatusProfile = (userId: number): AppThunk => (dispatch) => {
     dispatch(toggleIsFetching(true))
     profileAPI.getStatus(userId)
@@ -251,7 +265,6 @@ export const updateStatus = (status: string): AppThunk => (dispatch) => {
     }).finally(() => {
         dispatch(toggleIsFetching(false))
     })
-
 }
 
 export const savePhoto = (file: File): AppThunk => (dispatch) => {
@@ -279,7 +292,7 @@ export const updateProfile = (updateModelProfile: EditParamsType): AppThunk => (
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setUpdateProfile(updateModelProfile))
-                // dispatch(getAuthUserData)
+                dispatch(getAuthUserData)
                 dispatch(toggleIsFetching(false))
             } else {
                 handleServerNetworkError(dispatch, res.data.messages[0])
