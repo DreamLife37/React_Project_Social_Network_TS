@@ -6,7 +6,6 @@ import userAvatarDefault from './../../assets/images/user.png'
 import {Search} from "./Search/Search";
 import {SvgSelector} from "../common/Utils/svgSelector";
 
-
 export const Header = (props: HeaderPropsType) => {
 
     return <header className={s.header}>

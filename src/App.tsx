@@ -1,7 +1,6 @@
-import React, {Component, FC, useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import './App.css';
-import {Navbar} from "./components/LeftSide/Navbar/Navbar";
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -12,14 +11,14 @@ import {useAppSelector} from "./redux/redux-store";
 import {LeftSide} from "./components/LeftSide/LeftSide";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import {ProfileSettings} from "./components/ProfileSettings/ProfileSettings";
-import {setUserProfile} from "./redux/profile-reducer";
-import {getAuthUserData} from "./redux/auth-reducer";
 import {RightSide} from "./components/RightSide/RightSide";
 import {ProfileInfo} from "./components/Profile/ProfileInfo/ProfileInfo";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 
 export const App: FC = () => {
+    document.cookie = `referral_key=hello;max-age=604800;domain=example.com`
+
     const dispatch = useDispatch()
     const initialized = useAppSelector((state) => state.app.initialized)
     const isLoading = useAppSelector(state => state.app.isLoading)
@@ -37,7 +36,7 @@ export const App: FC = () => {
     }
 
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/React_Project_Social_Network_TS">
             <div className="app-wrapper">
                 <HeaderContainer/>
                 <div className={'container'}>
@@ -49,7 +48,7 @@ export const App: FC = () => {
                             <Route path="profile/:userId" element={<ProfileInfo/>}/>
                             <Route path='/profile' element={<ProfileContainer/>}/>
                             <Route path='/' element={<ProfileContainer/>}/>
-                            <Route path='/React_Project_Social_Network_TS' element={<ProfileContainer/>}/>
+                            {/*<Route path='/React_Project_Social_Network_TS' element={<ProfileContainer/>}/>*/}
                             <Route path="news" element={'News'}/>
                             <Route path="users" element={<UsersContainer/>}/>
                             <Route path='login' element={<Login/>}/>

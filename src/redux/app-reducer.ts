@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {AppThunk, Nullable} from "./redux-store";
 import {getAuthUserData} from "./auth-reducer";
 

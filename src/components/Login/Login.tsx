@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import * as Yup from 'yup';
 import {login} from '../../redux/auth-reducer';
 import s from './Login.module.css'
-import {AppStateType, useAppSelector} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {Navigate} from "react-router-dom";
+import {SvgSelector} from "../common/Utils/svgSelector";
 
 interface Values {
     email: string
@@ -30,7 +31,6 @@ type MapStatePropsType = {
 type LoginPropsType = MapStatePropsType & MapDispatchPropsType
 
 const Login = (props: LoginPropsType) => {
-    //const errorAuth = useAppSelector(state => state.app.error)
     const onSubmit = (formData: Values, setStatus: any) => {
         props.login(formData.email, formData.password, formData.rememberMe, setStatus)
     }
@@ -40,11 +40,22 @@ const Login = (props: LoginPropsType) => {
     }
     return <div className={s.containerLoginForm}>
         <h1 className={s.title}>Вход в Social Network</h1>
-        <h2 className={s.title}>by DevAndreyIT </h2>
+        {/*<h2 className={s.title}>by DevAndreyIT </h2>*/}
+        {/*<div className={s.warning}>*/}
+        {/*    <div>Чтобы зайти, сначала зарегистрируйтесь <a*/}
+        {/*        href={'https://social-network.samuraijs.com/signUp'} target="_blank">здесь.</a>*/}
+        {/*    </div>*/}
+        {/*</div>*/}
+
         <div className={s.warning}>
-            <div>Чтобы зайти, сначала зарегистрируйтесь <a
-                href={'https://social-network.samuraijs.com/signUp'}>здесь.</a></div>
+            <div>
+                <SvgSelector id={'warning'}/> Из-за особенностей back-end, если Вы ранее в данном браузере не заходили
+                к нам в проект,
+            </div>
+            <div> пожалуйста пройдите авторизацию на сайте API сервера</div>
+            <a href={'https://social-network.samuraijs.com/login'} target="_blank">здесь.</a>
         </div>
+
         <LoginForm onSubmit={onSubmit} errorAuth={props.errorAuth}/>
     </div>
 }
@@ -119,11 +130,9 @@ const LoginForm: React.FC<PropsType> = (props) => {
     );
 };
 
-
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     isAuth: state.auth.isAuth,
     errorAuth: state.app.error
 }) as MapStatePropsType
-
 
 export default connect(mapStateToProps, {login})(Login)

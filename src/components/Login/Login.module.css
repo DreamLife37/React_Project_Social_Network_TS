@@ -13,21 +13,24 @@
 }
 
 .warning {
-    margin-top: 20px;
+    padding-right: 10px;
     background-color: #6c757d;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
     border-radius: 0.25rem;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .warning div {
-    padding: 10px;
 
 }
 
 .warning a {
     color: white;
-
+    font-size: 20px;
+    padding-bottom: 5px;
 }
 
 .login {
@@ -68,8 +71,6 @@
 }
 
 
-
-
 .buttonWrapper {
     margin-top: 10px;
 }
@@ -86,7 +87,7 @@
 }
 
 .button:disabled,
-button[disabled]{
+button[disabled] {
     background-color: #6b7278;
     color: #ffffff;
     cursor: inherit;

@@ -42,7 +42,6 @@ export const authReducer = (state: AuthPageType = initialState, action: ActionsA
                 ...state,
                 photo: action.photo
             }
-
         default:
             return state
     }
